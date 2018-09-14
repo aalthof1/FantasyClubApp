@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>FantasyClub</title>
@@ -7,8 +8,74 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Place Scripts above the firebase one here, as firebase must be last-->
+
+  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
+      authDomain: "purdue-fantasy-club.firebaseapp.com",
+      databaseURL: "https://purdue-fantasy-club.firebaseio.com",
+      projectId: "purdue-fantasy-club",
+      storageBucket: "purdue-fantasy-club.appspot.com",
+      messagingSenderId: "625002728234"
+    };
+    firebase.initializeApp(config);
+
+
+    let token = null;
+    let user = null;
+    let user_id = null;
+    let database = firebase.database();
+    let provider = new firebase.auth.GoogleAuthProvider();
+
+    function googleSignIn() {
+      firebase.auth().signInWithPopup(provider).then(function (result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        token = result.credential.accessToken;
+        // The signed-in user info.
+        user = result.user;
+        //user id within our database
+        user_id = firebase.auth().currentUser.uid;
+        changeHeadline(user_id);
+
+
+      }).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+    }
+
+    function changeHeadline(userID) {
+      console.log('entered changeHeadline');
+
+      let userName;
+      let headline = document.getElementById('headline');
+      console.log(database.ref('/user_id/' + user_id).once('value').then(function (snapshot) {
+        console.log(snapshot.val());
+        userName = snapshot.val();
+        headline.innerText = 'hello user: ' + userName;
+      }));
+    }
+  </script>
 </head>
+
 <body>
+
+  <h1 id='headline'>Hello, user!</h1>
+
   <app-root></app-root>
+
+  <button onclick="googleSignIn()">Sign in</button>
+
 </body>
+
 </html>
