@@ -62,7 +62,7 @@
       console.log(database.ref('/user_id/' + user_id).once('value').then(function (snapshot) {
         console.log(snapshot.val());
         userName = snapshot.val();
-        headline.innerText = 'hello user: ' + userName;
+        headline.innerText = 'hello user: ' + user.displayName;
       }));
     }
   </script>
