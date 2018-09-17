@@ -26,7 +26,6 @@
 
 
     let token = null;
-    let user = null;
     let user_id = null;
     let database = firebase.database();
     let provider = new firebase.auth.GoogleAuthProvider();
@@ -36,7 +35,8 @@
 
     function changeHeadline() {
       if (isUserSignedIn) {
-        headline.innerText = getUserName();
+        headline.innerText = "DisplayName = " + getUserName() + " \nUser ID in Firebase = " + firebase.auth().currentUser.uid;
+        user_id = firebase.auth().currentUser.uid;
       }
     }
 
