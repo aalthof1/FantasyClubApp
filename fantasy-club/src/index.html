@@ -41,8 +41,19 @@
       let provider = new firebase.auth.GoogleAuthProvider();
       headline = document.getElementById('headline');
       profilePic = document.getElementById('pic');
-      firebase.auth().signInWithPopup(provider).then(function(result) {
+      firebase.auth().signInWithPopup(provider).then(function (result) {
         changeHeadline();
+        firebase.database().ref('/user_id/').once('value')
+          .then(function (snapshot) {
+            if (snapshot.hasChild(user_id)) { 
+              console.log(snapshot.child(user_id).val())
+            }
+            else {
+              //we'll create the user in the database with base priviledge
+              snapshot.ref.child(user_id).set(1)
+              console.log(snapshot.child(user_id).val())
+            }
+          })
       })
     }
     function signOut() {
@@ -66,6 +77,7 @@
     }
   </script>
 </head>
+
 <body>
 
   <span>
