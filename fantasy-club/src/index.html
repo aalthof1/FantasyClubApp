@@ -25,11 +25,7 @@
     firebase.initializeApp(config);
 
 
-    let token = null;
     let user_id = null;
-    let database = firebase.database();
-    let provider = new firebase.auth.GoogleAuthProvider();
-
     let headline;
     let profilePic;
 
@@ -45,13 +41,15 @@
       let provider = new firebase.auth.GoogleAuthProvider();
       headline = document.getElementById('headline');
       profilePic = document.getElementById('pic');
-      firebase.auth().signInWithPopup(provider)
-        .then(changeHeadline())
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        changeHeadline();
+      })
     }
     function signOut() {
       // Sign out of Firebase.
       firebase.auth().signOut();
-      headline.innerText = "Hello User";
+      user_id = null;
+      headline.innerText = "Hello, user";
     }
 
     // Returns the signed-in user's display name.
