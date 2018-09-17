@@ -25,55 +25,57 @@
 
 
     let token = null;
-    let user = null;
     let user_id = null;
     let database = firebase.database();
     let provider = new firebase.auth.GoogleAuthProvider();
 
-    function googleSignIn() {
-      firebase.auth().signInWithPopup(provider).then(function (result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        token = result.credential.accessToken;
-        // The signed-in user info.
-        user = result.user;
-        //user id within our database
+    let headline;
+    let profilePic;
+
+    function changeHeadline() {
+      if (isUserSignedIn) {
+        headline.innerText = "DisplayName = " + getUserName() + " \nUser ID in Firebase = " + firebase.auth().currentUser.uid;
         user_id = firebase.auth().currentUser.uid;
-        changeHeadline(user_id);
-
-
-      }).catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        // ...
-      });
+      }
     }
 
-    function changeHeadline(userID) {
-      console.log('entered changeHeadline');
+    function signIn() {
+      // Sign in Firebase using popup auth and Google as the identity provider.
+      let provider = new firebase.auth.GoogleAuthProvider();
+      headline = document.getElementById('headline');
+      profilePic = document.getElementById('pic');
+      firebase.auth().signInWithPopup(provider)
+        .then(changeHeadline())
+    }
+    function signOut() {
+      // Sign out of Firebase.
+      firebase.auth().signOut();
+      headline.innerText = "Hello User";
+    }
 
-      let userName;
-      let headline = document.getElementById('headline');
-      console.log(database.ref('/user_id/' + user_id).once('value').then(function (snapshot) {
-        console.log(snapshot.val());
-        userName = snapshot.val();
-        headline.innerText = 'hello user: ' + user.displayName;
-      }));
+    // Returns the signed-in user's display name.
+    function getUserName() {
+      if (isUserSignedIn) {
+        return firebase.auth().currentUser.displayName;
+      }
+      else {
+        return null;
+      }
+    }
+    function isUserSignedIn() {
+      return !!firebase.auth().currentUser;
     }
   </script>
 <link rel="stylesheet" href="styles.3bb2a9d4949b7dc120a9.css"></head>
-
 <body>
 
-  <h1 id='headline'>Hello, user!</h1>
-
+  <span>
+    <h2 id='headline'>Hello, user!</h2>
+  </span>
   <app-root></app-root>
 
-  <button onclick="googleSignIn()">Sign in</button>
+  <button onclick="signIn()">Sign in</button>
+  <button onclick="signOut()">Sign Out</button>
 
 <script type="text/javascript" src="runtime.06daa30a2963fa413676.js"></script><script type="text/javascript" src="polyfills.f6ae3e8b63939c618130.js"></script><script type="text/javascript" src="main.ce99c2c962e20b65a899.js"></script></body>
 
