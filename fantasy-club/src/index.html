@@ -45,12 +45,12 @@
         changeHeadline();
         firebase.database().ref('/user_id/').once('value')
           .then(function (snapshot) {
-            if (snapshot.hasChild(user_id)) { 
+            if (snapshot.hasChild(user_id)) {
               console.log(snapshot.child(user_id).val())
             }
             else {
               //we'll create the user in the database with base priviledge
-              snapshot.ref.child(user_id).set(1)
+              snapshot.ref.child(user_id).set(1);
               console.log(snapshot.child(user_id).val())
             }
           })
