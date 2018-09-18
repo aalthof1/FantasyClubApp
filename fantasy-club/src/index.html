@@ -10,86 +10,10 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <!-- Place Scripts above the firebase one here, as firebase must be last-->
-
-  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
-      authDomain: "purdue-fantasy-club.firebaseapp.com",
-      databaseURL: "https://purdue-fantasy-club.firebaseio.com",
-      projectId: "purdue-fantasy-club",
-      storageBucket: "purdue-fantasy-club.appspot.com",
-      messagingSenderId: "625002728234"
-    };
-    firebase.initializeApp(config);
-
-
-    let user_id = null;
-    let headline;
-    let profilePic;
-
-    function changeHeadline() {
-      if (isUserSignedIn) {
-        headline.innerText = "DisplayName = " + getUserName() + " \nUser ID in Firebase = " + firebase.auth().currentUser.uid;
-        user_id = firebase.auth().currentUser.uid;
-      }
-    }
-
-    function signIn() {
-      // Sign in Firebase using popup auth and Google as the identity provider.
-      let provider = new firebase.auth.GoogleAuthProvider();
-      headline = document.getElementById('headline');
-      profilePic = document.getElementById('pic');
-      firebase.auth().signInWithPopup(provider).then(function (result) {
-        changeHeadline();
-        firebase.database().ref('/user_id/').once('value')
-          .then(function (snapshot) {
-            if (snapshot.hasChild(user_id)) {
-              console.log(snapshot.child(user_id).child('priv').val())
-            }
-            else {
-              //we'll create the user in the database with base priviledge
-              snapshot.ref.child(user_id).set({
-                name : firebase.auth().currentUser.displayName,
-                priv : 1
-              });
-            }
-          })
-      })
-    }
-    function signOut() {
-      // Sign out of Firebase.
-      firebase.auth().signOut();
-      user_id = null;
-      headline.innerText = "Hello, user";
-    }
-
-    // Returns the signed-in user's display name.
-    function getUserName() {
-      if (isUserSignedIn) {
-        return firebase.auth().currentUser.displayName;
-      }
-      else {
-        return null;
-      }
-    }
-    function isUserSignedIn() {
-      return !!firebase.auth().currentUser;
-    }
-  </script>
 </head>
 
 <body>
-
-  <span>
-    <h2 id='headline'>Hello, user!</h2>
-  </span>
   <app-root></app-root>
-
-  <button onclick="signIn()">Sign in</button>
-  <button onclick="signOut()">Sign Out</button>
-
 </body>
 
 </html>
