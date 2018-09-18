@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
 
   isUserSignedIn() {
     if (this.app.auth().currentUser != null) {
-      console.log(this.user_id)
       return true;
     }
     return false;
