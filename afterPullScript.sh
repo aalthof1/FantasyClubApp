@@ -1,5 +1,5 @@
 cd ./fantasy-club/
-if [ $OSTYPE == "msys"]
+if [ $OSTYPE=="msys" ]
 then
 npm update
 else 
