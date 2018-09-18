@@ -41,7 +41,21 @@ export class AppComponent implements OnInit {
     console.log(result)
     this.user_name = result.user.displayName;
     this.user_id = result.user.uid;
+    this.app.database().ref('/user_id/').once('value')
+      .then(function (snapshot) {
 
+        if (snapshot.hasChild(this.user_id)) {
+          console.log(snapshot.child(this.user_id).child('priv').val())
+        }
+        else {
+          //we'll create the user in the database with base priviledge
+          snapshot.ref.child(this.user_id).set({
+            name: this.app.auth().currentUser.displayName,
+            priv: 1
+          });
+        }
+
+      })
   }
 
   onUnsuccessfulSignIn(error) {
