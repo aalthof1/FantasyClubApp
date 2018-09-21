@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
+import { splitNamespace } from '@angular/core/src/view/util';
 
 
 @Component({
@@ -37,7 +38,9 @@ export class AppComponent implements OnInit {
     return false;
   }
 
-  createNewUser(snapshot) {
+  createNewUser(snapshot : firebase.database.DataSnapshot) {
+    console.log(this.user_id)
+    console.log(snapshot);
     if (snapshot.hasChild(this.user_id)) {
       console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
     }
@@ -47,28 +50,15 @@ export class AppComponent implements OnInit {
         name: this.app.auth().currentUser.displayName,
         priv: 1
       });
+      console.log("user created with priv level = 1")
     }
   }
 
   onSuccessfulSignIn(result: firebase.auth.UserCredential) {
-    console.log(result)
     this.user_name = result.user.displayName;
     this.user_id = result.user.uid;
-    this.app.database().ref('/user_id/').once('value')
-      .then(function (snapshot) {
-
-        if (snapshot.hasChild(this.user_id)) {
-          console.log(snapshot.child(this.user_id).child('priv').val())
-        }
-        else {
-          //we'll create the user in the database with base priviledge
-          snapshot.ref.child(this.user_id).set({
-            name: this.app.auth().currentUser.displayName,
-            priv: 1
-          });
-        }
-
-      })
+    this.app.database().ref('/user_id/').once('value')  
+      .then(snapshot => this.createNewUser(snapshot)); 
   }
 
   onUnsuccessfulSignIn(error) {
