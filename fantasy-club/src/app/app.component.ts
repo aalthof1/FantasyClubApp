@@ -37,6 +37,19 @@ export class AppComponent implements OnInit {
     return false;
   }
 
+  createNewUser(snapshot) {
+    if (snapshot.hasChild(this.user_id)) {
+      console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
+    }
+    else {
+      //we'll create the user in the database with base priviledge
+      snapshot.ref.child(this.user_id).set({
+        name: this.app.auth().currentUser.displayName,
+        priv: 1
+      });
+    }
+  }
+
   onSuccessfulSignIn(result: firebase.auth.UserCredential) {
     console.log(result)
     this.user_name = result.user.displayName;
