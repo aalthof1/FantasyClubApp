@@ -3,17 +3,19 @@
   <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
   <div class="menu-list">
-
     <ul id="menu-content" class="menu-content collapse out">
       <li>
-        <i class="fa fa-dashboard fa-lg"></i> Username : {{username}}
+        <i class="fa fa-dashboard fa-lg"></i> User : {{user_name}}
       </li>
+
+
+
       <li data-toggle="collapse" data-target="#inOut" class="collapsed active">
         <a href="#"><i class="fa fa-gift fa-lg"></i> Sign In/Out <span class="arrow"></span></a>
       </li>
       <ul class="sub-menu collapse" id="inOut">
-        <li>Sign In</li>
-        <li>Sign Out</li>
+        <li (click)=signIn()>Sign In</li>
+        <li (click)=signOut()>Sign Out</li>
       </ul>
 
 
