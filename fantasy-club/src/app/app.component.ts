@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
   signOut() {
     // Sign out of Firebase.
     this.app.auth().signOut();
-    this.user_id = null;
-    this.user_name = null;
+    this.user_id = "";
+    this.user_name = "";
   }
 }
