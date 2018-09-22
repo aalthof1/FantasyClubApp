@@ -23,9 +23,9 @@
         <a href="#"><i class="fa fa-globe fa-lg"></i> Characters <span class="arrow"></span></a>
       </li>
       <ul class="sub-menu collapse" id="characters">
-        <li>Character 1</li>
-        <li>Character 2</li>
-        <li>Character 3</li>
+        <li *ngFor="let char of characters">
+          {{char}}
+        </li>
       </ul>
     </ul>
   </div>

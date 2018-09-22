@@ -10,6 +10,7 @@ import * as firebase from 'firebase';
 export class SidebarComponent implements OnInit {
   user_id: string = "";
   user_name: string = "";
+  characters: Array<String> = [];
 
   config = {
     apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
@@ -25,7 +26,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.app = firebase.initializeApp(this.config);
-        if (this.isUserSignedIn()) {
+    if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
       this.user_name = this.app.auth().currentUser.displayName;
     }
@@ -38,9 +39,7 @@ export class SidebarComponent implements OnInit {
     return false;
   }
 
-  createNewUser(snapshot: firebase.database.DataSnapshot) {
-    console.log(this.user_id)
-    console.log(snapshot);
+  userSetup(snapshot: firebase.database.DataSnapshot) {
     if (snapshot.hasChild(this.user_id)) {
       console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
     }
@@ -50,15 +49,35 @@ export class SidebarComponent implements OnInit {
         name: this.app.auth().currentUser.displayName,
         priv: 1
       });
-      console.log("user created with priv level = 1")
+      this.app.database().ref('/characters/' + this.user_id + "/");
+      console.log("user created with priv level = 1");
     }
+    //grabs heroes belonging to user
+    this.app.database().ref('characters/' + this.user_id + "/").once('value')
+    .then(snapshot => this.grabHeroes(snapshot));
   }
 
   onSuccessfulSignIn(result: firebase.auth.UserCredential) {
     this.user_name = result.user.displayName;
     this.user_id = result.user.uid;
     this.app.database().ref('/user_id/').once('value')
-      .then(snapshot => this.createNewUser(snapshot));
+      .then(function(snapshot) {
+        if (snapshot.hasChild(this.user_id)) {
+          console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
+        }
+        else {
+          //we'll create the user in the database with base priviledge
+          snapshot.ref.child(this.user_id).set({
+            name: this.app.auth().currentUser.displayName,
+            priv: 1
+          });
+          this.app.database().ref('/characters/' + this.user_id + "/");
+          console.log("user created with priv level = 1");
+        }
+        //grabs heroes belonging to user
+        this.app.database().ref('characters/' + this.user_id + "/").once('value')
+        .then(snapshot => this.grabHeroes(snapshot));
+      }.bind(this));
   }
 
   onUnsuccessfulSignIn(error) {
@@ -82,5 +101,12 @@ export class SidebarComponent implements OnInit {
     this.app.auth().signOut();
     this.user_id = "";
     this.user_name = "";
+  }
+
+  grabHeroes(snapshot: firebase.database.DataSnapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      this.characters.push(childSnapshot.key);
+    }.bind(this))
+    console.log(this.characters)
   }
 }
