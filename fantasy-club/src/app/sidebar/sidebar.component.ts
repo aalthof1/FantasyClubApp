@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  user_id : string = "";
+  userName : string = "";
 
+  
+  
   constructor() { }
-
   ngOnInit() {
   }
-
 }
