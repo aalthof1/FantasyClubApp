@@ -1,3 +1,10 @@
-<p>
-  char-sheet works!
-</p>
+
+<div *ngIf="selectedChar;else None" (click)="print()">  
+  <h3>Name : {{selectedChar.key}}</h3>
+  <button>View</button>
+  <button>Edit</button>
+</div>
+
+<ng-template #None>
+  <h3>No character selected</h3>
+</ng-template>

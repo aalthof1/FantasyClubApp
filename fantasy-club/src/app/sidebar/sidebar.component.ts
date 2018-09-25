@@ -9,9 +9,15 @@ import { CurrentCharService } from "../current-char.service";
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
+
+  constructor(
+    private currentChar : CurrentCharService) {
+
+  }
+  
   user_id: string = "";
   user_name: string = "";
-  characters: Array<String> = [];
+  characters: Array<firebase.database.DataSnapshot> = [];
 
   config = {
     apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
@@ -106,8 +112,12 @@ export class SidebarComponent implements OnInit {
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
     snapshot.forEach(function(childSnapshot) {
-      this.characters.push(childSnapshot.key);
+      this.characters.push(childSnapshot);
     }.bind(this))
     console.log(this.characters)
+  }
+
+  passCharacter(i : firebase.database.DataSnapshot) {
+    this.currentChar.send(i);
   }
 }

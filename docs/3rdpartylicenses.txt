@@ -1,4 +1,4 @@
-@firebase/database@0.3.5
+@firebase/database@0.3.6
 Apache-2.0
 Apache-2.0
 
@@ -14,7 +14,7 @@ Apache-2.0
 Apache-2.0
 Apache-2.0
 
-@firebase/auth@0.7.5
+@firebase/auth@0.7.6
 Apache-2.0
 Apache License
                            Version 2.0, January 2004
@@ -222,19 +222,19 @@ Apache License
 Apache-2.0
 Apache-2.0
 
-firebase@5.5.0
+firebase@5.5.1
 Apache-2.0
 Apache-2.0
 
-@firebase/firestore@0.8.0
+@firebase/firestore@0.8.1
 Apache-2.0
 Apache-2.0
 
-@firebase/webchannel-wrapper@0.2.8
+@firebase/webchannel-wrapper@0.2.9
 Apache-2.0
 Apache-2.0
 
-@firebase/functions@0.3.0
+@firebase/functions@0.3.1
 Apache-2.0
 Apache-2.0
 

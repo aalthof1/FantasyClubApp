@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import { CurrentCharService } from "./current-char.service";
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { CharSheetComponent } from './char-sheet/char-sheet.component';
 
 
 @Component({
@@ -8,7 +10,6 @@ import { CurrentCharService } from "./current-char.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   providers : [CurrentCharService],
-
 })
 export class AppComponent implements OnInit {
   title = 'fantasy-club';
