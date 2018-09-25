@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
+import { CurrentCharService } from "../current-char.service";
 
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrls: ['./sidebar.component.css'],
+  providers : [CurrentCharService],
 })
 export class SidebarComponent implements OnInit {
   user_id: string = "";
@@ -24,7 +26,7 @@ export class SidebarComponent implements OnInit {
 
 
 
-  ngOnInit() {
+  ngOnInit() {  
     this.app = firebase.initializeApp(this.config);
     if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
