@@ -7,7 +7,6 @@ import { CurrentCharService } from "../current-char.service";
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
-  providers : [CurrentCharService],
 })
 export class SidebarComponent implements OnInit {
   user_id: string = "";

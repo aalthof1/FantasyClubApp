@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CurrentCharComponent } from './current-char.component';
+import { CharSheetComponent } from './char-sheet.component';
 
-describe('CurrentCharComponent', () => {
-  let component: CurrentCharComponent;
-  let fixture: ComponentFixture<CurrentCharComponent>;
+describe('CharSheetComponent', () => {
+  let component: CharSheetComponent;
+  let fixture: ComponentFixture<CharSheetComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CurrentCharComponent ]
+      declarations: [ CharSheetComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CurrentCharComponent);
+    fixture = TestBed.createComponent(CharSheetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
