@@ -40,10 +40,6 @@ export class DicerollerComponent implements OnInit {
       this.total = this.total + result;
     }
     this.total = this.total + this.mod;
-    console.log(this.amount);
-    console.log(this.type);
-    console.log(this.mod);
-    console.log(this.total);
-    
+        
   }
 }
