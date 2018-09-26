@@ -1,4 +1,8 @@
-@firebase/database@0.3.6
+@firebase/logger@0.1.1
+Apache-2.0
+Apache-2.0
+
+firebase@5.5.1
 Apache-2.0
 Apache-2.0
 
@@ -218,11 +222,7 @@ Apache License
    See the License for the specific language governing permissions and
    limitations under the License.
 
-@firebase/logger@0.1.1
-Apache-2.0
-Apache-2.0
-
-firebase@5.5.1
+@firebase/database@0.3.6
 Apache-2.0
 Apache-2.0
 
