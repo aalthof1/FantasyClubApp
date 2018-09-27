@@ -62,8 +62,7 @@ export class CharGeneratorComponent implements OnInit {
     // this.refresh.emit(true);
      this.sidebar.characters = [];
      this.sidebar.grabHeroes(snapshot);
-     this.sidebar.characters = [];
-     this.sidebar.grabHeroes(snapshot);
+     
   }
 
   createChar() {

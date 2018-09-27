@@ -120,4 +120,10 @@ export class SidebarComponent implements OnInit {
   passCharacter(i : firebase.database.DataSnapshot) {
     this.currentChar.send(i);
   }
+
+  // refreshChars() {
+  //   this.app.database().ref('characters/' + this.user_id + "/").once('value').then(snapshot=>(function{
+
+  //   })) 
+  // }
 }
