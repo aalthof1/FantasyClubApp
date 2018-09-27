@@ -29,7 +29,13 @@
         <li *ngIf="isUserSignedIn()">
           New Character</li>
       </ul>
+
+      <li data-toggle="collapse" data-target="#dice" class="collapsed">
+        <a href="#"><i class="fa fa-globe fa-lg"></i> Dice Roller <span class="arrow"></span></a>
+      </li>
+      <ul class="sub-menu collapse" id="dice">
+        <app-diceroller></app-diceroller>
+      </ul>
     </ul>
-    <app-diceroller></app-diceroller>
   </div>
 </div>
