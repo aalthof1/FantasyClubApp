@@ -26,6 +26,8 @@
         <li *ngFor="let char of characters; let i = index" (click)="passCharacter(char)">
           {{char.key}}
         </li>
+        <li *ngIf="isUserSignedIn()">
+          New Character</li>
       </ul>
     </ul>
     <app-diceroller></app-diceroller>
