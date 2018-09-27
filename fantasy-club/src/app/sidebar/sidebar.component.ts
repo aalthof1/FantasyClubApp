@@ -11,10 +11,10 @@ import { CurrentCharService } from "../current-char.service";
 export class SidebarComponent implements OnInit {
 
   constructor(
-    private currentChar : CurrentCharService) {
+    private currentChar: CurrentCharService) {
 
   }
-  
+
   user_id: string = "";
   user_name: string = "";
   characters: Array<firebase.database.DataSnapshot> = [];
@@ -31,13 +31,14 @@ export class SidebarComponent implements OnInit {
 
 
 
-  ngOnInit() {  
+  ngOnInit() {
     this.app = firebase.initializeApp(this.config);
     if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
       this.user_name = this.app.auth().currentUser.displayName;
     }
   }
+
 
   isUserSignedIn() {
     if (this.app.auth().currentUser != null) {
@@ -61,14 +62,14 @@ export class SidebarComponent implements OnInit {
     }
     //grabs heroes belonging to user
     this.app.database().ref('characters/' + this.user_id + "/").once('value')
-    .then(snapshot => this.grabHeroes(snapshot));
+      .then(snapshot => this.grabHeroes(snapshot));
   }
 
   onSuccessfulSignIn(result: firebase.auth.UserCredential) {
     this.user_name = result.user.displayName;
     this.user_id = result.user.uid;
     this.app.database().ref('/user_id/').once('value')
-      .then(function(snapshot) {
+      .then(function (snapshot) {
         if (snapshot.hasChild(this.user_id)) {
           console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
         }
@@ -83,7 +84,7 @@ export class SidebarComponent implements OnInit {
         }
         //grabs heroes belonging to user
         this.app.database().ref('characters/' + this.user_id + "/").once('value')
-        .then(snapshot => this.grabHeroes(snapshot));
+          .then(snapshot => this.grabHeroes(snapshot));
       }.bind(this));
   }
 
@@ -111,19 +112,19 @@ export class SidebarComponent implements OnInit {
   }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
-    snapshot.forEach(function(childSnapshot) {
+    this.characters = [];
+    snapshot.forEach(function (childSnapshot) {
       this.characters.push(childSnapshot);
     }.bind(this))
-    console.log(this.characters)
   }
 
-  passCharacter(i : firebase.database.DataSnapshot) {
+  //used in service, don't delete
+  passCharacter(i: firebase.database.DataSnapshot) {
     this.currentChar.send(i);
   }
 
-  // refreshChars() {
-  //   this.app.database().ref('characters/' + this.user_id + "/").once('value').then(snapshot=>(function{
-
-  //   })) 
-  // }
+  refreshCharacters(): void {
+    this.app.database().ref('characters/' + this.user_id + "/").once('value')
+      .then(snapshot => this.grabHeroes(snapshot));
+  }
 }

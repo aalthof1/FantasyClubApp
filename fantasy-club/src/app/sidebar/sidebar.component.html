@@ -22,14 +22,19 @@
       <li data-toggle="collapse" data-target="#characters" class="collapsed">
         <a href="#"><i class="fa fa-globe fa-lg"></i> Characters <span class="arrow"></span></a>
       </li>
-      <ul class="sub-menu collapse" id="characters">
-        <li *ngFor="let char of characters; let i = index" (click)="passCharacter(char)">
-          {{char.key}}
-        </li>
-        <li *ngIf="isUserSignedIn()">
-          <app-char-generator></app-char-generator>
+      <div *ngIf="isUserSignedIn()">
+        <ul class="sub-menu collapse" id="characters">
+
+          <li *ngFor="let char of characters; let i = index" (click)="passCharacter(char)">
+            {{char.key}}
           </li>
-      </ul>
+
+          <li *ngIf="isUserSignedIn()">
+            <app-char-generator (refresh)="refreshCharacters()"></app-char-generator>
+          </li>
+
+        </ul>
+      </div>
 
       <li data-toggle="collapse" data-target="#dice" class="collapsed">
         <a href="#"><i class="fa fa-globe fa-lg"></i> Dice Roller <span class="arrow"></span></a>

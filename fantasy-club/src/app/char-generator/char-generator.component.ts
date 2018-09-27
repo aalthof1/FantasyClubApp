@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import { parse } from 'querystring';
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-char-generator',
@@ -12,28 +10,27 @@ export class CharGeneratorComponent implements OnInit {
 
   @Input() userId;
   @Input() app;
-  // @Output() refresh = new EventEmitter<boolean>();
-  name : string;
+  @Output() refresh = new EventEmitter<string>();
+  name: string;
   characters: Array<string> = [];
   snapshot: firebase.database.DataSnapshot;
 
-  constructor(private sidebar: SidebarComponent) { 
+  constructor(private sidebar: SidebarComponent) {
     this.userId = sidebar.user_id
     this.app = sidebar.app
   }
 
- 
+
 
   ngOnInit() {
   }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
-    snapshot.forEach(function(childSnapshot) {
+    snapshot.forEach(function (childSnapshot) {
       this.characters.push(childSnapshot.key);
     }.bind(this))
-    console.log(this.characters)
-    if(this.characters.includes(this.name) || this.userId == "") {
-
+    if (this.characters.includes(this.name) || this.userId == "") {
+      return;
     }
     else {
       var ref = snapshot.ref;
@@ -57,18 +54,18 @@ export class CharGeneratorComponent implements OnInit {
         gmod: 0,
         lmod: 0,
         move: 0
-      });   
+      });
     }
-    // this.refresh.emit(true);
-     this.sidebar.characters = [];
-     this.sidebar.grabHeroes(snapshot);
-     
+    this.refresh.emit("refresh");
+    this.sidebar.characters = [];
+    this.sidebar.grabHeroes(snapshot);
+
   }
 
   createChar() {
     this.name = ((document.getElementById("name") as HTMLInputElement).value);
     this.app.database().ref('characters/' + this.userId + "/").once('value')
-    .then(snapshot => this.grabHeroes(snapshot));
-    
+      .then(snapshot => this.grabHeroes(snapshot));
+
   }
 }
