@@ -27,7 +27,8 @@
           {{char.key}}
         </li>
         <li *ngIf="isUserSignedIn()">
-          New Character</li>
+          <app-char-generator></app-char-generator>
+          </li>
       </ul>
 
       <li data-toggle="collapse" data-target="#dice" class="collapsed">
