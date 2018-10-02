@@ -72,6 +72,11 @@ export class SidebarComponent implements OnInit {
       .then(function (snapshot) {
         if (snapshot.hasChild(this.user_id)) {
           console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
+          //alert("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
+          if(snapshot.child(this.user_id).child('priv').val() == 3)  {
+            alert("yes");
+            document.getElementById("admin-button-container").classList.remove("no-display");
+          }
         }
         else {
           //we'll create the user in the database with base priviledge

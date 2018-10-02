@@ -6,6 +6,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { CharSheetComponent } from './char-sheet/char-sheet.component';
 import { DicerollerComponent } from './diceroller/diceroller.component';
 import { CharGeneratorComponent } from './char-generator/char-generator.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { CharGeneratorComponent } from './char-generator/char-generator.componen
     CharSheetComponent,
     DicerollerComponent,
     CharGeneratorComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule
