@@ -10,8 +10,8 @@ export class AdminComponent implements OnInit {
 
   @Input() app;
   @Input() userId;
-  promoteUsername : string;
-  revokeUsername: string;
+  editPrivUsername : string;
+  newPrivLevel: string;
   snapshot: firebase.database.DataSnapshot;
 
   constructor(private sidebar: SidebarComponent) {
@@ -21,15 +21,12 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() { }
 
-  createAdmin(snapshot: firebase.database.DataSnapshot) {
-    alert("in create admin"); 
-  }
 
-  makeAdmin() {
-    this.promoteUsername = (document.getElementById("promote-username") as HTMLInputElement).value;
-    //this.app.database().ref('user_id/').once('value')
-    //  .then(snapshot => this.createAdmin(snapshot));
-    var res = confirm(this.promoteUsername);
+
+  editPrivileges() {
+    this.editPrivUsername = (document.getElementById("change-priv-username") as HTMLInputElement).value;
+    this.newPrivLevel = (document.getElementById("new-privilege-level") as HTMLInputElement).value;
+    confirm("Change " + this.editPrivUsername + " to " + this.newPrivLevel + "?");
   }
 
 }
