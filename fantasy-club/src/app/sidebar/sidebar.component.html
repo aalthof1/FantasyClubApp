@@ -42,7 +42,8 @@
       
       <ul class="sub-menu collapse" id="games">
         <ng-container *ngIf="isUserSignedIn(); else elseTemplate">
-          blah
+          <app-game-generator></app-game-generator>
+
         </ng-container>
         <ng-template #elseTemplate>
           Sign in to see games
