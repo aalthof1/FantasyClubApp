@@ -1,10 +1,27 @@
-
-<div *ngIf="selectedChar;else None" (click)="print()">  
+<div *ngIf="selectedChar;else None">
   <h3>Name : {{selectedChar.key}}</h3>
-  <button>View</button>
-  <button>Edit</button>
+  <button (click)="viewToggle()">View</button>
+  <button (click)="editToggle()">Edit</button>
 </div>
 
 <ng-template #None>
   <h3>No character selected</h3>
 </ng-template>
+
+<div *ngIf="edit">
+  <p>Edit</p>
+
+</div>
+<div *ngIf="view">
+  <p>View</p>
+  <div class="container-fluid">
+    <div class="row" *ngFor="let name of statNames; let i = index">
+      <div class="col">
+        {{name}}
+      </div>
+      <div class="col">
+        {{statValues[i]}}
+      </div>
+    </div>
+  </div>
+</div>

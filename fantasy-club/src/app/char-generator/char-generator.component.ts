@@ -19,9 +19,7 @@ export class CharGeneratorComponent implements OnInit {
     this.userId = sidebar.user_id
     this.app = sidebar.app
   }
-
-
-
+  
   ngOnInit() {
   }
 
