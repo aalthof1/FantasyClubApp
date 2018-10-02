@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import * as firebase from 'firebase';
 import { CurrentCharService } from "../current-char.service";
 
@@ -10,8 +10,7 @@ import { CurrentCharService } from "../current-char.service";
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(
-    private currentChar: CurrentCharService) {
+  constructor(private currentChar: CurrentCharService) {
 
   }
 
@@ -61,8 +60,7 @@ export class SidebarComponent implements OnInit {
       console.log("user created with priv level = 1");
     }
     //grabs heroes belonging to user
-    this.app.database().ref('characters/' + this.user_id + "/").once('value')
-      .then(snapshot => this.grabHeroes(snapshot));
+    this.app.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot))
   }
 
   onSuccessfulSignIn(result: firebase.auth.UserCredential) {
@@ -124,7 +122,7 @@ export class SidebarComponent implements OnInit {
   }
 
   refreshCharacters(): void {
-    this.app.database().ref('characters/' + this.user_id + "/").once('value')
-      .then(snapshot => this.grabHeroes(snapshot));
+    this.app.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot));
+    console.log("refreshing")
   }
 }

@@ -1,28 +1,35 @@
 <div *ngIf="selectedChar;else None">
-  <h3 class="bg-dark text-white">{{selectedChar.key}}</h3>
-  <button (click)="viewToggle()">View</button>
-  <button (click)="editToggle()">Edit</button>
+  <h3 class="bg-dark text-white" >{{selectedChar.key}}</h3>
+  <button (click)="viewActivate()" id="viewButton">View</button>
+  <button (click)="editActivate()" id="editButton">Edit</button>
+  <br>
+  <button *ngIf="edit == true" button id="submit" (click)="submitChanges()">Submit Changes</button>
+
+
 </div>
 
 <ng-template #None>
   <h3>No character selected</h3>
 </ng-template>
 
-<div *ngIf="view">
-  <p>View</p>
+<div *ngIf="view == true">
   <div class="container-fluid">
-    <div class="row border border-dark" *ngFor="let name of statNames; let i = index">
+    <div class="row border border-dark" *ngFor="let val of statValues; let i = index">
       <div class="col">
-        {{name}}
+        {{statNames[i]}}
       </div>
       <div class="col">
-        {{statValues[i]}}
+        {{val}}
       </div>
     </div>
   </div>
 </div>
-<div *ngIf="edit">
-  <p>Edit</p>
+
+<div *ngIf="edit == true">
+  <div *ngIf="problem" class="alert alert-danger" role="alert">
+    Please leave no value blank.
+  </div>
+
   <div class="container-fluid">
     <div class="row">
       <div class="col">
@@ -36,19 +43,20 @@
         New Value
       </div>
     </div>
-    <div class="row border border-dark" *ngFor="let name of statNames; let i = index">
+    <div class="row border border-dark" *ngFor="let val of statValues; let i = index">
       <div class="col">
-        {{name}}
+        {{ statNames[i] }}
       </div>
       <div class="col">
-        <p class="text-center">{{statValues[i]}}</p>
+        <p class="text-center">{{val}}</p>
       </div>
       <div class="col">
         ----->
       </div>
       <div class="col">
-        <input type="number" value="{{statValues[i]}}">
+        <input type="number" value="{{ val }}" id="{{statNames[i] + '-value'}}">
       </div>
     </div>
+    <button id="submit" (click)="submitChanges()">Submit Changes</button>
   </div>
 </div>
