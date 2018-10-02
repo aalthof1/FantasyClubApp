@@ -4,7 +4,11 @@
 
 Promote to admin:<br>
 <input type="text" id="promote-username"/>
-<input type="button" value="submit" (click)="makeAdmin()" /><br>
+<input type="button" value="submit" (click)="makeAdmin()" /><br><br>
 Revoke admin:<br>
-<input type="text" id="revoke-username"/>
-<input type="button" value="submit" (click)="removeAdmin()" /><br>
+<input style="display: inline;" type="text" id="revoke-username"/> to
+<select style="display: inline-block;" id="new-privilege-level">
+  <option value="User">User</option>
+  <option value="GM">GM</option>
+</select>
+<input type="button" value="submit" (click)="removeAdmin()" />
