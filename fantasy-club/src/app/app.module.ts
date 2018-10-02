@@ -6,6 +6,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { CharSheetComponent } from './char-sheet/char-sheet.component';
 import { DicerollerComponent } from './diceroller/diceroller.component';
 import { CharGeneratorComponent } from './char-generator/char-generator.component';
+import { AdminComponent } from './admin/admin.component';
 import { GameGeneratorComponent } from './game-generator/game-generator.component';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { GameGeneratorComponent } from './game-generator/game-generator.componen
     CharSheetComponent,
     DicerollerComponent,
     CharGeneratorComponent,
+    AdminComponent,
     GameGeneratorComponent,
   ],
   imports: [

@@ -70,6 +70,11 @@ export class SidebarComponent implements OnInit {
       .then(function (snapshot) {
         if (snapshot.hasChild(this.user_id)) {
           console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
+          //alert("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
+          if(snapshot.child(this.user_id).child('priv').val() == 3)  {
+            document.getElementById("admin-container").classList.remove("no-display");
+            document.getElementById("admin").classList.remove("no-display");
+          }
         }
         else {
           //we'll create the user in the database with base priviledge
@@ -107,6 +112,8 @@ export class SidebarComponent implements OnInit {
     this.app.auth().signOut();
     this.user_id = "";
     this.user_name = "";
+    document.getElementById("admin-container").classList.add("no-display");
+    document.getElementById("admin").classList.add("no-display");
   }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
