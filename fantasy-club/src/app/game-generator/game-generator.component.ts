@@ -8,50 +8,34 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 })
 export class GameGeneratorComponent implements OnInit {
 
-  @Input() userId;
-  @Input() app;
-  @Output() refresh = new EventEmitter<string>();
-  name: string;
-  characters: Array<string> = [];
-  snapshot: firebase.database.DataSnapshot;
+@Input() userId;
+@Input() app;
+@Output() refresh = new EventEmitter<string>();
+name: string;
+desc: string;
+games: Array<string> = [];
+snapshot: firebase.database.DataSnapshot;
 
-  constructor(private sidebar: SidebarComponent) {
-    this.userId = sidebar.user_id
-    this.app = sidebar.app
-  }
-  
+constructor(private sidebar: SidebarComponent) {
+  this.userId = sidebar.user_id
+  this.app = sidebar.app
+}
+
   ngOnInit() {
   }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
     snapshot.forEach(function (childSnapshot) {
-      this.characters.push(childSnapshot.key);
+      this.games.push(childSnapshot.key);
     }.bind(this))
-    if (this.characters.includes(this.name) || this.userId == "") {
+    if (this.games.includes(this.name) || this.userId == "") {
       return;
     }
     else {
       var ref = snapshot.ref;
-      ref = ref.child(this.name);
       ref.set({
-        str: 0,
-        int: 0,
-        per: 0,
-        cse: 0,
-        hea: 0,
-        agi: 0,
-        pwr: 0,
-        com: 0,
-        wil: 0,
-        dp: 0,
-        eu: 0,
-        du: 0,
-        pu: 0,
-        cmod: 0,
-        mmod: 0,
-        gmod: 0,
-        lmod: 0,
-        move: 0
+        user_id: this.userId,
+        desc: this.desc
       });
     }
     this.refresh.emit("refresh");
@@ -61,9 +45,11 @@ export class GameGeneratorComponent implements OnInit {
   }
 
   createGame() {
-    this.name = ((document.getElementById("name") as HTMLInputElement).value);
-    this.app.database().ref('games/' + this.userId + "/").once('value')
-      .then(snapshot => this.grabHeroes(snapshot));
+    this.name = ((document.getElementById("name2") as HTMLInputElement).value);
+    this.desc = ((document.getElementById("desc") as HTMLInputElement).value);
+     this.app.database().ref('games/' + this.name + "/").once('value')
+     .then(snapshot => this.grabHeroes(snapshot));
 
   }
+    
 }
