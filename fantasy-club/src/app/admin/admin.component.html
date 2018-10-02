@@ -2,9 +2,12 @@
   Administrator Settings
 </p>
 
-Promote to admin:<br>
-<input type="text" id="promote-username"/>
-<input type="button" value="submit" (click)="makeAdmin()" /><br>
-Revoke admin:<br>
-<input type="text" id="revoke-username"/>
-<input type="button" value="submit" (click)="removeAdmin()" /><br>
+Change User Privileges:<br>
+<input style="display: inline;" type="text" id="change-priv-username"/> to
+<select style="display: inline-block;" id="new-privilege-level">
+  <option value="User">User</option>
+  <option value="GM">GM</option>
+  <option value="Admin">Admin</option>
+</select>
+<input type="button" value="submit" (click)="editPrivileges()" />
+<p id="error-message"></p>
