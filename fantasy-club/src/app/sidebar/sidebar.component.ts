@@ -72,8 +72,8 @@ export class SidebarComponent implements OnInit {
           console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
           //alert("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
           if(snapshot.child(this.user_id).child('priv').val() == 3)  {
-            alert("yes");
-            document.getElementById("admin-button-container").classList.remove("no-display");
+            document.getElementById("admin-container").classList.remove("no-display");
+            document.getElementById("admin").classList.remove("no-display");
           }
         }
         else {
@@ -112,6 +112,8 @@ export class SidebarComponent implements OnInit {
     this.app.auth().signOut();
     this.user_id = "";
     this.user_name = "";
+    document.getElementById("admin-container").classList.add("no-display");
+    document.getElementById("admin").classList.add("no-display");
   }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {

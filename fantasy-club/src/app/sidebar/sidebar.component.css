@@ -290,9 +290,3 @@ body {
 .no-display {
   display: none;
 }
-
-.admin-button {
-  background-color: #23282e;
-  color: white;
-  border: none;
-}
