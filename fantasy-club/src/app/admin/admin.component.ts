@@ -8,14 +8,13 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 })
 export class AdminComponent implements OnInit {
 
-  @Input() app;
+  @Input() firebase: firebase.app.App;
   @Input() userId;
   editPrivUsername : string;
   newPrivLevel: string;
-  snapshot: firebase.database.DataSnapshot;
 
   constructor(private sidebar: SidebarComponent) {
-    this.app = sidebar.app
+    this.firebase = sidebar.app
     this.userId = sidebar.user_id
    }
 
@@ -26,7 +25,34 @@ export class AdminComponent implements OnInit {
   editPrivileges() {
     this.editPrivUsername = (document.getElementById("change-priv-username") as HTMLInputElement).value;
     this.newPrivLevel = (document.getElementById("new-privilege-level") as HTMLInputElement).value;
-    confirm("Change " + this.editPrivUsername + " to " + this.newPrivLevel + "?");
+    var privLevInt = "1";
+    switch(this.newPrivLevel) {
+      case "User":
+        break;
+      case "GM":
+        privLevInt = "2";
+        break;
+      case "Admin":
+        privLevInt = "3";
+        break;
+    }
+    this.firebase.database().ref('user_id').once('value')
+      .then(function(snapshot) {
+        var found = false;
+        snapshot.forEach(function(snapshotChild) {
+          if(snapshotChild.child("name").val() == this.editPrivUsername) {
+            var res = confirm("Change " + this.editPrivUsername + " to " + this.newPrivLevel + "?");
+            if(res) {
+              snapshotChild.child("priv").key = privLevInt;
+              found = true;
+            }
+            return;
+          }
+        });
+        if(!found) {
+          document.getElementById("error-message").innerHTML = "Username Not Found";
+        }
+      });
   }
 
 }
