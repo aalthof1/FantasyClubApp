@@ -32,6 +32,10 @@ export class CharSheetComponent implements OnInit {
       this.view = false;
     }
     this.edit = true;
+    this.statValues = [];
+    this.selectedChar.forEach((childSnapshot) => {
+      this.statValues.push(childSnapshot.val())
+    });
   }
 
   viewToggle() {

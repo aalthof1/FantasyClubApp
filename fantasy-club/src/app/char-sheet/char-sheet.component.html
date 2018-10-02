@@ -1,5 +1,5 @@
 <div *ngIf="selectedChar;else None">
-  <h3>Name : {{selectedChar.key}}</h3>
+  <h3 class="bg-dark text-white">{{selectedChar.key}}</h3>
   <button (click)="viewToggle()">View</button>
   <button (click)="editToggle()">Edit</button>
 </div>
@@ -8,19 +8,46 @@
   <h3>No character selected</h3>
 </ng-template>
 
-<div *ngIf="edit">
-  <p>Edit</p>
-
-</div>
 <div *ngIf="view">
   <p>View</p>
   <div class="container-fluid">
-    <div class="row" *ngFor="let name of statNames; let i = index">
+    <div class="row border border-dark" *ngFor="let name of statNames; let i = index">
       <div class="col">
         {{name}}
       </div>
       <div class="col">
         {{statValues[i]}}
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="edit">
+  <p>Edit</p>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        Stat
+      </div>
+      <div class="col">
+        Current value
+      </div>
+      <div class="col"></div>
+      <div class="col">
+        New Value
+      </div>
+    </div>
+    <div class="row border border-dark" *ngFor="let name of statNames; let i = index">
+      <div class="col">
+        {{name}}
+      </div>
+      <div class="col">
+        <p class="text-center">{{statValues[i]}}</p>
+      </div>
+      <div class="col">
+        ----->
+      </div>
+      <div class="col">
+        <input type="number" value="{{statValues[i]}}">
       </div>
     </div>
   </div>
