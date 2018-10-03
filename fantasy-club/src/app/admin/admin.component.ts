@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-admin',
@@ -25,15 +26,15 @@ export class AdminComponent implements OnInit {
   editPrivileges() {
     this.editPrivUsername = (document.getElementById("change-priv-username") as HTMLInputElement).value;
     this.newPrivLevel = (document.getElementById("new-privilege-level") as HTMLInputElement).value;
-    var privLevInt = "1";
+    var privLevInt = 1;
     switch(this.newPrivLevel) {
       case "User":
         break;
       case "GM":
-        privLevInt = "2";
+        privLevInt = 2;
         break;
       case "Admin":
-        privLevInt = "3";
+        privLevInt = 3;
         break;
     }
     this.firebase.database().ref('user_id').once('value')
@@ -43,7 +44,7 @@ export class AdminComponent implements OnInit {
           if(snapshotChild.child("name").val() == this.editPrivUsername) {
             var res = confirm("Change " + this.editPrivUsername + " to " + this.newPrivLevel + "?");
             if(res) {
-              snapshotChild.child("priv").key = privLevInt;
+              snapshotChild.child("priv").ref.set(privLevInt);
               found = true;
             }
             return;
