@@ -26,7 +26,7 @@ export class AdminComponent implements OnInit {
     var editPrivUsername = (document.getElementById("change-priv-username") as HTMLInputElement).value;
     var newPrivLevel = (document.getElementById("new-privilege-level") as HTMLInputElement).value;
     var privLevInt = 1;
-    switch(this.newPrivLevel) {
+    switch(newPrivLevel) {
       case "User":
         break;
       case "GM":
@@ -36,10 +36,8 @@ export class AdminComponent implements OnInit {
         privLevInt = 3;
         break;
     }
-    alert("Fine");
     firebase.database().ref('user_id').once('value')
       .then(function(snapshot) {
-        alert("here");
         var found = false;
         snapshot.forEach(function(snapshotChild) {
           if(snapshotChild.child("name").val() == editPrivUsername) {
