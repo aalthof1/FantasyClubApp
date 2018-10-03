@@ -17,6 +17,8 @@ export class SidebarComponent implements OnInit {
   user_id: string = "";
   user_name: string = "";
   characters: Array<firebase.database.DataSnapshot> = [];
+  games: Array<firebase.database.DataSnapshot> = [];
+
 
   config = {
     apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
@@ -88,6 +90,9 @@ export class SidebarComponent implements OnInit {
         //grabs heroes belonging to user
         this.app.database().ref('characters/' + this.user_id + "/").once('value')
           .then(snapshot => this.grabHeroes(snapshot));
+        //Grab games
+        this.app.database().ref('games/').once('value')
+          .then(snapshot => this.grabGames(snapshot));
       }.bind(this));
   }
 
@@ -97,6 +102,9 @@ export class SidebarComponent implements OnInit {
 
   signIn() {
     // Sign in Firebase using popup auth and Google as the identity provider.
+    if(this.user_name == "") {
+      this.signOut();
+    }
     if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
       this.user_name = this.app.auth().currentUser.displayName;
@@ -120,6 +128,13 @@ export class SidebarComponent implements OnInit {
     this.characters = [];
     snapshot.forEach(function (childSnapshot) {
       this.characters.push(childSnapshot);
+    }.bind(this))
+  }
+
+  grabGames(snapshot: firebase.database.DataSnapshot) {
+    this.games = [];
+    snapshot.forEach(function (childSnapshot) {
+      this.games.push(childSnapshot);
     }.bind(this))
   }
 
