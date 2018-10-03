@@ -102,9 +102,7 @@ export class SidebarComponent implements OnInit {
 
   signIn() {
     // Sign in Firebase using popup auth and Google as the identity provider.
-    if(this.user_name == "") {
-      this.signOut();
-    }
+    this.signOut();
     if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
       this.user_name = this.app.auth().currentUser.displayName;
