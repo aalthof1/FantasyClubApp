@@ -11,7 +11,6 @@ export class AdminComponent implements OnInit {
 
   @Input() firebase: firebase.app.App;
   @Input() userId;
-  editPrivUsername : string;
   newPrivLevel: string;
 
   constructor(private sidebar: SidebarComponent) {
@@ -24,8 +23,8 @@ export class AdminComponent implements OnInit {
 
 
   editPrivileges() {
-    this.editPrivUsername = (document.getElementById("change-priv-username") as HTMLInputElement).value;
-    this.newPrivLevel = (document.getElementById("new-privilege-level") as HTMLInputElement).value;
+    var editPrivUsername = (document.getElementById("change-priv-username") as HTMLInputElement).value;
+    var newPrivLevel = (document.getElementById("new-privilege-level") as HTMLInputElement).value;
     var privLevInt = 1;
     switch(this.newPrivLevel) {
       case "User":
@@ -37,12 +36,14 @@ export class AdminComponent implements OnInit {
         privLevInt = 3;
         break;
     }
-    this.firebase.database().ref('user_id').once('value')
+    alert("Fine");
+    firebase.database().ref('user_id').once('value')
       .then(function(snapshot) {
+        alert("here");
         var found = false;
         snapshot.forEach(function(snapshotChild) {
-          if(snapshotChild.child("name").val() == this.editPrivUsername) {
-            var res = confirm("Change " + this.editPrivUsername + " to " + this.newPrivLevel + "?");
+          if(snapshotChild.child("name").val() == editPrivUsername) {
+            var res = confirm("Change " + editPrivUsername + " to " + newPrivLevel + "?");
             if(res) {
               snapshotChild.child("priv").ref.set(privLevInt);
               found = true;
