@@ -8,6 +8,7 @@ import { DicerollerComponent } from './diceroller/diceroller.component';
 import { CharGeneratorComponent } from './char-generator/char-generator.component';
 import { AdminComponent } from './admin/admin.component';
 import { GameGeneratorComponent } from './game-generator/game-generator.component';
+import { GmComponent } from './gm/gm.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { GameGeneratorComponent } from './game-generator/game-generator.componen
     CharGeneratorComponent,
     AdminComponent,
     GameGeneratorComponent,
+    GmComponent,
   ],
   imports: [
     BrowserModule
