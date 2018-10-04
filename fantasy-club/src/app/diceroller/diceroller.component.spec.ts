@@ -7,7 +7,6 @@ import { CharGeneratorComponent } from '../char-generator/char-generator.compone
 import { AdminComponent } from '../admin/admin.component';
 import { GameGeneratorComponent } from '../game-generator/game-generator.component';
 import { GmComponent } from '../gm/gm.component';
-import { AppModule } from '../app.module';
 
 describe('Normal Rolls', () => {
   let component: DicerollerComponent;
@@ -15,10 +14,9 @@ describe('Normal Rolls', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DicerollerComponent, SidebarComponent, CharSheetComponent, CharGeneratorComponent, AdminComponent,
-        GameGeneratorComponent, GmComponent ],
-        imports: [ AppModule ]
-        
+      declarations: [ DicerollerComponent ],
+        providers: [ SidebarComponent ]
+
     })
     .compileComponents();
   }));
@@ -73,13 +71,17 @@ describe('Normal Rolls', () => {
     let oldModifier: number = parseInt((document.getElementById("modifier") as HTMLInputElement).value);
     (document.getElementById("modifier") as HTMLInputElement).value = "1";
     component.DiceRoller();
-    for(var i = 0; i < component.rolls.length; i++) {
+
+    let temp : string = document.getElementById("rolls")[0].innerHTML;
+    expect("component.rolls[i]").toEqual(temp);
+
+  /*  for(var i = 0; i < component.rolls.length; i++) {
       let temp : string = document.getElementsByClassName("rolls")[i].innerHTML;
       let spaceChar : number = temp.lastIndexOf(' ');
       let temp2 : string = temp.substring(spaceChar, temp.length);
       let int : number = parseInt(temp2);
       expect(component.rolls[i]).toEqual(int);
-    }
+    } */
     (document.getElementById("amount") as HTMLInputElement).value = oldAmount.toString();
     (document.getElementById("type") as HTMLInputElement).value = oldRoll.toString();
     (document.getElementById("modifier") as HTMLInputElement).value = oldModifier.toString();
@@ -93,7 +95,9 @@ describe('Normal Rolls', () => {
     let oldModifier: number = parseInt((document.getElementById("type") as HTMLInputElement).value);
     (document.getElementById("type") as HTMLInputElement).value = "1";
     component.DiceRoller();
-    expect(component.total).toEqual(parseInt(document.getElementById("total").innerHTML));
+    let thisString : string = document.getElementsByClassName("total")[0].innerHTML;
+    //thisString = thisString.substring(thisString.lastIndexOf(" "), thisString.length);
+    expect("component.total").toEqual(thisString);
     (document.getElementById("amount") as HTMLInputElement).value = oldAmount.toString();
     (document.getElementById("type") as HTMLInputElement).value = oldRoll.toString();
     (document.getElementById("modifier") as HTMLInputElement).value = oldModifier.toString();
