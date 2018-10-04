@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { DicerollerComponent } from '../diceroller/diceroller.component';
+import { IfStmt } from '@angular/compiler';
+import { IterableChangeRecord_ } from '@angular/core/src/change_detection/differs/default_iterable_differ';
 
 
 describe('Normal Rolls', () => {
@@ -100,7 +102,82 @@ describe('Normal Rolls', () => {
 });
 
 describe('Nonscence Rolls', () => {
+  let component: DicerollerComponent;
+  let sidebar : SidebarComponent;
+  let fixture: ComponentFixture<DicerollerComponent>;
 
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ DicerollerComponent ],
+        providers: [ SidebarComponent ]
+
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(DicerollerComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should increase amount to 1', () => {
+    let oldAmount: number = parseInt((document.getElementById("amount") as HTMLInputElement).value);
+    (document.getElementById("amount") as HTMLInputElement).value = "0";
+    component.DiceRoller();
+    expect(component.amount).toEqual(1);
+    expect((document.getElementById("amount") as HTMLInputElement).value).toEqual("1");
+    (document.getElementById("amount") as HTMLInputElement).value = oldAmount.toString();
+  });
+
+  it('should increase type to 2', () => {
+    let oldRoll: number = parseInt((document.getElementById("type") as HTMLInputElement).value);
+    (document.getElementById("type") as HTMLInputElement).value = "0";
+    component.DiceRoller();
+    expect(component.type).toEqual(2);
+    expect((document.getElementById("type") as HTMLInputElement).value).toEqual("2");
+    (document.getElementById("type") as HTMLInputElement).value = oldRoll.toString();
+  });
+
+  it('should also increase type to 2', () => {
+    let oldRoll: number = parseInt((document.getElementById("type") as HTMLInputElement).value);
+    (document.getElementById("type") as HTMLInputElement).value = "1";
+    component.DiceRoller();
+    expect(component.type).toEqual(2);
+    expect((document.getElementById("type") as HTMLInputElement).value).toEqual("2");
+    (document.getElementById("type") as HTMLInputElement).value = oldRoll.toString();
+  });
+
+  it('amount should not be null', () => {
+    let oldAmount: number = parseInt((document.getElementById("amount") as HTMLInputElement).value);
+    (document.getElementById("amount") as HTMLInputElement).value = "";
+    component.DiceRoller();
+    expect(component.amount).toEqual(1);
+    expect((document.getElementById("amount") as HTMLInputElement).value).toEqual("1");
+    (document.getElementById("amount") as HTMLInputElement).value = oldAmount.toString();
+  });
+
+  it('type should not be null', () => {
+    let oldRoll: number = parseInt((document.getElementById("type") as HTMLInputElement).value);
+    (document.getElementById("type") as HTMLInputElement).value = "";
+    component.DiceRoller();
+    expect(component.type).toEqual(2);
+    expect((document.getElementById("type") as HTMLInputElement).value).toEqual("2");
+    (document.getElementById("type") as HTMLInputElement).value = oldRoll.toString();
+  });
+
+  it('modifier should not be null', () => {
+    let oldRoll: number = parseInt((document.getElementById("modifier") as HTMLInputElement).value);
+    (document.getElementById("modifier") as HTMLInputElement).value = "";
+    component.DiceRoller();
+    expect(component.mod).toEqual(0);
+    expect((document.getElementById("modifier") as HTMLInputElement).value).toEqual("0");
+    (document.getElementById("modifier") as HTMLInputElement).value = oldRoll.toString();
+  });
 
 });
 

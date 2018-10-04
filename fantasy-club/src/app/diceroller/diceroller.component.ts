@@ -31,14 +31,17 @@ export class DicerollerComponent implements OnInit {
     this.amount = parseInt((document.getElementById("amount") as HTMLInputElement).value);
     this.type = parseInt((document.getElementById("type") as HTMLInputElement).value);
     this.mod = parseInt((document.getElementById("modifier") as HTMLInputElement).value);
-    if((document.getElementById("amount") as HTMLInputElement).value == "") {
-      this.amount = 0;
+    if((document.getElementById("amount") as HTMLInputElement).value == "" || parseInt((document.getElementById("amount") as HTMLInputElement).value) < 1) {
+      this.amount = 1;
+      (document.getElementById("amount") as HTMLInputElement).value = '1';
     }
-    if((document.getElementById("type") as HTMLInputElement).value == "") {
-      this.type = 0;
+    if((document.getElementById("type") as HTMLInputElement).value == "" || parseInt((document.getElementById("type") as HTMLInputElement).value) < 2) {
+      this.type = 2;
+      (document.getElementById("type") as HTMLInputElement).value = '2';
     }
     if((document.getElementById("modifier") as HTMLInputElement).value == "") {
       this.mod = 0;
+      (document.getElementById("modifier") as HTMLInputElement).value = '0';
     }
     var i = 0;
     this.rolls = [this.amount];
