@@ -35,6 +35,10 @@ export class DicerollerComponent implements OnInit {
       this.amount = 1;
       (document.getElementById("amount") as HTMLInputElement).value = '1';
     }
+    if(this.amount > 100) {
+      this.amount = 100;
+      (document.getElementById("amount") as HTMLInputElement).value = '100';
+    }
     if((document.getElementById("type") as HTMLInputElement).value == "" || parseInt((document.getElementById("type") as HTMLInputElement).value) < 2) {
       this.type = 2;
       (document.getElementById("type") as HTMLInputElement).value = '2';

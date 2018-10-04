@@ -179,5 +179,44 @@ describe('Nonscence Rolls', () => {
     (document.getElementById("modifier") as HTMLInputElement).value = oldRoll.toString();
   });
 
+  it('amount is not over 100', () => {
+    let oldRoll: number = parseInt((document.getElementById("amount") as HTMLInputElement).value);
+    (document.getElementById("amount") as HTMLInputElement).value = "101";
+    component.DiceRoller();
+    expect(component.amount).toEqual(100);
+    expect((document.getElementById("amount") as HTMLInputElement).value).toEqual("100");
+    (document.getElementById("amount") as HTMLInputElement).value = oldRoll.toString();
+  });    
+
+  it('amount overflows reset to default', () => {
+    let invalid: number = 17972211111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111;
+    let oldRoll: number = parseInt((document.getElementById("amount") as HTMLInputElement).value);
+    (document.getElementById("amount") as HTMLInputElement).value = ("" + invalid);
+    component.DiceRoller();
+    expect(component.amount).toEqual(1);
+    expect((document.getElementById("amount") as HTMLInputElement).value).toEqual("1");
+    (document.getElementById("amount") as HTMLInputElement).value = oldRoll.toString();
+  }); 
+
+  it('type overflows reset to default', () => {
+    let invalid: number = 17972211111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111;
+    let oldRoll: number = parseInt((document.getElementById("type") as HTMLInputElement).value);
+    (document.getElementById("type") as HTMLInputElement).value = ("" + invalid);
+    component.DiceRoller();
+    expect(component.type).toEqual(2);
+    expect((document.getElementById("type") as HTMLInputElement).value).toEqual("2");
+    (document.getElementById("type") as HTMLInputElement).value = oldRoll.toString();
+  }); 
+
+  it('modifier overflows reset to default', () => {
+    let invalid: number = 17972211111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111;
+    let oldRoll: number = parseInt((document.getElementById("modifier") as HTMLInputElement).value);
+    (document.getElementById("modifier") as HTMLInputElement).value = ("" + invalid);
+    component.DiceRoller();
+    expect(component.mod).toEqual(0);
+    expect((document.getElementById("modifier") as HTMLInputElement).value).toEqual("0");
+    (document.getElementById("modifier") as HTMLInputElement).value = oldRoll.toString();
+  }); 
+
 });
 
