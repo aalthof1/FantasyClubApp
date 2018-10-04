@@ -20,8 +20,7 @@ export class GmComponent implements OnInit {
   ngOnInit() {
   }
 
-  displayDiceRolls() {
-    var diceUsername = (document.getElementById("dice-username") as HTMLInputElement).value;
+  displayDiceRolls(diceUsername: string) {
     if(diceUsername == "") {
       //Do something
     } else {
@@ -39,10 +38,26 @@ export class GmComponent implements OnInit {
               }
             });
             temp += "</ul>";
-            document.getElementById("roll-container").innerHTML = "";
             document.getElementById("roll-container").innerHTML += temp;
           }
         });
+    }
+  }
+
+  
+  getDiceRolls() {
+    var diceUsername = (document.getElementById("dice-username") as HTMLInputElement).value;
+    if(diceUsername == "") {
+      document.getElementById("roll-container").innerHTML = "";
+      firebase.database().ref("dice_rolls/").once("value")
+        .then(function(snapshot) {
+          snapshot.forEach(function(snapshotChild){
+            this.displayDiceRolls(snapshotChild.key);
+          }.bind(this));
+        }.bind(this));
+    } else {
+      document.getElementById("roll-container").innerHTML = "";
+      this.displayDiceRolls(diceUsername);
     }
   }
 
