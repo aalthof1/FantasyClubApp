@@ -18,6 +18,7 @@ describe('Normal Rolls', () => {
       declarations: [ DicerollerComponent, SidebarComponent, CharSheetComponent, CharGeneratorComponent, AdminComponent,
         GameGeneratorComponent, GmComponent ],
         imports: [ AppModule ]
+        
     })
     .compileComponents();
   }));
