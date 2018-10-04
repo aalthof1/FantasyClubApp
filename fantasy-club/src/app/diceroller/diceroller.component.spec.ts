@@ -1,15 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import { CharSheetComponent } from '../char-sheet/char-sheet.component';
 import { DicerollerComponent } from '../diceroller/diceroller.component';
-import { CharGeneratorComponent } from '../char-generator/char-generator.component';
-import { AdminComponent } from '../admin/admin.component';
-import { GameGeneratorComponent } from '../game-generator/game-generator.component';
-import { GmComponent } from '../gm/gm.component';
+
 
 describe('Normal Rolls', () => {
   let component: DicerollerComponent;
+  let sidebar : SidebarComponent;
   let fixture: ComponentFixture<DicerollerComponent>;
 
   beforeEach(async(() => {
@@ -71,17 +68,11 @@ describe('Normal Rolls', () => {
     let oldModifier: number = parseInt((document.getElementById("modifier") as HTMLInputElement).value);
     (document.getElementById("modifier") as HTMLInputElement).value = "1";
     component.DiceRoller();
-
-    let temp : string = document.getElementById("rolls")[0].innerHTML;
-    expect("component.rolls[i]").toEqual(temp);
-
-  /*  for(var i = 0; i < component.rolls.length; i++) {
-      let temp : string = document.getElementsByClassName("rolls")[i].innerHTML;
-      let spaceChar : number = temp.lastIndexOf(' ');
-      let temp2 : string = temp.substring(spaceChar, temp.length);
-      let int : number = parseInt(temp2);
-      expect(component.rolls[i]).toEqual(int);
-    } */
+    expect(component.rolls.length).toEqual(3);
+    for(var i = 0; i < component.rolls.length; i++) {
+      expect(component.rolls[i]).toBeGreaterThan(0);
+      expect(component.rolls[i]).toBeLessThanOrEqual(6);
+    } 
     (document.getElementById("amount") as HTMLInputElement).value = oldAmount.toString();
     (document.getElementById("type") as HTMLInputElement).value = oldRoll.toString();
     (document.getElementById("modifier") as HTMLInputElement).value = oldModifier.toString();
@@ -95,9 +86,13 @@ describe('Normal Rolls', () => {
     let oldModifier: number = parseInt((document.getElementById("type") as HTMLInputElement).value);
     (document.getElementById("type") as HTMLInputElement).value = "1";
     component.DiceRoller();
-    let thisString : string = document.getElementsByClassName("total")[0].innerHTML;
-    //thisString = thisString.substring(thisString.lastIndexOf(" "), thisString.length);
-    expect("component.total").toEqual(thisString);
+    let total : number = 0;
+    for(let i : number = 0; i < component.rolls.length; i++) {
+      total += component.rolls[i];
+    }
+    expect(component.total).toBeLessThanOrEqual(18);
+    expect(component.total).toBeGreaterThanOrEqual(3);
+    expect(component.total).toEqual(total);
     (document.getElementById("amount") as HTMLInputElement).value = oldAmount.toString();
     (document.getElementById("type") as HTMLInputElement).value = oldRoll.toString();
     (document.getElementById("modifier") as HTMLInputElement).value = oldModifier.toString();
