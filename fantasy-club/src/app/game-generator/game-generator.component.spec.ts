@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameGeneratorComponent } from './game-generator.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 describe('GameGeneratorComponent', () => {
   let component: GameGeneratorComponent;
@@ -8,7 +9,8 @@ describe('GameGeneratorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameGeneratorComponent ]
+      declarations: [ GameGeneratorComponent ],
+      providers : [ SidebarComponent ]
     })
     .compileComponents();
   }));

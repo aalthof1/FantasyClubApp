@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GmComponent } from './gm.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 describe('GmComponent', () => {
   let component: GmComponent;
@@ -8,7 +9,8 @@ describe('GmComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GmComponent ]
+      declarations: [ GmComponent ],
+      providers: [ SidebarComponent ]
     })
     .compileComponents();
   }));

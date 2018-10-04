@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CharGeneratorComponent } from './char-generator.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 describe('CharGeneratorComponent', () => {
   let component: CharGeneratorComponent;
@@ -8,7 +9,8 @@ describe('CharGeneratorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CharGeneratorComponent ]
+      declarations: [ CharGeneratorComponent ],
+      providers: [ SidebarComponent ]
     })
     .compileComponents();
   }));
