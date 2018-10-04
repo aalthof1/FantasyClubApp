@@ -30,6 +30,12 @@ describe('Normal Rolls', () => {
     expect(component).toBeTruthy();
   });
 
+  it('is constructed', () => {
+    sidebar = TestBed.get(SidebarComponent);
+    expect(component.app).toEqual(sidebar.app);
+    expect(component.userId).toEqual(sidebar.user_id);
+  });
+
   it('should get correct Amount' , () => {
     let oldAmount: number = parseInt((document.getElementById("amount") as HTMLInputElement).value);
     (document.getElementById("amount") as HTMLInputElement).value = "3";
