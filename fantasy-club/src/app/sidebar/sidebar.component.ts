@@ -162,4 +162,9 @@ export class SidebarComponent implements OnInit {
     this.app.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot));
     console.log("refreshing")
   }
+
+  refreshGames(): void {
+    this.app.database().ref('games/').on('value', snapshot => this.grabGames(snapshot));
+    console.log("refreshing")
+  }
 }

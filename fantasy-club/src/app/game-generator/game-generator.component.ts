@@ -17,7 +17,7 @@ games: Array<string> = [];
 snapshot: firebase.database.DataSnapshot;
 
 constructor(private sidebar: SidebarComponent) {
-  this.userId = sidebar.user_id
+  this.userId = sidebar.user_name
   this.app = sidebar.app
 }
 
@@ -28,19 +28,19 @@ constructor(private sidebar: SidebarComponent) {
     snapshot.forEach(function (childSnapshot) {
       this.games.push(childSnapshot.key);
     }.bind(this))
-    if (this.games.includes(this.name) || this.userId == "") {
+    if (this.games.includes(this.name) || this.userId == "" || this.name == "") {
       return;
     }
     else {
       var ref = snapshot.ref;
       ref.set({
-        user_id: this.userId,
+        user_name: this.userId,
         desc: this.desc
       });
     }
     this.refresh.emit("refresh");
-    this.sidebar.characters = [];
-    this.sidebar.grabHeroes(snapshot);
+    //this.sidebar.games = [];
+    //this.sidebar.grabGames(this.app.database().ref('games/').once('value'));
 
   }
 
