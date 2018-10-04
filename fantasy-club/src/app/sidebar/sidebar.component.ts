@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit {
 
   user_id: string = "";
   user_name: string = "";
+  user_priv: number;
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
 
@@ -48,6 +49,13 @@ export class SidebarComponent implements OnInit {
     return false;
   }
 
+  isUserGM() {
+    if (this.user_priv >=2) {
+      return true;
+    }
+    return false;
+  }
+
   userSetup(snapshot: firebase.database.DataSnapshot) {
     if (snapshot.hasChild(this.user_id)) {
       console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
@@ -72,6 +80,7 @@ export class SidebarComponent implements OnInit {
       .then(function (snapshot) {
         if (snapshot.hasChild(this.user_id)) {
           console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
+          this.user_priv = snapshot.child(this.user_id).child('priv').val();
           //alert("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
           if(snapshot.child(this.user_id).child('priv').val() >= 2)  {
             document.getElementById("gm-container").classList.remove("no-display");
