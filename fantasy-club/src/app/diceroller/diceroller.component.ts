@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { empty, EMPTY } from 'rxjs';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-diceroller',
@@ -13,7 +15,14 @@ export class DicerollerComponent implements OnInit {
   mod : number;
   rolls : Array<number>;
   total : number;
-  constructor() { }
+
+  @Input() app: firebase.app.App;
+  @Input() userId: string;
+
+  constructor(private sidebar: SidebarComponent) {
+    this.app = sidebar.app
+    this.userId = sidebar.user_id
+   }
 
   ngOnInit() {
   }
@@ -39,7 +48,18 @@ export class DicerollerComponent implements OnInit {
       this.rolls[i] = result;
       this.total = this.total + result;
     }
+
+    if(this.sidebar.user_id == "") return;
+
+    firebase.database().ref("dice_rolls/" + this.sidebar.user_name).remove();
+    for (var _i = 0; _i < this.rolls.length; _i++) {
+      firebase.database().ref("dice_rolls/" + this.sidebar.user_name + "/" + _i).set(this.rolls[_i]);
+    }
+
     this.total = this.total + this.mod;
+    firebase.database().ref("dice_rolls/" + this.sidebar.user_name + "/mod").set(this.mod);
+    firebase.database().ref("dice_rolls/" + this.sidebar.user_name + "/total").set(this.total);
+    firebase.database().ref("dice_rolls/" + this.sidebar.user_name + "/type").set(this.type);
         
   }
 }

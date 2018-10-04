@@ -73,7 +73,11 @@ export class SidebarComponent implements OnInit {
         if (snapshot.hasChild(this.user_id)) {
           console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
           //alert("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
-          if(snapshot.child(this.user_id).child('priv').val() == 3)  {
+          if(snapshot.child(this.user_id).child('priv').val() >= 2)  {
+            document.getElementById("gm-container").classList.remove("no-display");
+            document.getElementById("gm").classList.remove("no-display");
+          }
+          if(snapshot.child(this.user_id).child('priv').val() >= 3)  {
             document.getElementById("admin-container").classList.remove("no-display");
             document.getElementById("admin").classList.remove("no-display");
           }
@@ -106,6 +110,17 @@ export class SidebarComponent implements OnInit {
     if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
       this.user_name = this.app.auth().currentUser.displayName;
+      this.app.database().ref("user_id").once("value")
+        .then(function(snapshot){
+          if(snapshot.child(this.user_id).child('priv').val() >= 2)  {
+            document.getElementById("gm-container").classList.remove("no-display");
+            document.getElementById("gm").classList.remove("no-display");
+          }
+          if(snapshot.child(this.user_id).child('priv').val() >= 3)  {
+            document.getElementById("admin-container").classList.remove("no-display");
+            document.getElementById("admin").classList.remove("no-display");
+          }
+        }.bind(this));
       return;
     }
     let provider = new firebase.auth.GoogleAuthProvider();
@@ -120,6 +135,8 @@ export class SidebarComponent implements OnInit {
     this.user_name = "";
     document.getElementById("admin-container").classList.add("no-display");
     document.getElementById("admin").classList.add("no-display");
+    document.getElementById("gm-container").classList.add("no-display");
+    document.getElementById("gm").classList.add("no-display");
   }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
