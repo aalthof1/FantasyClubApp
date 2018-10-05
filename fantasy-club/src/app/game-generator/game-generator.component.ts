@@ -61,5 +61,26 @@ constructor(private sidebar: SidebarComponent) {
       this.app.database().ref('games/' + this.name + "/").remove();
     }
   }
+
+  
+  archiveGame() {
+    this.name = ((document.getElementById("name2") as HTMLInputElement).value);
+    if(this.app.database().ref('games/' + this.name + "/user_id").once('value') == this.userId
+      || this.sidebar.isUserAdmin() == true) {
+        this.app.database().ref("games/" + this.name).once('value')
+          .then(function(snapshot: firebase.database.DataSnapshot){
+            snapshot.forEach(function(snapshotChild: firebase.database.DataSnapshot){
+              if(snapshotChild.hasChildren()) {
+                snapshotChild.forEach(function(snapshotGrandchild){
+                  this.app.database().ref("archive/" + this.name + "/" + snapshotChild.key + "/" + snapshotGrandchild.key).set(snapshotGrandchild.val());
+                }.bind(this));
+              } else {
+                this.app.database().ref("archive/" + this.name + "/" + snapshotChild.key).set(snapshotChild.val());
+              }
+            }.bind(this));
+          }.bind(this));
+          
+          this.app.database().ref('games/' + this.name + "/").remove();
+    }
     
 }
