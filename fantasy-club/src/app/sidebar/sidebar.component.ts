@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-import { Component, OnInit, Input, OnChanges, SimpleChange, } from '@angular/core';
-import * as firebase from 'firebase';
-import { CurrentCharService } from "../current-char.service";
-=======
 import { Component, OnInit, } from '@angular/core';
 import * as firebase from 'firebase';
 import { CurrentCharService } from "../current-char.service";
 import { PassGameService } from "../pass-game.service";
->>>>>>> 88c39c4277b0b16395f41155b858697b6e91359a
 
 @Component({
   selector: 'app-sidebar',
