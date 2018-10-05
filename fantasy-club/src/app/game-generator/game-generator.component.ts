@@ -13,6 +13,7 @@ export class GameGeneratorComponent implements OnInit {
 @Input() userId;
 @Input() app;
 @Input() currChar;
+@Input() currGame;
 @Output() refresh = new EventEmitter<string>();
 name: string;
 desc: string;
@@ -20,10 +21,11 @@ games: Array<string> = [];
 snapshot: firebase.database.DataSnapshot;
 
 constructor(private sidebar: SidebarComponent) {
-  this.userName = sidebar.user_name
+  //this.userName = sidebar.user_name
   this.app = sidebar.app
   this.userId = sidebar.user_id
   this.currChar = sidebar.currChar
+  this.currGame = sidebar.currGame
 }
 
 
@@ -59,13 +61,17 @@ constructor(private sidebar: SidebarComponent) {
   }
 
   joinGame() {
-     this.app.database().ref('games/' + this.name + "/characters").child(this.currChar).set(this.userName);
+    console.log(this.sidebar.currGame);
+    console.log(this.sidebar.currChar);
+    console.log(this.sidebar.user_name);
+    
+    this.app.database().ref('games/' + this.sidebar.currGame + "/characters").child(this.sidebar.currChar).set(this.sidebar.user_name);
 
   }
 
   deleteGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
-    if (this.app.database().ref('games/' + this.name + "/user_id").once('value') == this.userId || this.sidebar.isUserAdmin() == true && this.name != "") {
+    if (this.app.database().ref('games/' + this.name + "/user_id").on('value') == this.userId || this.sidebar.isUserAdmin() == true && this.name != "") {
       this.app.database().ref('games/' + this.name + "/").remove();
     }
   }

@@ -15,6 +15,7 @@ export class SidebarComponent implements OnInit {
   user_id: string = "";
   user_name: string = "";
   currChar: string = "";
+  currGame: string = "";
   user_priv: number;
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
@@ -175,7 +176,9 @@ export class SidebarComponent implements OnInit {
   }
 
   passGame(i : firebase.database.DataSnapshot) {
-    this.passGameService.send(i);  
+    this.passGameService.send(i);
+    this.currGame = i.key;
+    console.log(this.currGame);
   }
 
   refreshCharacters(): void {
