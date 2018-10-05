@@ -65,7 +65,9 @@ constructor(private sidebar: SidebarComponent) {
     console.log(this.sidebar.currGame);
     console.log(this.sidebar.currChar);
     console.log(this.sidebar.user_name);
-    
+    if(this.sidebar.currGame == "" || this.sidebar.currChar == "") {
+      return;
+    }
     this.app.database().ref('games/' + this.sidebar.currGame + "/characters").child(this.sidebar.currChar).set(this.sidebar.user_name);
 
   }
