@@ -155,6 +155,7 @@ export class SidebarComponent implements OnInit {
     this.app.auth().signOut();
     this.user_id = "";
     this.user_name = "";
+    this.games = [];
     document.getElementById("admin-container").classList.add("no-display");
     document.getElementById("admin").classList.add("no-display");
     document.getElementById("gm-container").classList.add("no-display");
