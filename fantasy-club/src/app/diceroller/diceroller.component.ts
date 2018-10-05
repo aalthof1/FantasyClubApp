@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { empty, EMPTY } from 'rxjs';
+import { Component, OnInit, Input } from '@angular/core'
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import * as firebase from 'firebase';
 
@@ -60,7 +59,8 @@ export class DicerollerComponent implements OnInit {
 
     firebase.database().ref("dice_rolls/" + this.sidebar.user_name).remove();
     for (var _i = 0; _i < this.rolls.length; _i++) {
-      firebase.database().ref("dice_rolls/" + this.sidebar.user_name + "/" + _i).set(this.rolls[_i]);
+      var temp = _i+1;
+      firebase.database().ref("dice_rolls/" + this.sidebar.user_name + "/" + temp).set(this.rolls[_i]);
     }
 
     this.total = this.total + this.mod;
