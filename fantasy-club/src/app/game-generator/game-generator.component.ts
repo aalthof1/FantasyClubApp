@@ -57,7 +57,7 @@ constructor(private sidebar: SidebarComponent) {
 
   deleteGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
-    if(this.app.database().ref('games/' + this.name + "/user_id").once('value') == this.userId || this.sidebar.isUserAdmin() == true) {
+    if(this.app.database().ref('games/' + this.name + "/user_id").once('value') == this.userId || this.sidebar.isUserAdmin() == true && this.name != "") {
       this.app.database().ref('games/' + this.name + "/").remove();
     }
   }
