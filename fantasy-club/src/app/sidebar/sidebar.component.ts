@@ -1,4 +1,4 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChange, } from '@angular/core';
 import * as firebase from 'firebase';
 import { CurrentCharService } from "../current-char.service";
 
@@ -8,14 +8,17 @@ import { CurrentCharService } from "../current-char.service";
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent implements OnInit {
-
-  constructor(private currentChar: CurrentCharService) {
-
+export class SidebarComponent implements OnInit, OnChanges {
+  @Input() newCurrentChar : string = undefined;
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+    console.log("should have changed")
   }
+
+  constructor(private currentChar: CurrentCharService) {}
 
   user_id: string = "";
   user_name: string = "";
+  currChar: string = "";
   user_priv: number;
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
@@ -71,7 +74,7 @@ export class SidebarComponent implements OnInit {
       //we'll create the user in the database with base priviledge
       snapshot.ref.child(this.user_id).set({
         name: this.app.auth().currentUser.displayName,
-        priv: 1
+        priv: 1,
       });
       this.app.database().ref('/characters/' + this.user_id + "/");
       console.log("user created with priv level = 1");
@@ -172,15 +175,19 @@ export class SidebarComponent implements OnInit {
   //used in service, don't delete
   passCharacter(i: firebase.database.DataSnapshot) {
     this.currentChar.send(i);
+    this.currChar = i.key;
   }
 
   refreshCharacters(): void {
     this.app.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot));
-    console.log("refreshing")
   }
 
   refreshGames(): void {
     this.app.database().ref('games/').on('value', snapshot => this.grabGames(snapshot));
-    console.log("refreshing")
   }
+  
+  setChar(): void {
+    this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set(this.currChar);
+  }
+
 }

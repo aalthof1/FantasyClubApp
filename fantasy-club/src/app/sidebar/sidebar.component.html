@@ -30,6 +30,7 @@
           </li>
 
           <li *ngIf="isUserSignedIn()">
+            <input type="button" (click)="setChar()" value="Set Character">
             <app-char-generator (refresh)="refreshCharacters()"></app-char-generator>
           </li>
 
@@ -76,7 +77,6 @@
       <ul class="sub-menu collapse no-display" id="admin">
         <app-admin></app-admin>
       </ul>
-
     </ul>
   </div>
 </div>

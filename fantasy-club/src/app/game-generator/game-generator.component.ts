@@ -11,6 +11,7 @@ export class GameGeneratorComponent implements OnInit {
 @Input() userName;
 @Input() userId;
 @Input() app;
+@Input() currChar;
 @Output() refresh = new EventEmitter<string>();
 name: string;
 desc: string;
@@ -21,6 +22,7 @@ constructor(private sidebar: SidebarComponent) {
   this.userName = sidebar.user_name
   this.app = sidebar.app
   this.userId = sidebar.user_id
+  this.currChar = sidebar.currChar
 }
 
   ngOnInit() {
@@ -55,9 +57,14 @@ constructor(private sidebar: SidebarComponent) {
 
   }
 
+  joinGame() {
+     this.app.database().ref('games/' + this.name + "/characters").child(this.currChar).set(this.userName);
+
+  }
+
   deleteGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
-    if(this.app.database().ref('games/' + this.name + "/user_id").once('value') == this.userId || this.sidebar.isUserAdmin() == true && this.name != "") {
+    if(this.app.database().ref('games/' + this.name + "/user_id").on('value') == this.userId || this.sidebar.isUserAdmin() == true && this.name != "") {
       this.app.database().ref('games/' + this.name + "/").remove();
     }
   }
