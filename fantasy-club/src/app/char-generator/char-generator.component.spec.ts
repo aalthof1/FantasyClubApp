@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CharGeneratorComponent } from './char-generator.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-
+import * as firebase from 'firebase';
 
 describe('Create Character', () => {
   let component: CharGeneratorComponent;

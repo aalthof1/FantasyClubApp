@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import { Component, OnInit, } from '@angular/core';
-=======
 import { Component, OnInit, Input, OnChanges, SimpleChange, } from '@angular/core';
 import * as firebase from 'firebase';
->>>>>>> 98198ae2c57d867759e8a3c673b66651bbd4dcb5
 import { CurrentCharService } from "../current-char.service";
-import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-sidebar',
@@ -39,8 +34,10 @@ export class SidebarComponent implements OnInit, OnChanges {
 
 
 
-  ngOnInit() { 
+  ngOnInit() {
+    if(!firebase.apps.length) {
      this.app = firebase.initializeApp(this.config);
+    }
     if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
       this.user_name = this.app.auth().currentUser.displayName;

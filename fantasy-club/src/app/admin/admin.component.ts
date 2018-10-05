@@ -37,6 +37,17 @@ export class AdminComponent implements OnInit {
         privLevInt = 3;
         break;
     }
+    if(!firebase.apps.length) {
+      var config = {
+        apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
+        authDomain: "purdue-fantasy-club.firebaseapp.com",
+        databaseURL: "https://purdue-fantasy-club.firebaseio.com",
+        projectId: "purdue-fantasy-club",
+        storageBucket: "purdue-fantasy-club.appspot.com",
+        messagingSenderId: "625002728234"
+      }
+      firebase.initializeApp(config);
+    }
     firebase.database().ref('user_id').once('value')
       .then(function(snapshot) {
         var found = false;
