@@ -45,6 +45,7 @@
               {{game.key}}
             </li>
         <ng-container *ngIf="isUserSignedIn(); else elseTemplate">
+          <input type="button" (click)="refreshGames()" value="refresh">
           <ng-container *ngIf="isUserGM()">
             <app-game-generator (refresh)="refreshGames()"></app-game-generator>
           </ng-container>
