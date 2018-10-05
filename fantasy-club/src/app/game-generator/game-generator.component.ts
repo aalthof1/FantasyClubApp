@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
+
 @Component({
   selector: 'app-game-generator',
   templateUrl: './game-generator.component.html',
@@ -25,8 +26,8 @@ constructor(private sidebar: SidebarComponent) {
   this.currChar = sidebar.currChar
 }
 
-  ngOnInit() {
-  }
+
+  ngOnInit() { }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
     snapshot.forEach(function (childSnapshot) {
@@ -52,8 +53,8 @@ constructor(private sidebar: SidebarComponent) {
   createGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
     this.desc = ((document.getElementById("desc") as HTMLInputElement).value);
-     this.app.database().ref('games/' + this.name + "/").once('value')
-     .then(snapshot => this.grabHeroes(snapshot));
+    this.app.database().ref('games/' + this.name + "/").once('value')
+      .then(snapshot => this.grabHeroes(snapshot));
 
   }
 
@@ -64,9 +65,30 @@ constructor(private sidebar: SidebarComponent) {
 
   deleteGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
-    if(this.app.database().ref('games/' + this.name + "/user_id").on('value') == this.userId || this.sidebar.isUserAdmin() == true && this.name != "") {
+    if (this.app.database().ref('games/' + this.name + "/user_id").once('value') == this.userId || this.sidebar.isUserAdmin() == true && this.name != "") {
       this.app.database().ref('games/' + this.name + "/").remove();
     }
   }
-    
+
+
+  archiveGame() {
+    this.name = ((document.getElementById("name2") as HTMLInputElement).value);
+    if (this.app.database().ref('games/' + this.name + "/user_id").once('value') == this.userId
+      || this.sidebar.isUserAdmin() == true) {
+      this.app.database().ref("games/" + this.name).once('value')
+        .then(function (snapshot: firebase.database.DataSnapshot) {
+          snapshot.forEach(function (snapshotChild: firebase.database.DataSnapshot) {
+            if (snapshotChild.hasChildren()) {
+              snapshotChild.forEach(function (snapshotGrandchild) {
+                this.app.database().ref("archive/" + this.name + "/" + snapshotChild.key + "/" + snapshotGrandchild.key).set(snapshotGrandchild.val());
+              }.bind(this));
+            } else {
+              this.app.database().ref("archive/" + this.name + "/" + snapshotChild.key).set(snapshotChild.val());
+            }
+          }.bind(this));
+        }.bind(this));
+
+      this.app.database().ref('games/' + this.name + "/").remove();
+    }
+  }
 }

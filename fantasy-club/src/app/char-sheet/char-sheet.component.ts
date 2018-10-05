@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { CurrentCharService } from "../current-char.service";
+import { PassGameService } from "../pass-game.service";
 import * as firebase from 'firebase';
 import { Subscription } from 'rxjs';
 import { _iterableDiffersFactory } from '@angular/core/src/application_module';
@@ -14,7 +15,9 @@ export class CharSheetComponent implements OnInit {
   @Output() refresh = new EventEmitter<string>();
 
   selectedChar: firebase.database.DataSnapshot;
-  subscription: Subscription;
+  selectedGame : firebase.database.DataSnapshot;
+  charSubscript: Subscription;
+  gameSubscript : Subscription;
   view: boolean = false;
   edit: boolean = false;
   statData: ArrayLike<[string, number]>
@@ -23,10 +26,13 @@ export class CharSheetComponent implements OnInit {
   viewValues: Array<number>;
   submitValues: Array<number>;
   problem: boolean = false;
+  GMDisplay : string = undefined;
 
-  constructor(private currentCharacter: CurrentCharService) {
-    this.subscription = this.currentCharacter.get()
+  constructor(private currentCharacter: CurrentCharService, private passService : PassGameService) {
+    this.charSubscript = this.currentCharacter.get()
     .subscribe(snapshot => (this.selectedChar = snapshot.data));
+    this.gameSubscript = this.passService.get()
+    .subscribe(snapshot => (this.selectedGame = snapshot.data));
   }
 
   ngOnInit() { }
@@ -93,4 +99,16 @@ export class CharSheetComponent implements OnInit {
   setCurrent() {
     console.log("set current button pushed")
   }
+
+  gameTest() {
+    console.log("test");
+  }
+
+  printCharacters() {
+    console.log("characters")
+  }
+  printGM() {
+    this.GMDisplay = this.selectedGame.child("user_name").val();
+  }
+
 }

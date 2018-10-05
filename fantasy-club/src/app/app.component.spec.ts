@@ -1,11 +1,21 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { CharSheetComponent } from './char-sheet/char-sheet.component';
+import { AdminComponent } from './admin/admin.component';
+import { DicerollerComponent } from './diceroller/diceroller.component';
+import { GameGeneratorComponent } from './game-generator/game-generator.component';
+import { GmComponent } from './gm/gm.component';
+import { CharGeneratorComponent } from './char-generator/char-generator.component';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
-      ],
+        AppComponent, SidebarComponent, CharSheetComponent, 
+        AdminComponent, DicerollerComponent, GameGeneratorComponent, 
+        GmComponent, CharGeneratorComponent
+      ]
     }).compileComponents();
   }));
   it('should create the app', async(() => {
