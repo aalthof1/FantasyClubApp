@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import * as firebase from 'firebase';
 
 
 @Component({

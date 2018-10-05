@@ -33,8 +33,11 @@ export class GmComponent implements OnInit {
             temp += diceUsername + " rolled on a " + snapshot.child("type").val() + " sided die:</p><ul>";
             snapshot.forEach(function(snapshotChild) {
               if(snapshotChild.key == "type") {}
-              else {
+              else if(snapshotChild.key == "total" || snapshotChild.key == "mod") {
                 temp += "<li>" + snapshotChild.key + ": " + snapshotChild.val() + "</li>";
+              }
+              else {
+                temp += "<li>roll " + snapshotChild.key + ": " + snapshotChild.val() + "</li>";
               }
             });
             temp += "</ul>";
