@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit {
   user_name: string = "";
   currChar: string = "";
   currGame: string = "";
+  actualChar: string = "";
   user_priv: number;
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
@@ -148,6 +149,8 @@ export class SidebarComponent implements OnInit {
 
   signOut() {
     // Sign out of Firebase.
+    this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set("");
+    this.actualChar = "";
     this.app.auth().signOut();
     this.user_id = "";
     this.user_name = "";
@@ -193,6 +196,7 @@ export class SidebarComponent implements OnInit {
   
   setChar(): void {
     this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set(this.currChar);
+    this.actualChar = this.currChar;
   }
 
 }

@@ -42,8 +42,8 @@ constructor(private sidebar: SidebarComponent) {
     else {
       var ref = snapshot.ref;
       ref.set({
-        user_name: this.userName,
-        user_id: this.userId,
+        user_name: this.sidebar.user_name,
+        user_id: this.sidebar.user_id,
         desc: this.desc
       });
     }
