@@ -15,6 +15,7 @@ export class GameGeneratorComponent implements OnInit {
 @Input() app;
 @Input() currChar;
 @Input() currGame;
+@Input() currpriv;
 @Output() refresh = new EventEmitter<string>();
 name: string;
 desc: string;
@@ -32,6 +33,13 @@ constructor(private sidebar: SidebarComponent) {
 
   ngOnInit() { }
 
+  isUserGMGame() {
+    if (this.sidebar.user_priv >=2) {
+      return true;
+    }
+    return false;
+  }
+
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
     snapshot.forEach(function (childSnapshot) {
       this.games.push(childSnapshot.key);
@@ -42,8 +50,8 @@ constructor(private sidebar: SidebarComponent) {
     else {
       var ref = snapshot.ref;
       ref.set({
-        user_name: this.userName,
-        user_id: this.userId,
+        user_name: this.sidebar.user_name,
+        user_id: this.sidebar.user_id,
         desc: this.desc
       });
     }

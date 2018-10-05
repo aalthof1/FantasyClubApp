@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit {
   user_name: string = "";
   currChar: string = "";
   currGame: string = "";
+  actualChar: string = "";
   user_priv: number;
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
@@ -148,9 +149,13 @@ export class SidebarComponent implements OnInit {
 
   signOut() {
     // Sign out of Firebase.
+    this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set("");
+    this.actualChar = "";
+    this.currGame = "";
     this.app.auth().signOut();
     this.user_id = "";
     this.user_name = "";
+    this.games = [];
     document.getElementById("admin-container").classList.add("no-display");
     document.getElementById("admin").classList.add("no-display");
     document.getElementById("gm-container").classList.add("no-display");
@@ -193,6 +198,7 @@ export class SidebarComponent implements OnInit {
   
   setChar(): void {
     this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set(this.currChar);
+    this.actualChar = this.currChar;
   }
 
 }
