@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, OnChanges, SimpleChange, } from '@angular/core';
+import { Component, OnInit, Input, } from '@angular/core';
 import * as firebase from 'firebase';
 import { CurrentCharService } from "../current-char.service";
+import { PassGameService } from "../pass-game.service";
 
 
 @Component({
@@ -8,13 +9,9 @@ import { CurrentCharService } from "../current-char.service";
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent implements OnInit, OnChanges {
-  @Input() newCurrentChar : string = undefined;
-  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-    console.log("should have changed")
-  }
-
-  constructor(private currentChar: CurrentCharService) {}
+export class SidebarComponent implements OnInit {
+  constructor
+  (private currentChar: CurrentCharService, private passGameService : PassGameService) {}
 
   user_id: string = "";
   user_name: string = "";
@@ -174,6 +171,10 @@ export class SidebarComponent implements OnInit, OnChanges {
   //used in service, don't delete
   passCharacter(i: firebase.database.DataSnapshot) {
     this.currentChar.send(i);
+  }
+
+  passGame(i : firebase.database.DataSnapshot) {
+    this.passGameService.send(i);  
   }
 
   refreshCharacters(): void {
