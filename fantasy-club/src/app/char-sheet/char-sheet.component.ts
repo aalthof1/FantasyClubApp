@@ -27,6 +27,7 @@ export class CharSheetComponent implements OnInit {
   submitValues: Array<number>;
   problem: boolean = false;
   GMDisplay : string = undefined;
+  playerCharacters : Array<string> = [];
 
   constructor(private currentCharacter: CurrentCharService, private passService : PassGameService) {
     this.charSubscript = this.currentCharacter.get()
@@ -105,7 +106,10 @@ export class CharSheetComponent implements OnInit {
   }
 
   printCharacters() {
-    console.log("characters")
+    this.playerCharacters = [];
+    this.selectedGame.child("characters/").forEach(child => {
+      this.playerCharacters.push(child.key);
+    })
   }
   printGM() {
     this.GMDisplay = this.selectedGame.child("user_name").val();
