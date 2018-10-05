@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { Component, OnInit, } from '@angular/core';
+=======
+import { Component, OnInit, Input, OnChanges, SimpleChange, } from '@angular/core';
+import * as firebase from 'firebase';
+>>>>>>> 98198ae2c57d867759e8a3c673b66651bbd4dcb5
 import { CurrentCharService } from "../current-char.service";
 import * as firebase from 'firebase';
 
@@ -7,11 +12,13 @@ import * as firebase from 'firebase';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent implements OnInit {
-
-  constructor(private currentChar: CurrentCharService) {
-
+export class SidebarComponent implements OnInit, OnChanges {
+  @Input() newCurrentChar : string = undefined;
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+    console.log("should have changed")
   }
+
+  constructor(private currentChar: CurrentCharService) {}
 
   user_id: string = "";
   user_name: string = "";
@@ -50,6 +57,13 @@ export class SidebarComponent implements OnInit {
 
   isUserGM() {
     if (this.user_priv >=2) {
+      return true;
+    }
+    return false;
+  }
+
+  isUserAdmin() {
+    if (this.user_priv >=3) {
       return true;
     }
     return false;
@@ -168,11 +182,10 @@ export class SidebarComponent implements OnInit {
 
   refreshCharacters(): void {
     this.app.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot));
-    console.log("refreshing")
   }
 
   refreshGames(): void {
     this.app.database().ref('games/').on('value', snapshot => this.grabGames(snapshot));
-    console.log("refreshing")
   }
+
 }
