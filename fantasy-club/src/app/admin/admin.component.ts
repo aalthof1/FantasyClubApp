@@ -18,7 +18,8 @@ export class AdminComponent implements OnInit {
     this.userId = sidebar.user_id
    }
 
-  ngOnInit() { }
+  ngOnInit() {
+   }
 
 
 

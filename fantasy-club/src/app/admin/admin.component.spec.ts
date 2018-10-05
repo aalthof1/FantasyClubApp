@@ -4,11 +4,11 @@ import { AdminComponent } from './admin.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import * as firebase from 'firebase';
 
-describe('Valid Changes', () => {
+describe('AdminComponent Valid Changes', () => {
   let component: AdminComponent;
   let fixture: ComponentFixture<AdminComponent>;
   let sidebar : SidebarComponent;
-  let firebase : firebase.app.App;
+  let app : firebase.app.App;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,7 +23,7 @@ describe('Valid Changes', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     sidebar = TestBed.get(SidebarComponent);
-    firebase = component.firebase;
+    app = component.firebase;
   });
 
   it('should create', () => {
@@ -41,7 +41,7 @@ describe('Valid Changes', () => {
     var oldUserName = (document.getElementById("change-priv-username") as HTMLInputElement).value;
     (document.getElementById("change-priv-username") as HTMLInputElement).value = "Aaron Althoff";
     component.editPrivileges();
-    firebase.database().ref('user_id/fl0cFQm4xoP6EU5O90pMiEXX2x53/priv').once('value')
+    app.database().ref('user_id/fl0cFQm4xoP6EU5O90pMiEXX2x53/priv').once('value')
       .then(function(snapshot){
         expect(snapshot.val()).toEqual(1);
       });

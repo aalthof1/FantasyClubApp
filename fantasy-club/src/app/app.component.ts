@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import * as firebase from 'firebase';
 import { CurrentCharService } from "./current-char.service";
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CharSheetComponent } from './char-sheet/char-sheet.component';
-
 
 @Component({
   selector: 'app-root',
@@ -17,5 +15,6 @@ export class AppComponent implements OnInit {
   user_name: string = ""
   headline: HTMLElement;
   app: firebase.app.App;
+
   ngOnInit() {}
 }

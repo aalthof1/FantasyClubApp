@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
+
 @Component({
   selector: 'app-game-generator',
   templateUrl: './game-generator.component.html',
@@ -21,8 +22,7 @@ constructor(private sidebar: SidebarComponent) {
   this.app = sidebar.app
 }
 
-  ngOnInit() {
-  }
+  ngOnInit() {  }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
     snapshot.forEach(function (childSnapshot) {
