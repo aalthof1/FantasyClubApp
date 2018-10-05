@@ -58,6 +58,13 @@ export class SidebarComponent implements OnInit, OnChanges {
     return false;
   }
 
+  isUserAdmin() {
+    if (this.user_priv >=3) {
+      return true;
+    }
+    return false;
+  }
+
   userSetup(snapshot: firebase.database.DataSnapshot) {
     if (snapshot.hasChild(this.user_id)) {
       console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
