@@ -1,8 +1,7 @@
-import { Component, OnInit, Input, } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import * as firebase from 'firebase';
 import { CurrentCharService } from "../current-char.service";
 import { PassGameService } from "../pass-game.service";
-
 
 @Component({
   selector: 'app-sidebar',
@@ -32,8 +31,8 @@ export class SidebarComponent implements OnInit {
 
 
 
-  ngOnInit() {
-    this.app = firebase.initializeApp(this.config);
+  ngOnInit() { 
+     this.app = firebase.initializeApp(this.config);
     if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
       this.user_name = this.app.auth().currentUser.displayName;
