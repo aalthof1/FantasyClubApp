@@ -47,9 +47,9 @@
               {{game.key}}
             </li>
         <ng-container *ngIf="isUserSignedIn(); else elseTemplate">
-          <ng-container *ngIf="isUserGM()">
+          <!-- <ng-container *ngIf="isUserGM()"> -->
             <app-game-generator (refresh)="refreshGames()"></app-game-generator>
-          </ng-container>
+          <!-- </ng-container> -->
         </ng-container>
         <ng-template #elseTemplate>
           Sign in to see games

@@ -33,6 +33,13 @@ constructor(private sidebar: SidebarComponent) {
 
   ngOnInit() { }
 
+  isUserGMGame() {
+    if (this.sidebar.user_priv >=2) {
+      return true;
+    }
+    return false;
+  }
+
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
     snapshot.forEach(function (childSnapshot) {
       this.games.push(childSnapshot.key);
