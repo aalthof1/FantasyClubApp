@@ -3,7 +3,7 @@ input[type=number] {
     height: 100;
 }
 
-#submit  {
+#submit, #currentButton  {
     width: 100%;
     height: 100%;
 }

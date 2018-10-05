@@ -1,7 +1,7 @@
 import { Component, OnInit, } from '@angular/core';
 import * as firebase from 'firebase';
 import { CurrentCharService } from "../current-char.service";
-
+import { PassGameService } from "../pass-game.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -9,13 +9,14 @@ import { CurrentCharService } from "../current-char.service";
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
-
-  constructor(private currentChar: CurrentCharService) {
-
-  }
+  constructor
+  (private currentChar: CurrentCharService, private passGameService : PassGameService) {}
 
   user_id: string = "";
   user_name: string = "";
+  currChar: string = "";
+  currGame: string = "";
+  actualChar: string = "";
   user_priv: number;
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
@@ -34,7 +35,9 @@ export class SidebarComponent implements OnInit {
 
 
   ngOnInit() {
-    this.app = firebase.initializeApp(this.config);
+    if(!firebase.apps.length) {
+     this.app = firebase.initializeApp(this.config);
+    }
     if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
       this.user_name = this.app.auth().currentUser.displayName;
@@ -56,6 +59,13 @@ export class SidebarComponent implements OnInit {
     return false;
   }
 
+  isUserAdmin() {
+    if (this.user_priv >=3) {
+      return true;
+    }
+    return false;
+  }
+
   userSetup(snapshot: firebase.database.DataSnapshot) {
     if (snapshot.hasChild(this.user_id)) {
       console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
@@ -64,7 +74,7 @@ export class SidebarComponent implements OnInit {
       //we'll create the user in the database with base priviledge
       snapshot.ref.child(this.user_id).set({
         name: this.app.auth().currentUser.displayName,
-        priv: 1
+        priv: 1,
       });
       this.app.database().ref('/characters/' + this.user_id + "/");
       console.log("user created with priv level = 1");
@@ -139,6 +149,8 @@ export class SidebarComponent implements OnInit {
 
   signOut() {
     // Sign out of Firebase.
+    this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set("");
+    this.actualChar = "";
     this.app.auth().signOut();
     this.user_id = "";
     this.user_name = "";
@@ -165,15 +177,26 @@ export class SidebarComponent implements OnInit {
   //used in service, don't delete
   passCharacter(i: firebase.database.DataSnapshot) {
     this.currentChar.send(i);
+    this.currChar = i.key;
+  }
+
+  passGame(i : firebase.database.DataSnapshot) {
+    this.passGameService.send(i);
+    this.currGame = i.key;
+    console.log(this.currGame);
   }
 
   refreshCharacters(): void {
     this.app.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot));
-    console.log("refreshing")
   }
 
   refreshGames(): void {
     this.app.database().ref('games/').on('value', snapshot => this.grabGames(snapshot));
-    console.log("refreshing")
   }
+  
+  setChar(): void {
+    this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set(this.currChar);
+    this.actualChar = this.currChar;
+  }
+
 }

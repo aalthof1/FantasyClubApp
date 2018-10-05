@@ -5,7 +5,8 @@
   <div class="menu-list">
     <ul id="menu-content" class="menu-content collapse out">
       <li>
-        <i class="fa fa-dashboard fa-lg"></i> User : {{user_name}}
+        <i class="fa fa-dashboard fa-lg"></i> User : {{user_name}} <br>
+        <i class="fa fa-dashboard fa-lg"></i> Character : {{actualChar}}
       </li>
 
 
@@ -30,6 +31,7 @@
           </li>
 
           <li *ngIf="isUserSignedIn()">
+            <input type="button" (click)="setChar()" value="Set Character">
             <app-char-generator (refresh)="refreshCharacters()"></app-char-generator>
           </li>
 
@@ -41,7 +43,7 @@
       </li>
       
       <ul class="sub-menu collapse" id="games">
-          <li *ngFor="let game of games; let i = index" (click)="passCharacter(game)">
+          <li *ngFor="let game of games; let i = index" (click)="passGame(game)">
               {{game.key}}
             </li>
         <ng-container *ngIf="isUserSignedIn(); else elseTemplate">
@@ -75,7 +77,6 @@
       <ul class="sub-menu collapse no-display" id="admin">
         <app-admin></app-admin>
       </ul>
-
     </ul>
   </div>
 </div>

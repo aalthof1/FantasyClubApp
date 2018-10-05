@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { empty, EMPTY } from 'rxjs';
+import { Component, OnInit, Input } from '@angular/core'
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import * as firebase from 'firebase';
 
@@ -31,14 +30,21 @@ export class DicerollerComponent implements OnInit {
     this.amount = parseInt((document.getElementById("amount") as HTMLInputElement).value);
     this.type = parseInt((document.getElementById("type") as HTMLInputElement).value);
     this.mod = parseInt((document.getElementById("modifier") as HTMLInputElement).value);
-    if((document.getElementById("amount") as HTMLInputElement).value == "") {
-      this.amount = 0;
+    if((document.getElementById("amount") as HTMLInputElement).value == "" || parseInt((document.getElementById("amount") as HTMLInputElement).value) < 1) {
+      this.amount = 1;
+      (document.getElementById("amount") as HTMLInputElement).value = '1';
     }
-    if((document.getElementById("type") as HTMLInputElement).value == "") {
-      this.type = 0;
+    if(this.amount > 100) {
+      this.amount = 100;
+      (document.getElementById("amount") as HTMLInputElement).value = '100';
+    }
+    if((document.getElementById("type") as HTMLInputElement).value == "" || parseInt((document.getElementById("type") as HTMLInputElement).value) < 2) {
+      this.type = 2;
+      (document.getElementById("type") as HTMLInputElement).value = '2';
     }
     if((document.getElementById("modifier") as HTMLInputElement).value == "") {
       this.mod = 0;
+      (document.getElementById("modifier") as HTMLInputElement).value = '0';
     }
     var i = 0;
     this.rolls = [this.amount];
@@ -53,7 +59,8 @@ export class DicerollerComponent implements OnInit {
 
     firebase.database().ref("dice_rolls/" + this.sidebar.user_name).remove();
     for (var _i = 0; _i < this.rolls.length; _i++) {
-      firebase.database().ref("dice_rolls/" + this.sidebar.user_name + "/" + _i).set(this.rolls[_i]);
+      var temp = _i+1;
+      firebase.database().ref("dice_rolls/" + this.sidebar.user_name + "/" + temp).set(this.rolls[_i]);
     }
 
     this.total = this.total + this.mod;

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-char-generator',
@@ -15,9 +16,21 @@ export class CharGeneratorComponent implements OnInit {
   characters: Array<string> = [];
   snapshot: firebase.database.DataSnapshot;
 
+  config = {
+    apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
+    authDomain: "purdue-fantasy-club.firebaseapp.com",
+    databaseURL: "https://purdue-fantasy-club.firebaseio.com",
+    projectId: "purdue-fantasy-club",
+    storageBucket: "purdue-fantasy-club.appspot.com",
+    messagingSenderId: "625002728234"
+  }
+
   constructor(private sidebar: SidebarComponent) {
     this.userId = sidebar.user_id
     this.app = sidebar.app
+    if(this.app == null) {
+        this.app = firebase.initializeApp(this.config);
+    }
   }
   
   ngOnInit() {

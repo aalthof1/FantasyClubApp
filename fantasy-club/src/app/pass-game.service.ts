@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
+import * as firebase from 'firebase';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
+export class PassGameService {
 
-export class CurrentCharService {
+  constructor() { }
+
   private subject = new Subject<any>();
-  characterSnap: firebase.database.DataSnapshot;
+  gameSnap: firebase.database.DataSnapshot;
 
   send(snapshot) {
+    console.log('sending')
     this.subject.next({data : snapshot})
   }
 
@@ -22,6 +26,7 @@ export class CurrentCharService {
   }
 
   insertSnapshot(snapshot: firebase.database.DataSnapshot): void {
-    this.characterSnap = snapshot;
+    this.gameSnap = snapshot;
   }
+
 }
