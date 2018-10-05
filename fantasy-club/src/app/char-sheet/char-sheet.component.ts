@@ -89,4 +89,8 @@ export class CharSheetComponent implements OnInit {
     this.view = false;
     this.edit = false;
   }
+
+  setCurrent() {
+    console.log("set current button pushed")
+  }
 }

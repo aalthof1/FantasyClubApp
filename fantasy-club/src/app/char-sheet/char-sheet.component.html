@@ -2,6 +2,8 @@
   <h3 class="bg-dark text-white" >{{selectedChar.key}}</h3>
   <button (click)="viewActivate()" id="viewButton">View</button>
   <button (click)="editActivate()" id="editButton">Edit</button>
+  <button (click)="setCurrent()" id="currentButton">Set Current</button>
+  
   <br>
   <button *ngIf="edit == true" button id="submit" (click)="submitChanges()">Submit Changes</button>
 
