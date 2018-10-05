@@ -151,6 +151,7 @@ export class SidebarComponent implements OnInit {
     // Sign out of Firebase.
     this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set("");
     this.actualChar = "";
+    this.currGame = "";
     this.app.auth().signOut();
     this.user_id = "";
     this.user_name = "";

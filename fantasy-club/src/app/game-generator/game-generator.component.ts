@@ -15,6 +15,7 @@ export class GameGeneratorComponent implements OnInit {
 @Input() app;
 @Input() currChar;
 @Input() currGame;
+@Input() currpriv;
 @Output() refresh = new EventEmitter<string>();
 name: string;
 desc: string;
