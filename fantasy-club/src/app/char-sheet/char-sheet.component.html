@@ -1,18 +1,24 @@
-<div *ngIf="selectedChar;else None">
-  <h3 class="bg-dark text-white" >{{selectedChar.key}}</h3>
+<div *ngIf="selectedChar;else NoChar">
+  <h3 class="bg-dark text-white">{{selectedChar.key}}</h3>
   <button (click)="viewActivate()" id="viewButton">View</button>
   <button (click)="editActivate()" id="editButton">Edit</button>
   <button (click)="setCurrent()" id="currentButton">Set Current</button>
-  
+
   <br>
   <button *ngIf="edit == true" button id="submit" (click)="submitChanges()">Submit Changes</button>
 
 
 </div>
 
-<ng-template #None>
+<ng-template #NoChar>
   <h3>No character selected</h3>
 </ng-template>
+
+<ng-template #NoGame>
+  <br><br>
+  <h3>No game selected</h3>
+</ng-template>
+
 
 <div *ngIf="view == true">
   <div class="container-fluid">
@@ -61,4 +67,18 @@
     </div>
     <button id="submit" (click)="submitChanges()">Submit Changes</button>
   </div>
+</div>
+
+<div *ngIf="selectedGame; else NoGame">
+  <h3 class="bg-dark text-white">Session: {{selectedGame.key}}</h3>
+  <button (click)="printCharacters()">View Player Characters</button>
+  <button (click)="printGM()">View GM</button>
+  <br>
+  <h4 *ngIf="GMDisplay">GM: {{GMDisplay}}</h4>
+  <div *ngIf="playerCharacters">
+    <h5 *ngFor="let player of playerCharacters">
+      {{player}}
+    </h5>
+  </div>
+  <br>
 </div>

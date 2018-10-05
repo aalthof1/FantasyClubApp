@@ -30,6 +30,7 @@
           </li>
 
           <li *ngIf="isUserSignedIn()">
+            <input type="button" (click)="setChar()" value="Set Character">
             <app-char-generator (refresh)="refreshCharacters()"></app-char-generator>
           </li>
 
@@ -41,7 +42,7 @@
       </li>
       
       <ul class="sub-menu collapse" id="games">
-          <li *ngFor="let game of games; let i = index" (click)="passCharacter(game)">
+          <li *ngFor="let game of games; let i = index" (click)="passGame(game)">
               {{game.key}}
             </li>
         <ng-container *ngIf="isUserSignedIn(); else elseTemplate">

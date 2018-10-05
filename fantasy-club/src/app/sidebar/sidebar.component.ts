@@ -1,22 +1,27 @@
+<<<<<<< HEAD
 import { Component, OnInit, Input, OnChanges, SimpleChange, } from '@angular/core';
 import * as firebase from 'firebase';
 import { CurrentCharService } from "../current-char.service";
+=======
+import { Component, OnInit, } from '@angular/core';
+import * as firebase from 'firebase';
+import { CurrentCharService } from "../current-char.service";
+import { PassGameService } from "../pass-game.service";
+>>>>>>> 88c39c4277b0b16395f41155b858697b6e91359a
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent implements OnInit, OnChanges {
-  @Input() newCurrentChar : string = undefined;
-  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-    console.log("should have changed")
-  }
-
-  constructor(private currentChar: CurrentCharService) {}
+export class SidebarComponent implements OnInit {
+  constructor
+  (private currentChar: CurrentCharService, private passGameService : PassGameService) {}
 
   user_id: string = "";
   user_name: string = "";
+  currChar: string = "";
+  currGame: string = "";
   user_priv: number;
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
@@ -74,7 +79,7 @@ export class SidebarComponent implements OnInit, OnChanges {
       //we'll create the user in the database with base priviledge
       snapshot.ref.child(this.user_id).set({
         name: this.app.auth().currentUser.displayName,
-        priv: 1
+        priv: 1,
       });
       this.app.database().ref('/characters/' + this.user_id + "/");
       console.log("user created with priv level = 1");
@@ -175,6 +180,13 @@ export class SidebarComponent implements OnInit, OnChanges {
   //used in service, don't delete
   passCharacter(i: firebase.database.DataSnapshot) {
     this.currentChar.send(i);
+    this.currChar = i.key;
+  }
+
+  passGame(i : firebase.database.DataSnapshot) {
+    this.passGameService.send(i);
+    this.currGame = i.key;
+    console.log(this.currGame);
   }
 
   refreshCharacters(): void {
@@ -183,6 +195,10 @@ export class SidebarComponent implements OnInit, OnChanges {
 
   refreshGames(): void {
     this.app.database().ref('games/').on('value', snapshot => this.grabGames(snapshot));
+  }
+  
+  setChar(): void {
+    this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set(this.currChar);
   }
 
 }
