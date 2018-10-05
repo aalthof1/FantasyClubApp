@@ -8,6 +8,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 })
 export class GameGeneratorComponent implements OnInit {
 
+@Input() userName;
 @Input() userId;
 @Input() app;
 @Output() refresh = new EventEmitter<string>();
@@ -17,8 +18,9 @@ games: Array<string> = [];
 snapshot: firebase.database.DataSnapshot;
 
 constructor(private sidebar: SidebarComponent) {
-  this.userId = sidebar.user_name
+  this.userName = sidebar.user_name
   this.app = sidebar.app
+  this.userId = sidebar.user_id
 }
 
   ngOnInit() {
@@ -28,13 +30,14 @@ constructor(private sidebar: SidebarComponent) {
     snapshot.forEach(function (childSnapshot) {
       this.games.push(childSnapshot.key);
     }.bind(this))
-    if (this.games.includes(this.name) || this.userId == "" || this.name == "") {
+    if (this.games.includes(this.name) || this.userName == "" || this.name == "") {
       return;
     }
     else {
       var ref = snapshot.ref;
       ref.set({
-        user_name: this.userId,
+        user_name: this.userName,
+        user_id: this.userId,
         desc: this.desc
       });
     }
@@ -50,6 +53,13 @@ constructor(private sidebar: SidebarComponent) {
      this.app.database().ref('games/' + this.name + "/").once('value')
      .then(snapshot => this.grabHeroes(snapshot));
 
+  }
+
+  deleteGame() {
+    this.name = ((document.getElementById("name2") as HTMLInputElement).value);
+    if(this.app.database().ref('games/' + this.name + "/user_id").once('value') == this.userId || this.sidebar.isUserAdmin() == true) {
+      this.app.database().ref('games/' + this.name + "/").remove();
+    }
   }
     
 }
