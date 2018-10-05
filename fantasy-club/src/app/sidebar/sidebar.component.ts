@@ -45,7 +45,7 @@ export class SidebarComponent implements OnInit {
 
 
   isUserSignedIn() {
-    if (this.app.auth().currentUser != null) {
+    if (firebase.auth().currentUser != null) {
       return true;
     }
     return false;

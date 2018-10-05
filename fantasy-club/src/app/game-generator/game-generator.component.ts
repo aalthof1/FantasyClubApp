@@ -56,7 +56,7 @@ constructor(private sidebar: SidebarComponent) {
   createGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
     this.desc = ((document.getElementById("desc") as HTMLInputElement).value);
-    this.app.database().ref('games/' + this.name + "/").once('value')
+    firebase.database().ref('games/' + this.name + "/").once('value')
       .then(snapshot => this.grabHeroes(snapshot));
 
   }
@@ -75,7 +75,7 @@ constructor(private sidebar: SidebarComponent) {
   deleteGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
     if (this.app.database().ref('games/' + this.name + "/user_id").on('value') == this.userId || this.sidebar.isUserAdmin() == true && this.name != "") {
-      this.app.database().ref('games/' + this.name + "/").remove();
+      firebase.database().ref('games/' + this.name + "/").remove();
     }
   }
 

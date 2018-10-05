@@ -16,21 +16,9 @@ export class CharGeneratorComponent implements OnInit {
   characters: Array<string> = [];
   snapshot: firebase.database.DataSnapshot;
 
-  config = {
-    apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
-    authDomain: "purdue-fantasy-club.firebaseapp.com",
-    databaseURL: "https://purdue-fantasy-club.firebaseio.com",
-    projectId: "purdue-fantasy-club",
-    storageBucket: "purdue-fantasy-club.appspot.com",
-    messagingSenderId: "625002728234"
-  }
-
   constructor(private sidebar: SidebarComponent) {
     this.userId = sidebar.user_id
-    this.app = sidebar.app
-    if(this.app == null) {
-        this.app = firebase.initializeApp(this.config);
-    }
+    this.app = firebase.app;
   }
   
   ngOnInit() {
@@ -75,7 +63,7 @@ export class CharGeneratorComponent implements OnInit {
 
   createChar() {
     this.name = ((document.getElementById("name") as HTMLInputElement).value);
-    this.app.database().ref('characters/' + this.userId + "/").once('value')
+    firebase.database().ref('characters/' + this.userId + "/").once('value')
       .then(snapshot => this.grabHeroes(snapshot));
 
   }
