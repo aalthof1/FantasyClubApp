@@ -38,6 +38,7 @@ export class SidebarComponent implements OnInit {
     if(!firebase.apps.length) {
      this.app = firebase.initializeApp(this.config);
     }
+    this.signOut();
     if (this.isUserSignedIn()) {
       this.user_id = this.app.auth().currentUser.uid;
       this.user_name = this.app.auth().currentUser.displayName;
