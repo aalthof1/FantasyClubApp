@@ -37,7 +37,7 @@ export class GmComponent implements OnInit {
                 temp += "<li>" + snapshotChild.key + ": " + snapshotChild.val() + "</li>";
               }
               else {
-                temp += "<li>roll " + snapshotChild.key + ": " + snapshotChild.val() + "</li>";
+                temp += "<li>die #" + snapshotChild.key + ": " + snapshotChild.val() + "</li>";
               }
             });
             temp += "</ul>";
