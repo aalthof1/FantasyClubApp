@@ -4,7 +4,6 @@ import { PassGameService } from "../pass-game.service";
 import * as firebase from 'firebase';
 import { Subscription } from 'rxjs';
 import { _iterableDiffersFactory } from '@angular/core/src/application_module';
-import { AttachSession } from 'protractor/built/driverProviders';
 
 @Component({
   selector: 'app-char-sheet',
@@ -15,6 +14,7 @@ import { AttachSession } from 'protractor/built/driverProviders';
 export class CharSheetComponent implements OnInit {
   @Output() refresh = new EventEmitter<string>();
 
+  currentGameGM : boolean = false;
   selectedChar: firebase.database.DataSnapshot;
   selectedGame: firebase.database.DataSnapshot;
   charSubscript: Subscription;
@@ -91,11 +91,19 @@ export class CharSheetComponent implements OnInit {
     this.refresh.emit("refresh");
   }
 
-  printCharacters() {
+  printCharacters() {    
+    // console.log(firebase.auth().currentUser.uid)
+    // this.selectedGame.ref.parent.parent.child("user_id/" + firebase.auth().currentUser.uid).once("value").then(function (snapshot) {
+    // });
+    if (firebase.auth().currentUser.uid == this.selectedGame.child("user_id").val() ) {
+      this.currentGameGM = true;
+    }
+    else {
+      this.currentGameGM = false;
+    }
     this.playerCharacters = [];
     this.selectedGame.ref.once("value").then(function (snapshot) {
       this.selectedGame = snapshot;
-      console.log("changed selected Game")
     }.bind(this))
     this.selectedGame.child("characters/").forEach(child => {
       this.playerCharacters.push(child.key);

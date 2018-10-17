@@ -72,12 +72,13 @@
   <h3 class="bg-dark text-white">Session: {{selectedGame.key}}</h3>
   <button (click)="printCharacters()">View Player Characters</button>
   <button (click)="printGM()">View GM</button>
+  <button>Description</button>
   <br>
   <h4 *ngIf="GMDisplay">GM: {{GMDisplay}}</h4>
   <div *ngIf="playerCharacters">
     <h5 *ngFor="let player of playerCharacters; let i = index">
       {{player}}
-      <button (click)="removeCharacterFromGame(i)">Remove</button>
+      <button *ngIf="currentGameGM" (click)="removeCharacterFromGame(i)">Remove</button>
     </h5>
   </div>
   <br>
