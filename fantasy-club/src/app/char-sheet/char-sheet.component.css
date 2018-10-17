@@ -11,3 +11,11 @@ input[type=number] {
 #viewButton, #editButton {
     width: 50%;
 }
+
+.playerCharacterName {
+    color: blue;
+}
+
+.playerCharacterName:hover {
+    color: lightblue;
+}

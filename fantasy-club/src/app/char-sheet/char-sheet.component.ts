@@ -93,9 +93,6 @@ export class CharSheetComponent implements OnInit {
   }
 
   printCharacters() {    
-    // console.log(firebase.auth().currentUser.uid)
-    // this.selectedGame.ref.parent.parent.child("user_id/" + firebase.auth().currentUser.uid).once("value").then(function (snapshot) {
-    // });
     if (firebase.auth().currentUser.uid == this.selectedGame.child("user_id").val() ) {
       this.currentGameGM = true;
     }
@@ -127,5 +124,20 @@ export class CharSheetComponent implements OnInit {
       }
     }.bind(this));
     this.printCharacters();
+  }
+  
+  showCharacter(i : number) {
+    console.log(i)
+    firebase.database().ref().child("characters/").once("value").then(function (snapshot) {
+      snapshot.forEach(function(childsnap) {
+        childsnap.forEach(function(grandChild) {
+          if (grandChild.key == this.playerCharacters[i]) {
+            this.selectedChar = grandChild;
+            console.log(grandChild.key)
+            console.log(this.selectedChar);
+          }
+        }.bind(this))
+      }.bind(this))
+    }.bind(this));    
   }
 }

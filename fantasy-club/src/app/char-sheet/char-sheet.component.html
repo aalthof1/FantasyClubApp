@@ -76,11 +76,13 @@
   <br>
   <h4 *ngIf="description">{{description}}</h4>
   <h4 *ngIf="GMDisplay">GM: {{GMDisplay}}</h4>
-  <div *ngIf="playerCharacters">
-    <h5 *ngFor="let player of playerCharacters; let i = index">
+  <div *ngIf="playerCharacters.length > 0">
+    <br>
+    <h4>Players</h4>
+    <li class="playerCharacterName" *ngFor="let player of playerCharacters; let i = index" (click)="showCharacter(i)">
       {{player}}
       <button *ngIf="currentGameGM" (click)="removeCharacterFromGame(i)">Remove</button>
-    </h5>
+    </li>
   </div>
   <br>
 </div>
