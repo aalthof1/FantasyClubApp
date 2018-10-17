@@ -72,8 +72,9 @@
   <h3 class="bg-dark text-white">Session: {{selectedGame.key}}</h3>
   <button (click)="printCharacters()">View Player Characters</button>
   <button (click)="printGM()">View GM</button>
-  <button>Description</button>
+  <button (click)="printDesc()">Description</button>
   <br>
+  <h4 *ngIf="description">{{description}}</h4>
   <h4 *ngIf="GMDisplay">GM: {{GMDisplay}}</h4>
   <div *ngIf="playerCharacters">
     <h5 *ngFor="let player of playerCharacters; let i = index">

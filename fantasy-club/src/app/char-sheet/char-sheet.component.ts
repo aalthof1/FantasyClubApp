@@ -28,6 +28,7 @@ export class CharSheetComponent implements OnInit {
   submitValues: Array<number>;
   problem: boolean = false;
   GMDisplay: string = undefined;
+  description: string = undefined;
   playerCharacters: Array<string> = [];
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
@@ -111,6 +112,10 @@ export class CharSheetComponent implements OnInit {
   }
   printGM() {
     this.GMDisplay = this.selectedGame.child("user_name").val();
+  }
+
+  printDesc() {
+    this.description = this.selectedGame.child("desc").val();
   }
 
   removeCharacterFromGame(i: number) {
