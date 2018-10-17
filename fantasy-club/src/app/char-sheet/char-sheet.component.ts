@@ -4,6 +4,7 @@ import { PassGameService } from "../pass-game.service";
 import * as firebase from 'firebase';
 import { Subscription } from 'rxjs';
 import { _iterableDiffersFactory } from '@angular/core/src/application_module';
+import { AttachSession } from 'protractor/built/driverProviders';
 
 @Component({
   selector: 'app-char-sheet',
@@ -15,9 +16,9 @@ export class CharSheetComponent implements OnInit {
   @Output() refresh = new EventEmitter<string>();
 
   selectedChar: firebase.database.DataSnapshot;
-  selectedGame : firebase.database.DataSnapshot;
+  selectedGame: firebase.database.DataSnapshot;
   charSubscript: Subscription;
-  gameSubscript : Subscription;
+  gameSubscript: Subscription;
   view: boolean = false;
   edit: boolean = false;
   statData: ArrayLike<[string, number]>
@@ -26,14 +27,14 @@ export class CharSheetComponent implements OnInit {
   viewValues: Array<number>;
   submitValues: Array<number>;
   problem: boolean = false;
-  GMDisplay : string = undefined;
-  playerCharacters : Array<string> = [];
+  GMDisplay: string = undefined;
+  playerCharacters: Array<string> = [];
 
-  constructor(private currentCharacter: CurrentCharService, private passService : PassGameService) {
+  constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
     this.charSubscript = this.currentCharacter.get()
-    .subscribe(snapshot => (this.selectedChar = snapshot.data));
+      .subscribe(snapshot => (this.selectedChar = snapshot.data));
     this.gameSubscript = this.passService.get()
-    .subscribe(snapshot => (this.selectedGame = snapshot.data));
+      .subscribe(snapshot => (this.selectedGame = snapshot.data));
   }
 
   ngOnInit() { }
@@ -83,30 +84,19 @@ export class CharSheetComponent implements OnInit {
   }
 
   implementChanges() {
-
     this.selectedChar = null;
     this.statValues = [];
     this.view = false;
     this.edit = false;
     this.refresh.emit("refresh");
-    
-  }
-  hide() {
-    console.log("hide!")
-    this.view = false;
-    this.edit = false;
-  }
-
-  setCurrent() {
-    console.log("set current button pushed")
-  }
-
-  gameTest() {
-    console.log("test");
   }
 
   printCharacters() {
     this.playerCharacters = [];
+    this.selectedGame.ref.once("value").then(function (snapshot) {
+      this.selectedGame = snapshot;
+      console.log("changed selected Game")
+    }.bind(this))
     this.selectedGame.child("characters/").forEach(child => {
       this.playerCharacters.push(child.key);
     })
@@ -115,4 +105,14 @@ export class CharSheetComponent implements OnInit {
     this.GMDisplay = this.selectedGame.child("user_name").val();
   }
 
+  removeCharacterFromGame(i: number) {
+    const x = this.playerCharacters[i]
+    this.selectedGame.child("characters/").ref.once("value").then(function (snapshot) {
+      if (snapshot.hasChild(x)) {
+        this.selectedGame.child("characters/").child(x + "/").ref.remove();
+        this.playerCharacters.splice(i, 1);
+      }
+    }.bind(this));
+    this.printCharacters();
+  }
 }
