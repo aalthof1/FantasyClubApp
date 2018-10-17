@@ -33,9 +33,18 @@ export class CharSheetComponent implements OnInit {
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
     this.charSubscript = this.currentCharacter.get()
-      .subscribe(snapshot => (this.selectedChar = snapshot.data));
+      .subscribe( snapshot => {
+        this.view = false;
+        this.edit = false;
+        this.selectedChar = snapshot.data;
+      });
     this.gameSubscript = this.passService.get()
-      .subscribe(snapshot => (this.selectedGame = snapshot.data));
+      .subscribe(snapshot => {
+        this.playerCharacters = [];
+        this.GMDisplay = undefined;
+        this.description = undefined;
+        this.selectedGame = snapshot.data
+      });
   }
 
   ngOnInit() { }
@@ -125,16 +134,15 @@ export class CharSheetComponent implements OnInit {
     }.bind(this));
     this.printCharacters();
   }
-  
+
   showCharacter(i : number) {
-    console.log(i)
     firebase.database().ref().child("characters/").once("value").then(function (snapshot) {
       snapshot.forEach(function(childsnap) {
         childsnap.forEach(function(grandChild) {
           if (grandChild.key == this.playerCharacters[i]) {
+            this.view = false;
+            this.edit = false;    
             this.selectedChar = grandChild;
-            console.log(grandChild.key)
-            console.log(this.selectedChar);
           }
         }.bind(this))
       }.bind(this))
