@@ -10,31 +10,31 @@ import * as firebase from 'firebase';
 })
 export class GameGeneratorComponent implements OnInit {
 
-@Input() userName;
-@Input() userId;
-@Input() app;
-@Input() currChar;
-@Input() currGame;
-@Input() currpriv;
-@Output() refresh = new EventEmitter<string>();
-name: string;
-desc: string;
-games: Array<string> = [];
-snapshot: firebase.database.DataSnapshot;
+  @Input() userName;
+  @Input() userId;
+  @Input() app;
+  @Input() currChar;
+  @Input() currGame;
+  @Input() currpriv;
+  @Output() refresh = new EventEmitter<string>();
+  name: string;
+  desc: string;
+  capacity: number;
+  games: Array<string> = [];
+  snapshot: firebase.database.DataSnapshot;
 
-constructor(private sidebar: SidebarComponent) {
-  //this.userName = sidebar.user_name
-  this.app = sidebar.app
-  this.userId = sidebar.user_id
-  this.currChar = sidebar.currChar
-  this.currGame = sidebar.currGame
-}
+  constructor(private sidebar: SidebarComponent) {
+    this.app = sidebar.app
+    this.userId = sidebar.user_id
+    this.currChar = sidebar.currChar
+    this.currGame = sidebar.currGame
+  }
 
 
   ngOnInit() { }
 
   isUserGMGame() {
-    if (this.sidebar.user_priv >=2) {
+    if (this.sidebar.user_priv >= 2) {
       return true;
     }
     return false;
@@ -56,24 +56,19 @@ constructor(private sidebar: SidebarComponent) {
       });
     }
     this.refresh.emit("refresh");
-    //this.sidebar.games = [];
-    //this.sidebar.grabGames(this.app.database().ref('games/').once('value'));
-
   }
 
   createGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
     this.desc = ((document.getElementById("desc") as HTMLInputElement).value);
+    this.capacity = parseInt((document.getElementById("capacityBox") as HTMLInputElement).value);
     firebase.database().ref('games/' + this.name + "/").once('value')
       .then(snapshot => this.grabHeroes(snapshot));
 
   }
 
   joinGame() {
-    console.log(this.sidebar.currGame);
-    console.log(this.sidebar.currChar);
-    console.log(this.sidebar.user_name);
-    if(this.sidebar.currGame == "" || this.sidebar.currChar == "") {
+    if (this.sidebar.currGame == "" || this.sidebar.currChar == "") {
       return;
     }
     this.app.database().ref('games/' + this.sidebar.currGame + "/characters").child(this.sidebar.currChar).set(this.sidebar.user_name);
@@ -81,10 +76,15 @@ constructor(private sidebar: SidebarComponent) {
   }
 
   deleteGame() {
-    this.name = ((document.getElementById("name2") as HTMLInputElement).value);
-    if (this.app.database().ref('games/' + this.name + "/user_id").on('value') == this.userId || this.sidebar.isUserAdmin() == true && this.name != "") {
-      firebase.database().ref('games/' + this.name + "/").remove();
-    }
+    this.name = (document.getElementById("name2") as HTMLInputElement).value;
+    firebase.database().ref().child("games/" + this.name + "/user_id").once("value")
+      .then(function (snapshot) {
+        if (
+          this.name != "" && (this.sidebar.isUserAdmin() || snapshot.val() == this.userId)
+        ) {
+          firebase.database().ref().child("games/" + this.name + "/").remove();
+        }
+      }.bind(this))
   }
 
 
