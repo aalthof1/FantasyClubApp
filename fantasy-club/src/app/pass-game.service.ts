@@ -13,7 +13,6 @@ export class PassGameService {
   gameSnap: firebase.database.DataSnapshot;
 
   send(snapshot) {
-    console.log('sending')
     this.subject.next({data : snapshot})
   }
 

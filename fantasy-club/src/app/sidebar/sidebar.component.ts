@@ -189,6 +189,7 @@ export class SidebarComponent implements OnInit {
   passGame(i : firebase.database.DataSnapshot) {
     this.passGameService.send(i);
     this.currGame = i.key;
+    console.log(this.currGame)
   }
 
   refreshCharacters(): void {

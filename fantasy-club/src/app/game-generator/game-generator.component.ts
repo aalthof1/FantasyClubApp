@@ -80,8 +80,11 @@ export class GameGeneratorComponent implements OnInit {
         this.errorText = "game " + this.sidebar.currGame + " does not exist";
         return;
       }
-      let cap = snapshot.child("limitCapacity").val();
-      if (snapshot.child("characters").exists()) {
+      let cap = 0;
+      if (snapshot.child("capacityLimit").exists()) {
+        snapshot.child("capacityLimit").val();
+      }
+      if (cap != 0 && snapshot.child("characters").exists()) {
         if (snapshot.child("characters").numChildren() >= cap) {
           this.errorText = "this game is at capacity"
           return;

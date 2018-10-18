@@ -137,9 +137,11 @@ export class CharSheetComponent implements OnInit {
       if (snapshot.hasChild(x)) {
         this.selectedGame.child("characters/").child(x + "/").ref.remove();
         this.playerCharacters.splice(i, 1);
+        this.playerCount--;
       }
+      this.printCharacters();
+      this.refresh.emit("refresh")
     }.bind(this));
-    this.printCharacters();
   }
 
   showCharacter(i : number) {
@@ -168,7 +170,5 @@ export class CharSheetComponent implements OnInit {
       this.playerCount = 0;
     }
     this.gamePlayerCountView = true;
-
   }
-
 }
