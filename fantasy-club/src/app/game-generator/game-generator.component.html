@@ -1,6 +1,5 @@
-<p>
-  <input type="button" (click)="joinGame()" value="Join Game"> <br>
-</p>
+<input type="button" (click)="joinGame()" value="Join Game"> <br>
+<p id="errorText">{{errorText}}</p>
 <ng-container *ngIf="isUserGMGame()">
   Create Game <br>
   New Session Name:<br>

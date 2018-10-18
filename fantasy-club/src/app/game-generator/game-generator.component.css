@@ -1,3 +1,7 @@
 #capacityBox {
     width: 15%
 }
+#errorText {
+    color: pink;
+    border: 1px;
+}

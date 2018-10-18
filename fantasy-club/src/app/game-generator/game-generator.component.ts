@@ -22,6 +22,7 @@ export class GameGeneratorComponent implements OnInit {
   capacity: number;
   games: Array<string> = [];
   snapshot: firebase.database.DataSnapshot;
+  errorText: string = "";
 
   constructor(private sidebar: SidebarComponent) {
     this.app = sidebar.app
@@ -53,7 +54,7 @@ export class GameGeneratorComponent implements OnInit {
         user_name: this.sidebar.user_name,
         user_id: this.sidebar.user_id,
         desc: this.desc,
-        capacityLimit : this.capacity
+        capacityLimit: this.capacity
       });
     }
     this.refresh.emit("refresh");
@@ -69,11 +70,26 @@ export class GameGeneratorComponent implements OnInit {
   }
 
   joinGame() {
+    this.errorText = "";
     if (this.sidebar.currGame == "" || this.sidebar.currChar == "") {
       return;
     }
-    this.app.database().ref('games/' + this.sidebar.currGame + "/characters").child(this.sidebar.currChar).set(this.sidebar.user_name);
 
+    this.app.database().ref("games/" + this.sidebar.currGame).once("value").then(function (snapshot) {
+      if (!snapshot.exists()) {
+        this.errorText = "game " + this.sidebar.currGame + " does not exist";
+        return;
+      }
+      let cap = snapshot.child("limitCapacity").val();
+      if (snapshot.child("characters").exists()) {
+        if (snapshot.child("characters").numChildren() >= cap) {
+          this.errorText = "this game is at capacity"
+          return;
+        }
+      }
+      this.app.database().ref('games/' + this.sidebar.currGame + "/characters").child(this.sidebar.currChar).set(this.sidebar.user_name);
+
+    }.bind(this))
   }
 
   deleteGame() {
@@ -86,7 +102,7 @@ export class GameGeneratorComponent implements OnInit {
           firebase.database().ref().child("games/" + this.name + "/").remove();
         }
       }.bind(this))
-      this.refresh.emit("refresh")
+    this.refresh.emit("refresh")
   }
 
 
