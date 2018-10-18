@@ -40,7 +40,7 @@ export class GameGeneratorComponent implements OnInit {
     return false;
   }
 
-  grabHeroes(snapshot: firebase.database.DataSnapshot) {
+  inputGame(snapshot: firebase.database.DataSnapshot) {
     snapshot.forEach(function (childSnapshot) {
       this.games.push(childSnapshot.key);
     }.bind(this))
@@ -52,7 +52,8 @@ export class GameGeneratorComponent implements OnInit {
       ref.set({
         user_name: this.sidebar.user_name,
         user_id: this.sidebar.user_id,
-        desc: this.desc
+        desc: this.desc,
+        capacityLimit : this.capacity
       });
     }
     this.refresh.emit("refresh");
@@ -63,7 +64,7 @@ export class GameGeneratorComponent implements OnInit {
     this.desc = ((document.getElementById("desc") as HTMLInputElement).value);
     this.capacity = parseInt((document.getElementById("capacityBox") as HTMLInputElement).value);
     firebase.database().ref('games/' + this.name + "/").once('value')
-      .then(snapshot => this.grabHeroes(snapshot));
+      .then(snapshot => this.inputGame(snapshot));
 
   }
 
@@ -85,6 +86,7 @@ export class GameGeneratorComponent implements OnInit {
           firebase.database().ref().child("games/" + this.name + "/").remove();
         }
       }.bind(this))
+      this.refresh.emit("refresh")
   }
 
 
