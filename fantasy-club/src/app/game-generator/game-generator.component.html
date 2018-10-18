@@ -2,12 +2,14 @@
   <input type="button" (click)="joinGame()" value="Join Game"> <br>
 </p>
 <ng-container *ngIf="isUserGMGame()">
-Create Game <br>
-New Session Name:<br>
+  Create Game <br>
+  New Session Name:<br>
   <input type="text" id="name2"><br>
   New Session Description:<br>
   <input type="text" id="desc"><br>
+  Capacity (optional) :
+  <input id="capacityBox" type="number" value="0" min="0"> <br>
   <input type="button" (click)="createGame()" value="Submit">
   <input type="button" (click)="deleteGame()" value="Remove">
   <input type="button" (click)="archiveGame()" value="Archive">
-  </ng-container>
+</ng-container>
