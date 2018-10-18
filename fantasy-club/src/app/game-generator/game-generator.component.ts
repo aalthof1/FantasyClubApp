@@ -88,7 +88,6 @@ export class GameGeneratorComponent implements OnInit {
         }
       }
       this.app.database().ref('games/' + this.sidebar.currGame + "/characters").child(this.sidebar.currChar).set(this.sidebar.user_name);
-
     }.bind(this))
   }
 
