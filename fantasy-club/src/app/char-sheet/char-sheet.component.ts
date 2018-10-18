@@ -30,6 +30,9 @@ export class CharSheetComponent implements OnInit {
   GMDisplay: string = undefined;
   description: string = undefined;
   playerCharacters: Array<string> = [];
+  capacity : number = undefined;
+  gamePlayerCountView : boolean = false;
+  playerCount : number = 0;
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
     this.charSubscript = this.currentCharacter.get()
@@ -40,10 +43,14 @@ export class CharSheetComponent implements OnInit {
       });
     this.gameSubscript = this.passService.get()
       .subscribe(snapshot => {
+        this.playerCount = 0;
+        this.gamePlayerCountView = false;
+        this.capacity = undefined;
         this.playerCharacters = [];
         this.GMDisplay = undefined;
         this.description = undefined;
         this.selectedGame = snapshot.data
+        this.getCapacity();
       });
   }
 
@@ -148,4 +155,20 @@ export class CharSheetComponent implements OnInit {
       }.bind(this))
     }.bind(this));    
   }
+
+
+  getCapacity(): void {
+    if (this.selectedGame.hasChild("capacityLimit")) {
+      this.capacity = this.selectedGame.child("capacityLimit").val();
+    }
+    if (this.selectedGame.child("characters").hasChildren()) {
+      this.playerCount = this.selectedGame.child("characters").numChildren();
+    }
+    else {
+      this.playerCount = 0;
+    }
+    this.gamePlayerCountView = true;
+
+  }
+
 }
