@@ -10,7 +10,7 @@ import { PassGameService } from "../pass-game.service";
 })
 export class SidebarComponent implements OnInit {
   constructor
-  (private currentChar: CurrentCharService, private passGameService : PassGameService) {}
+  (private currentChar: CurrentCharService, private passGameService : PassGameService/*, private passCIService : PassCIService*/) {}
 
   user_id: string = "";
   user_name: string = "";
@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit {
   user_priv: number;
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
-
+  createdItems: Array<firebase.database.DataSnapshot> = [];
 
   config = {
     apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
@@ -160,6 +160,7 @@ export class SidebarComponent implements OnInit {
     this.user_id = "";
     this.user_name = "";
     this.games = [];
+    this.createdItems = [];
     document.getElementById("admin-container").classList.add("no-display");
     document.getElementById("admin").classList.add("no-display");
     document.getElementById("gm-container").classList.add("no-display");
@@ -180,6 +181,13 @@ export class SidebarComponent implements OnInit {
     }.bind(this))
   }
 
+  grabcreatedItems(snapshot: firebase.database.DataSnapshot) {
+    this.createdItems = [];
+    snapshot.forEach(function (childSnapshot) {
+      this.games.push(childSnapshot);
+    }.bind(this))
+  }
+
   //used in service, don't delete
   passCharacter(i: firebase.database.DataSnapshot) {
     this.currentChar.send(i);
@@ -187,6 +195,12 @@ export class SidebarComponent implements OnInit {
   }
 
   passGame(i : firebase.database.DataSnapshot) {
+    this.passGameService.send(i);
+    this.currGame = i.key;
+    console.log(this.currGame)
+  }
+//TODO fix this VVVVVV
+  passCreatedItems(i : firebase.database.DataSnapshot) {
     this.passGameService.send(i);
     this.currGame = i.key;
     console.log(this.currGame)
@@ -199,7 +213,11 @@ export class SidebarComponent implements OnInit {
   refreshGames(): void {
     this.app.database().ref('games/').on('value', snapshot => this.grabGames(snapshot));
   }
-  
+  //TODO fix this VVVVVVVV
+  refreshCreatedItems(): void {
+    this.app.database().ref('items/' + this.user_id + "/").on('value', snapshot => this.grabcreatedItems(snapshot));
+  }
+
   setChar(): void {
     this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set(this.currChar);
     this.actualChar = this.currChar;
