@@ -26,6 +26,13 @@ export class ItemCreatorComponent implements OnInit {
   ngOnInit() {
   }
 
+  isUserGM() {
+    if (this.sidebar.user_priv >= 2) {
+      return true;
+    }
+    return false;
+  }
+
   inputItem(snapshot: firebase.database.DataSnapshot) {
     snapshot.forEach(function (childSnapshot) {
       this.items.push(childSnapshot.key);
