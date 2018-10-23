@@ -9,6 +9,7 @@ import { CharGeneratorComponent } from './char-generator/char-generator.componen
 import { AdminComponent } from './admin/admin.component';
 import { GameGeneratorComponent } from './game-generator/game-generator.component';
 import { GmComponent } from './gm/gm.component';
+import { ItemCreatorComponent } from './item-creator/item-creator.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { GmComponent } from './gm/gm.component';
     AdminComponent,
     GameGeneratorComponent,
     GmComponent,
+    ItemCreatorComponent,
   ],
   imports: [
     BrowserModule
