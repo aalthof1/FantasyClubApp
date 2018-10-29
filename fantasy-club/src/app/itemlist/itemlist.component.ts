@@ -12,8 +12,11 @@ export class ItemlistComponent implements OnInit {
   publicItems: Array<firebase.database.DataSnapshot> = [];
   privateItems: Array<firebase.database.DataSnapshot> = [];
   selectedItem: firebase.database.DataSnapshot = null;
-  GMStatus: boolean = false;
-  editDisplay: boolean = false;
+  selectedItemType: string = undefined;
+  GMStatus:boolean = false;
+  editDisplay:boolean = false;
+  shareMenuToggle: boolean = false;
+
 
   constructor() { }
 
@@ -75,12 +78,25 @@ export class ItemlistComponent implements OnInit {
   }
   setSelectedItem(x: firebase.database.DataSnapshot) {
     this.selectedItem = x;
+    if (this.selectedItem != undefined) {
+      if (this.selectedItem.ref.parent.parent.key == "private") {
+        this.selectedItemType = "private";
+      }
+      else {
+        this.selectedItemType = "public";
+      }
+    }
+    else {
+      this.selectedItemType = undefined;
+    }
+
   }
   displayEditor() {
     if (firebase.auth().currentUser == null || this.isUserGM() == false) {
       return;
     }
     this.editDisplay = true;
+    this.shareMenuToggle = false;
   }
   updateItem() {
     let x: HTMLInputElement = document.getElementById("itemNameInput") as HTMLInputElement;
@@ -110,10 +126,33 @@ export class ItemlistComponent implements OnInit {
         }
       )
     }
-    this.selectedItem = undefined;
+    this.setSelectedItem(undefined);
     this.editDisplay = false;
   }
   removeItem(x: firebase.database.DataSnapshot) {
     x.ref.remove()
+  }
+  shareMenu() {
+    this.shareMenuToggle = !this.shareMenuToggle;
+    this.editDisplay = false;
+  }
+  shareWithGM() {
+    let x: HTMLInputElement = document.getElementById("inputGM") as HTMLInputElement;
+    if (x.value == "") {
+      return;
+    }
+    let gmID : string = undefined;
+    firebase.database().ref("user_id/").once("value").then(function (snapshot) {
+      snapshot.forEach(function(childsnap) {
+        if (childsnap.child("name").val() == x.value) {
+          gmID = childsnap.key;
+          firebase.database().ref("items/private/" + gmID).child(this.selectedItem.key).set({
+            creatorID : this.selectedItem.child("creatorID").val(),
+            creatorName : this.selectedItem.child("creatorName").val(),
+            desc : this.selectedItem.child("desc").val()
+          })
+        }
+      }.bind(this))
+    }.bind(this))
   }
 }

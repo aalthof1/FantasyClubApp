@@ -44,11 +44,17 @@
     </ul>
     <button (click)="setSelectedItem(undefined)">Hide</button>
     <button (click)="displayEditor()" *ngIf="GMStatus">Edit</button>
+    <button *ngIf="selectedItemType == 'private'" (click)="shareMenu()">Share</button>
     <div *ngIf="editDisplay">
         <input required type="text" id="itemNameInput" value="{{selectedItem.key}}">
         <br>
         <textarea id="itemDescription" cols="40" rows="5" required>{{selectedItem.child('desc').val()}}</textarea>
         <br>
         <button (click)="updateItem()">Submit</button>
+    </div>
+
+    <div *ngIf="shareMenuToggle" class="shareMenu">
+        <input required type="text" id="inputGM" placeholder="Share with who?">
+        <button (click)="shareWithGM()">Submit</button>
     </div>
 </div>
