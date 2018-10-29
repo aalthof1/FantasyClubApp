@@ -1,0 +1,16 @@
+<div *ngIf="GMStatus">
+    <h2>Private Items</h2>
+    <button (click)=privateButton()>View</button>
+    <br>
+    <br>
+</div>
+
+<h2>Public Items</h2>
+<button (click)=publicButton()>View</button>
+<div *ngIf="publicToggle">
+    <ul>
+        <li class="itemCategory" *ngFor="let item of publicItems" (click)="setCurrentItem(item)">
+            {{item.key}}
+        </li>
+    </ul>
+</div>

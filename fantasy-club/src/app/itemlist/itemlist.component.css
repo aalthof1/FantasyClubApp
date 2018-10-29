@@ -1,0 +1,7 @@
+.itemCategory {
+    color: blue;
+}
+
+.itemCategory:hover {
+    color: lightblue;
+}

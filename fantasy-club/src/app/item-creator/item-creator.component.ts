@@ -60,10 +60,14 @@ export class ItemCreatorComponent implements OnInit {
   createPublicItem() {
     this.name = ((document.getElementById("itemName") as HTMLInputElement).value);
     this.desc = ((document.getElementById("itemDesc") as HTMLInputElement).value);
-    firebase.database().ref('items/public/' + this.sidebar.user_id + "/" + this.name + "/").once('value')
-      .then(snapshot => this.inputItem(snapshot));
-
-
+    firebase.database().ref('items/public/' + this.name + "/").set(
+      {
+        name :  this.name,
+        creatorName : firebase.auth().currentUser.displayName,
+        creatorID : firebase.auth().currentUser.uid,
+        desc : this.desc
+      }
+    )
   }
 
 }
