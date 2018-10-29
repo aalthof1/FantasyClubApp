@@ -7,10 +7,35 @@
 
 <h2>Public Items</h2>
 <button (click)=publicButton()>View</button>
+<br>
+<br>
 <div *ngIf="publicToggle">
     <ul>
-        <li class="itemCategory" *ngFor="let item of publicItems" (click)="setCurrentItem(item)">
+        <li class="itemCategory" *ngFor="let item of publicItems" (click)="setSelectedItem(item)">
             {{item.key}}
         </li>
     </ul>
+</div>
+<br>
+<br>
+
+<div *ngIf="selectedItem">
+    <h2>{{selectedItem.key}}</h2>
+    <ul>
+        <li>
+            Creator : {{selectedItem.child("creatorName").val()}}
+        </li>
+        <li>
+            Description : <br>
+            <p class="descriptionText">{{selectedItem.child("desc").val()}}</p>
+        </li>
+    </ul>
+    <button (click)="displayEditor()">Edit</button>
+    <div *ngIf="editDisplay">
+        <input required type="text" id="itemNameInput" value="{{selectedItem.key}}">
+        <br>
+        <textarea id="itemDescription" cols="40" rows="5" required>{{selectedItem.child('desc').val()}}</textarea>
+        <br>
+        <button (click)="updateItem()">Submit</button>
+    </div>
 </div>

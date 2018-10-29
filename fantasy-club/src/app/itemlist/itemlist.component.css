@@ -5,3 +5,9 @@
 .itemCategory:hover {
     color: lightblue;
 }
+
+.descriptionText {
+    margin-left: 50px;
+    text-align: justify;
+    letter-spacing: 3px;     
+}

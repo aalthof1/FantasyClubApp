@@ -11,6 +11,8 @@ export class ItemlistComponent implements OnInit {
   publicToggle: boolean = false;
   publicItems: Array<firebase.database.DataSnapshot> = [];
   GMStatus: boolean = false;
+  selectedItem : firebase.database.DataSnapshot = null;
+  editDisplay : boolean = false;
 
   constructor() { }
 
@@ -57,7 +59,35 @@ export class ItemlistComponent implements OnInit {
         }
       }.bind(this))
   }
-  setCurrentItem(x : firebase.database.DataSnapshot) {
-    console.log(x)
+  setSelectedItem(x : firebase.database.DataSnapshot) {
+    this.selectedItem = x;
+  }
+  displayEditor() {
+    if (firebase.auth().currentUser == null || this.isUserGM() == false) {
+      return;
+    }
+    this.editDisplay = true;
+  }
+  updateItem() {
+    let x : HTMLInputElement = document.getElementById("itemNameInput") as HTMLInputElement;
+    let y : HTMLTextAreaElement= document.getElementById("itemDescription") as HTMLTextAreaElement;
+    if (x.value == "" || y.value == "") {
+      return;
+    }
+    //committed to updating the item
+    let cID= this.selectedItem.child("creatorID").val();
+    let cName = this.selectedItem.child("creatorName").val();
+    this.selectedItem.ref.remove();
+    
+    firebase.database().ref("items/public/" + x.value).set(
+      {
+        creatorID : cID,
+        creatorName : cName,
+        desc : y.value
+      }
+    )
+    this.selectedItem = undefined;
+    this.editDisplay = false;
+    
   }
 }

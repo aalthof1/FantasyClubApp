@@ -62,7 +62,6 @@ export class ItemCreatorComponent implements OnInit {
     this.desc = ((document.getElementById("itemDesc") as HTMLInputElement).value);
     firebase.database().ref('items/public/' + this.name + "/").set(
       {
-        name :  this.name,
         creatorName : firebase.auth().currentUser.displayName,
         creatorID : firebase.auth().currentUser.uid,
         desc : this.desc
