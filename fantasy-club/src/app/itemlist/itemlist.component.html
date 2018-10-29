@@ -1,6 +1,16 @@
 <div *ngIf="GMStatus">
     <h2>Private Items</h2>
     <button (click)=privateButton()>View</button>
+    <div *ngIf="privateToggle">
+        <ul>
+            <li class="itemCategory" *ngFor="let item of privateItems">
+                <button>Remove</button>
+                <button (click)="setSelectedItem(item)">Select</button>
+                {{item.key}}
+            </li>
+            <p *ngIf="privateItems.length == 0">You have no private items</p>
+        </ul>
+    </div>
     <br>
     <br>
 </div>
@@ -11,7 +21,6 @@
 <br>
 <div *ngIf="publicToggle">
     <ul>
-
         <li class="itemCategory" *ngFor="let item of publicItems">
             <button *ngIf="GMStatus" (click)="removeItem(item)">Remove</button>
             <button (click)="setSelectedItem(item)">Select</button>

@@ -32,29 +32,20 @@ export class ItemCreatorComponent implements OnInit {
     }
     return false;
   }
-
-  inputItem(snapshot: firebase.database.DataSnapshot) {
-    snapshot.forEach(function (childSnapshot) {
-      this.items.push(childSnapshot.key);
-    }.bind(this))
-    if (this.items.includes(this.name) || this.name == "") {
-      return;
-    }
-    else {
-      var ref = snapshot.ref;
-      ref.set({
-        desc: this.desc,
-      });
-    }
-    this.refresh.emit("refresh");
-  }
-
-  createItem() {
+  
+  createPrivateItem() {
     this.name = ((document.getElementById("itemName") as HTMLInputElement).value);
     this.desc = ((document.getElementById("itemDesc") as HTMLInputElement).value);
-    firebase.database().ref('items/' + this.sidebar.user_id + "/" + this.name).once('value')
-      .then(snapshot => this.inputItem(snapshot));
-
+    if (this.name == "" || this.desc == "") {
+      return;
+    }
+    firebase.database().ref('items/private/' + this.sidebar.user_id + "/" + this.name).set(
+      {
+        creatorID: firebase.auth().currentUser.uid,
+        creatorName: firebase.auth().currentUser.displayName,
+        desc: this.desc
+      }
+    )
   }
 
   createPublicItem() {
@@ -62,9 +53,9 @@ export class ItemCreatorComponent implements OnInit {
     this.desc = ((document.getElementById("itemDesc") as HTMLInputElement).value);
     firebase.database().ref('items/public/' + this.name + "/").set(
       {
-        creatorName : firebase.auth().currentUser.displayName,
-        creatorID : firebase.auth().currentUser.uid,
-        desc : this.desc
+        creatorName: firebase.auth().currentUser.displayName,
+        creatorID: firebase.auth().currentUser.uid,
+        desc: this.desc
       }
     )
   }

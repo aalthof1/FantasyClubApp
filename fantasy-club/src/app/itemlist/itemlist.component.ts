@@ -10,9 +10,10 @@ export class ItemlistComponent implements OnInit {
   privateToggle: boolean = false;
   publicToggle: boolean = false;
   publicItems: Array<firebase.database.DataSnapshot> = [];
+  privateItems: Array<firebase.database.DataSnapshot> = [];
+  selectedItem: firebase.database.DataSnapshot = null;
   GMStatus: boolean = false;
-  selectedItem : firebase.database.DataSnapshot = null;
-  editDisplay : boolean = false;
+  editDisplay: boolean = false;
 
   constructor() { }
 
@@ -20,8 +21,10 @@ export class ItemlistComponent implements OnInit {
   }
 
   privateButton() {
-    if (this.isUserGM()) {
-      this.privateToggle = !this.privateToggle;
+    this.isUserGM();
+    this.privateToggle = !this.privateToggle;
+    if (this.privateToggle) {
+      this.fillPrivate()
     }
   }
   publicButton() {
@@ -32,13 +35,23 @@ export class ItemlistComponent implements OnInit {
     }
   }
 
+  fillPrivate() {
+    this.isUserGM();
+    firebase.database().ref("items/private/" + firebase.auth().currentUser.uid).on("value",
+      function (snapshot) {
+        this.privateItems = [];
+        snapshot.forEach(function (childsnap) {
+          this.privateItems.push(childsnap);
+        }.bind(this))
+      }.bind(this))
+  }
+
   fillPublic() {
-    this.publicItems = [];
     this.isUserGM();
     firebase.database().ref("items/public").on("value",
       function (snapshot) {
         this.publicItems = [];
-        snapshot.forEach(function(childsnap) {
+        snapshot.forEach(function (childsnap) {
           this.publicItems.push(childsnap);
         }.bind(this))
       }.bind(this))
@@ -60,7 +73,7 @@ export class ItemlistComponent implements OnInit {
         }
       }.bind(this))
   }
-  setSelectedItem(x : firebase.database.DataSnapshot) {
+  setSelectedItem(x: firebase.database.DataSnapshot) {
     this.selectedItem = x;
   }
   displayEditor() {
@@ -70,28 +83,37 @@ export class ItemlistComponent implements OnInit {
     this.editDisplay = true;
   }
   updateItem() {
-    let x : HTMLInputElement = document.getElementById("itemNameInput") as HTMLInputElement;
-    let y : HTMLTextAreaElement= document.getElementById("itemDescription") as HTMLTextAreaElement;
+    let x: HTMLInputElement = document.getElementById("itemNameInput") as HTMLInputElement;
+    let y: HTMLTextAreaElement = document.getElementById("itemDescription") as HTMLTextAreaElement;
     if (x.value == "" || y.value == "") {
       return;
     }
     //committed to updating the item
-    let cID= this.selectedItem.child("creatorID").val();
+    let cID = this.selectedItem.child("creatorID").val();
     let cName = this.selectedItem.child("creatorName").val();
     this.selectedItem.ref.remove();
-    
-    firebase.database().ref("items/public/" + x.value).set(
-      {
-        creatorID : cID,
-        creatorName : cName,
-        desc : y.value
-      }
-    )
+    if (this.selectedItem.ref.parent.parent.key == "private") {
+      firebase.database().ref("items/private/" + firebase.auth().currentUser.uid + "/" + x.value).set(
+        {
+          creatorID: cID,
+          creatorName: cName,
+          desc: y.value
+        }
+      )
+    }
+    else {
+      firebase.database().ref("items/public/" + x.value).set(
+        {
+          creatorID: cID,
+          creatorName: cName,
+          desc: y.value
+        }
+      )
+    }
     this.selectedItem = undefined;
     this.editDisplay = false;
-    
   }
-  removeItem(x : firebase.database.DataSnapshot) {
+  removeItem(x: firebase.database.DataSnapshot) {
     x.ref.remove()
   }
 }
