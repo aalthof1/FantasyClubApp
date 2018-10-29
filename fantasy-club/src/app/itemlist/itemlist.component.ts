@@ -34,6 +34,7 @@ export class ItemlistComponent implements OnInit {
 
   fillPublic() {
     this.publicItems = [];
+    this.isUserGM();
     firebase.database().ref("items/public").on("value",
       function (snapshot) {
         this.publicItems = [];
@@ -89,5 +90,8 @@ export class ItemlistComponent implements OnInit {
     this.selectedItem = undefined;
     this.editDisplay = false;
     
+  }
+  removeItem(x : firebase.database.DataSnapshot) {
+    x.ref.remove()
   }
 }

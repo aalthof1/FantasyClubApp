@@ -11,7 +11,10 @@
 <br>
 <div *ngIf="publicToggle">
     <ul>
-        <li class="itemCategory" *ngFor="let item of publicItems" (click)="setSelectedItem(item)">
+
+        <li class="itemCategory" *ngFor="let item of publicItems">
+            <button *ngIf="GMStatus" (click)="removeItem(item)">Remove</button>
+            <button (click)="setSelectedItem(item)">Select</button>
             {{item.key}}
         </li>
     </ul>
@@ -30,7 +33,8 @@
             <p class="descriptionText">{{selectedItem.child("desc").val()}}</p>
         </li>
     </ul>
-    <button (click)="displayEditor()">Edit</button>
+    <button (click)="setSelectedItem(undefined)">Hide</button>
+    <button (click)="displayEditor()" *ngIf="GMStatus">Edit</button>
     <div *ngIf="editDisplay">
         <input required type="text" id="itemNameInput" value="{{selectedItem.key}}">
         <br>
