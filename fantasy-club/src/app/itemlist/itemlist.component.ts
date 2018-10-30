@@ -13,9 +13,16 @@ export class ItemlistComponent implements OnInit {
   privateItems: Array<firebase.database.DataSnapshot> = [];
   selectedItem: firebase.database.DataSnapshot = null;
   selectedItemType: string = undefined;
+  trapToggle: boolean = false;
+  traps: Array<firebase.database.DataSnapshot> = [];
+  selectedTrap: firebase.database.DataSnapshot = null;
   GMStatus:boolean = false;
   editDisplay:boolean = false;
   shareMenuToggle: boolean = false;
+  d: number
+  c: number
+  rolls : Array<number>;
+  total : number;
 
 
   constructor() { }
@@ -101,6 +108,7 @@ export class ItemlistComponent implements OnInit {
   updateItem() {
     let x: HTMLInputElement = document.getElementById("itemNameInput") as HTMLInputElement;
     let y: HTMLTextAreaElement = document.getElementById("itemDescription") as HTMLTextAreaElement;
+
     if (x.value == "" || y.value == "") {
       return;
     }
@@ -117,7 +125,7 @@ export class ItemlistComponent implements OnInit {
         }
       )
     }
-    else {
+    else if (this.selectedItem.ref.parent.parent.key == "public"){
       firebase.database().ref("items/public/" + x.value).set(
         {
           creatorID: cID,
@@ -125,6 +133,30 @@ export class ItemlistComponent implements OnInit {
           desc: y.value
         }
       )
+    }
+    else {
+      this.d = parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value);
+      this.c = parseInt((document.getElementById("diceType2") as HTMLInputElement).value);
+
+      if((document.getElementById("diceAmount2") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value) < 1) {
+        this.d = 1;
+      }
+      if(this.d > 100) {
+        this.d = 100;
+      }
+      if((document.getElementById("diceType2") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceType2") as HTMLInputElement).value) < 2) {
+        this.c = 2;
+      }
+      
+      firebase.database().ref("traps/" + firebase.auth().currentUser.uid + "/" + x.value).set(
+        {
+          creatorName: cName,
+          desc: y.value,
+          diceAmount: this.d,
+          diceType: this.c
+        }
+      )
+
     }
     this.setSelectedItem(undefined);
     this.editDisplay = false;
@@ -154,5 +186,42 @@ export class ItemlistComponent implements OnInit {
         }
       }.bind(this))
     }.bind(this))
+  }
+
+  trapButton() {
+    this.isUserGM();
+    this.trapToggle = !this.trapToggle;
+    if (this.trapToggle) {
+      this.fillTraps()
+    }
+  }
+  fillTraps() {
+    this.isUserGM();
+    firebase.database().ref("traps/" + firebase.auth().currentUser.uid).on("value",
+      function (snapshot) {
+        this.traps = [];
+        snapshot.forEach(function (childsnap) {
+          this.traps.push(childsnap);
+        }.bind(this))
+      }.bind(this))
+  }
+
+  setSelectedTrap(x: firebase.database.DataSnapshot) {
+    this.selectedItem = x;
+    this.selectedItemType = "trap";
+  }
+
+  rollTrap() {
+    var amount = this.selectedItem.child('diceAmount').val()
+    var type = this.selectedItem.child('diceType').val()
+
+    var i = 0;
+    this.rolls = [amount];
+    this.total = 0;
+    for(i = 0; i < amount; i++) {
+      var result = Math.floor(Math.random() * type) + 1;
+      this.rolls[i] = result;
+      this.total = this.total + result;
+    }
   }
 }

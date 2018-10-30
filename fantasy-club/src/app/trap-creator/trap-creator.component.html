@@ -7,9 +7,15 @@
   <br>
   <input type="text" id="trapDesc">
   <br>
-  Dice Rolls (Optional):
+  Dice Rolls:
   <br>
-  <input type="number" id="diceAmount"> d <input type="number" id="diceType">
+  Amount:
+  <br>
+  <input type="number" id="diceAmount" min="1"> 
+  <br>
+  Type:
+  <br>
+  <input type="number" id="diceType" min="2">
   <br>
   <input type="button" (click)="createTrap()" value="Create New Trap">
   <br>
