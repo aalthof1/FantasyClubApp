@@ -7,6 +7,16 @@
   <br>
   <input type="text" id="spellDesc">
   <br>
+  Dice Rolls:
+  <br>
+  Amount:
+  <br>
+  <input type="number" id="spellDiceAmount" min="1"> 
+  <br>
+  Type:
+  <br>
+  <input type="number" id="spellDiceType" min="2">
+  <br>
   <input type="button" (click)="createPrivateSpell()" value="Create Private Item">
   <div *ngIf=isUserGM()><input type="button" (click)="createPublicSpell()" value="Create Public Item"></div>
   <br>
