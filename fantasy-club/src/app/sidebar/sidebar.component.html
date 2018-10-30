@@ -78,6 +78,13 @@
         <app-item-creator (refresh)="refreshCreatedItems()"></app-item-creator>
       </ul>
 
+      <li data-toggle="collapse" data-target="#spells" class="collapsed" id="spell-container">
+        <a href="#"><i class="fa fa-globe fa-lg"></i> Abilities <span class="arrow"></span></a>
+      </li>
+      <ul class="sub-menu collapse" id="spells">
+        <app-spellcard-creator></app-spellcard-creator>
+      </ul>
+
       <li data-toggle="collapse" data-target="#traps" class="collapsed" id="trap-container">
         <a href="#"><i class="fa fa-globe fa-lg"></i> Traps <span class="arrow"></span></a>
       </li>

@@ -1,3 +1,13 @@
-<p>
-  spellcard-creator works!
-</p>
+<ng-container *ngIf="isUserLogged()">
+  New Ability Card:
+  <br>
+  <input type="text" id="spellName">
+  <br>
+  New Ability Description:
+  <br>
+  <input type="text" id="spellDesc">
+  <br>
+  <input type="button" (click)="createPrivateSpell()" value="Create Private Item">
+  <div *ngIf=isUserGM()><input type="button" (click)="createPublicSpell()" value="Create Public Item"></div>
+  <br>
+</ng-container>
