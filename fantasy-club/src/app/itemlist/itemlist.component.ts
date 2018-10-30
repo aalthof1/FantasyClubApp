@@ -21,6 +21,8 @@ export class ItemlistComponent implements OnInit {
   shareMenuToggle: boolean = false;
   d: number
   c: number
+  rolls : Array<number>;
+  total : number;
 
 
   constructor() { }
@@ -207,5 +209,19 @@ export class ItemlistComponent implements OnInit {
   setSelectedTrap(x: firebase.database.DataSnapshot) {
     this.selectedItem = x;
     this.selectedItemType = "trap";
+  }
+
+  rollTrap() {
+    var amount = this.selectedItem.child('diceAmount').val()
+    var type = this.selectedItem.child('diceType').val()
+
+    var i = 0;
+    this.rolls = [amount];
+    this.total = 0;
+    for(i = 0; i < amount; i++) {
+      var result = Math.floor(Math.random() * type) + 1;
+      this.rolls[i] = result;
+      this.total = this.total + result;
+    }
   }
 }
