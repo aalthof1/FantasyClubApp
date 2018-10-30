@@ -1,0 +1,16 @@
+<ng-container *ngIf="isUserGM()">
+  New Trap Name:
+  <br>
+  <input type="text" id="trapName">
+  <br>
+  New Item Description:
+  <br>
+  <input type="text" id="trapDesc">
+  <br>
+  Dice Rolls (Optional):
+  <br>
+  <input type="number" id="diceAmount"> d <input type="number" id="diceType">
+  <br>
+  <input type="button" (click)="createTrap()" value="Create New Trap">
+  <br>
+</ng-container>
