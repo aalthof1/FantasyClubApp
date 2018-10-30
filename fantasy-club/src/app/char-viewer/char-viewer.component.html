@@ -10,7 +10,7 @@
         {{name}}
         <ul>
           <div *ngIf="i == friendCharIndex && friendChars.length > 0">
-            <li *ngFor="let character of friendChars">{{character.key}}</li>
+            <li *ngFor="let character of friendChars; let j = index">{{character.key}}</li>
           </div>
         </ul>
       </li>

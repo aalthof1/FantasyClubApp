@@ -18,7 +18,7 @@
     <div *ngIf="privateToggle">
         <ul>
             <li class="itemCategory" *ngFor="let item of privateItems">
-                <button>Remove</button>
+                <button (click)="removeItem(item)">Remove</button>
                 <button (click)="setSelectedItem(item)">Select</button>
                 {{item.key}}
             </li>
