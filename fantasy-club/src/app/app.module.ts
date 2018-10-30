@@ -13,6 +13,7 @@ import { ItemCreatorComponent } from './item-creator/item-creator.component';
 import { ItemlistComponent } from './itemlist/itemlist.component';
 import { CharViewerComponent } from './char-viewer/char-viewer.component';
 import { TrapCreatorComponent } from './trap-creator/trap-creator.component';
+import { SpellcardCreatorComponent } from './spellcard-creator/spellcard-creator.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { TrapCreatorComponent } from './trap-creator/trap-creator.component';
     ItemlistComponent,
     CharViewerComponent,
     TrapCreatorComponent,
+    SpellcardCreatorComponent,
   ],
   imports: [
     BrowserModule
