@@ -84,14 +84,14 @@
       <ul class="sub-menu collapse" id="spells">
         <app-spellcard-creator></app-spellcard-creator>
       </ul>
-
+      <div *ngIf="isUserGM()">
       <li data-toggle="collapse" data-target="#traps" class="collapsed" id="trap-container">
         <a href="#"><i class="fa fa-globe fa-lg"></i> Traps <span class="arrow"></span></a>
       </li>
       <ul class="sub-menu collapse" id="traps">
         <app-trap-creator></app-trap-creator>
       </ul>
-
+      </div>
       <li data-toggle="collapse" data-target="#admin" class="collapsed no-display" id="admin-container">
         <a href="#"><i class="fa fa-globe fa-lg"></i> Admin Settings <span class="arrow"></span></a>
       </li>
