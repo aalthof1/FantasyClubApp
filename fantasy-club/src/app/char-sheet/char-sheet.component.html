@@ -70,6 +70,13 @@
 
 <div *ngIf="selectedGame; else NoGame">
   <h3 class="bg-dark text-white">Session: {{selectedGame.key}}</h3>
+  <div *ngIf="hasAnnouncement">
+      <h3 style="color: red;">{{currentAnnouncement}}</h3>
+  </div>
+  <div *ngIf="currentGameGM">
+      <input style="display: inline;" type="text" id="new-announcement"/>
+      <input style="display: inline;" type="button" value="Change Announcement" (click)="changeAnnouncement()"/>
+  </div>
   <button (click)="printCharacters()">View Player Characters</button>
   <button (click)="printGM()">View GM</button>
   <button (click)="printDesc()">Description</button>

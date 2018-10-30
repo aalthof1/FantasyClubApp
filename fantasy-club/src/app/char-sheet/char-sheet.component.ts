@@ -33,6 +33,8 @@ export class CharSheetComponent implements OnInit {
   capacity : number = undefined;
   gamePlayerCountView : boolean = false;
   playerCount : number = 0;
+  hasAnnouncement : boolean = true;
+  currentAnnouncement : string = "Hello World";
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
     this.charSubscript = this.currentCharacter.get()
@@ -50,6 +52,18 @@ export class CharSheetComponent implements OnInit {
         this.GMDisplay = undefined;
         this.description = undefined;
         this.selectedGame = snapshot.data
+        this.currentAnnouncement = this.selectedGame.child("announcement").val();
+        if(this.currentAnnouncement == "" || this.currentAnnouncement == null) {
+          this.hasAnnouncement = false;
+        } else {
+          this.hasAnnouncement = true;
+        }
+        if (firebase.auth().currentUser.uid == this.selectedGame.child("user_id").val() ) {
+          this.currentGameGM = true;
+        }
+        else {
+          this.currentGameGM = false;
+        }
         this.getCapacity();
       });
   }
@@ -109,12 +123,6 @@ export class CharSheetComponent implements OnInit {
   }
 
   printCharacters() {    
-    if (firebase.auth().currentUser.uid == this.selectedGame.child("user_id").val() ) {
-      this.currentGameGM = true;
-    }
-    else {
-      this.currentGameGM = false;
-    }
     this.playerCharacters = [];
     this.selectedGame.ref.once("value").then(function (snapshot) {
       this.selectedGame = snapshot;
@@ -171,4 +179,16 @@ export class CharSheetComponent implements OnInit {
     }
     this.gamePlayerCountView = true;
   }
+
+  changeAnnouncement(){
+    var newAnnouncement : string = (document.getElementById("new-announcement") as HTMLInputElement).value;
+    this.selectedGame.child("announcement").ref.set(newAnnouncement);
+    this.passService.send(this.selectedGame);
+    this.refresh.emit("refresh");
+  }
+
+
+
+
+
 }
