@@ -69,4 +69,27 @@ export class DicerollerComponent implements OnInit {
     firebase.database().ref("dice_rolls/" + this.sidebar.user_name + "/type").set(this.type);
         
   }
+
+  saveDiceRoll() {
+    var amountText = (document.getElementById("amount") as HTMLInputElement).value;
+    var typeText = (document.getElementById("type") as HTMLInputElement).value;
+    var modText = (document.getElementById("modifier") as HTMLInputElement).value;
+    if(amountText == "" || typeText == "" || modText == "") {
+      alert("Please fill all options.");
+      return;
+    } else if (firebase.auth().currentUser == null) {
+      alert("Please log in to save a dice combination.");
+      return;
+    }
+    var amount = parseInt(amountText);
+    var type = parseInt(typeText);
+    var mod = parseInt(modText);
+    var name = "";
+    do {
+      name = prompt("Please enter a non-empty name/description for this dice combination.\nNumber of dice = " + amount + ", Number of sides = " + type + ", modifier = " + mod);
+    } while(name == "");
+    firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/amount").set(amount);
+    firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/type").set(type);
+    firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/mod").set(mod);
+  }
 }
