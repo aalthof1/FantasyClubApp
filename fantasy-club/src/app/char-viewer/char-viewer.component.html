@@ -1,10 +1,31 @@
 <button (click)="charViewerToggle()">Toggle Character Viewer</button>
+<br>
 <div *ngIf="displayToggle">
-  <button (click)="sharedToggle = !sharedToggle">View Shared with Me</button>
+  <br>
+  <button (click)="sharedToggle = !sharedToggle; sharedMenuFill()">View Shared with Me</button>
   <div *ngIf="sharedToggle">
-    <p>test</p>
+    <p *ngIf="sharedViewerLoading">&emsp;Loading... </p>
+    <ul *ngIf="sharedViewerLoading == false && sharedMenuNames.length > 0">
+      <li *ngFor="let name of sharedMenuNames; let i = index" (click)="setFriendIndex(i)">
+        {{name}}
+        <ul>
+          <div *ngIf="i == friendCharIndex && friendChars.length > 0">
+            <li *ngFor="let character of friendChars">{{character.key}}</li>
+          </div>
+        </ul>
+      </li>
+    </ul>
+    <p *ngIf="sharedViewerLoading == false && sharedMenuNames.length == 0">There are no characters shared with you
+      currently.</p>
   </div>
   <br>
+
+  <button (click)="shareMenuToggle = !shareMenuToggle">Share with another Player</button>
+  <br>
+
+  <div *ngIf="shareMenuToggle">
+    <p>test</p>
+  </div>
   <div *ngIf="adminStatus">
     <button>Search</button>
   </div>
