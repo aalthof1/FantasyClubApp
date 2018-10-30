@@ -10,7 +10,7 @@
         {{name}}
         <ul>
           <div *ngIf="i == friendCharIndex && friendChars.length > 0">
-            <li *ngFor="let character of friendChars; let j = index">{{character.key}}</li>
+            <li *ngFor="let character of friendChars" (click)="viewCharacter(character)">{{character.key}}</li>
           </div>
         </ul>
       </li>
@@ -29,4 +29,25 @@
   <div *ngIf="adminStatus">
     <button>Search</button>
   </div>
+  <div *ngIf="selectedCharacter != undefined">
+    <hr>
+    <br>
+    <br>
+    <button *ngIf="selectedCharacter != undefined" (click)="viewCharacter( (undefined))">Hide Character</button>
+    <div class="container-fluid">
+      <div class="row">
+        {{selectedCharacter.key}}
+      </div>
+      <div class="row" *ngFor="let stat of statName; let i = index">
+        <div class="col">
+          {{statName[i]}}
+        </div>
+        <div class="col">
+          {{statValue[i]}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </div>

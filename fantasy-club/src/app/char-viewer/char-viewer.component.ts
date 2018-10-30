@@ -17,6 +17,10 @@ export class CharViewerComponent implements OnInit {
   sharedMenuNames: Array<string> = [];
   friendCharIndex: number = -1;
   friendChars: Array<firebase.database.DataSnapshot> = [];
+  characterViewerToggle : boolean = false;
+  selectedCharacter : firebase.database.DataSnapshot = undefined;
+  statName : Array<string> = [];
+  statValue : Array<number> = [];
 
   constructor() { }
 
@@ -93,5 +97,21 @@ export class CharViewerComponent implements OnInit {
         }.bind(this))
       }.bind(this))
     }
+  }
+  viewCharacter (x : firebase.database.DataSnapshot) {
+    if (x == undefined) {
+      this.characterViewerToggle = false;
+      this.selectedCharacter = undefined;
+      return;
+    }
+    this.selectedCharacter = x;
+    this.characterViewerToggle = true;
+    this.statName = [];
+    this.statValue  = [];
+  
+    this.selectedCharacter.forEach(function(snapshot) {
+      this.statName.push(snapshot.key);
+      this.statValue.push(snapshot.val());
+    }.bind(this))
   }
 }
