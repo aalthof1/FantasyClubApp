@@ -40,6 +40,15 @@ export class TrapCreatorComponent implements OnInit {
     this.desc = ((document.getElementById("trapDesc") as HTMLInputElement).value);
     this.diceAmount = parseInt((document.getElementById("diceAmount") as HTMLInputElement).value);
     this.diceType = parseInt((document.getElementById("diceType") as HTMLInputElement).value);
+    if((document.getElementById("diceAmount") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceAmount") as HTMLInputElement).value) < 1) {
+      this.diceAmount = 1;
+    }
+    if(this.diceAmount > 100) {
+      this.diceAmount = 100;
+    }
+    if((document.getElementById("diceType") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceType") as HTMLInputElement).value) < 2) {
+      this.diceType = 2;
+    }
     firebase.database().ref('traps/' + this.sidebar.user_id + "/" + this.name + "/").set(
       {
         creatorName: firebase.auth().currentUser.displayName,

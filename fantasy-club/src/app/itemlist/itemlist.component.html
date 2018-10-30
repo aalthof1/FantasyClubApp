@@ -1,4 +1,18 @@
 <div *ngIf="GMStatus">
+    <h2>Traps</h2>
+    <button (click)=trapButton()>View</button>
+    <div *ngIf="trapToggle">
+        <ul>
+            <li class="trapCategory" *ngFor="let trap of traps">
+                <button (click)="removeItem(trap)">Remove</button>
+                <button (click)="setSelectedTrap(trap)">Select</button>
+                {{trap.key}}
+            </li>
+            <p *ngIf="traps.length == 0">You have no traps</p>
+        </ul>
+    </div>
+    <br>
+    <br>
     <h2>Private Items</h2>
     <button (click)=privateButton()>View</button>
     <div *ngIf="privateToggle">
@@ -41,6 +55,11 @@
             Description : <br>
             <p class="descriptionText">{{selectedItem.child("desc").val()}}</p>
         </li>
+        <li>
+            <div *ngIf="selectedItemType == 'trap'">
+                Roll: {{selectedItem.child('diceAmount').val()}} d {{selectedItem.child('diceType').val()}}
+            </div>
+        </li>
     </ul>
     <button (click)="setSelectedItem(undefined)">Hide</button>
     <button (click)="displayEditor()" *ngIf="GMStatus">Edit</button>
@@ -50,6 +69,10 @@
         <br>
         <textarea id="itemDescription" cols="40" rows="5" required>{{selectedItem.child('desc').val()}}</textarea>
         <br>
+        <div *ngIf="selectedItemType == 'trap'">
+            <input required type="number" id="diceAmount2" value="{{selectedItem.child('diceAmount').val()}}" min="1"> 
+            <input required type="number" id="diceType2" value="{{selectedItem.child('diceType').val()}}" min="2">
+        </div>
         <button (click)="updateItem()">Submit</button>
     </div>
 
