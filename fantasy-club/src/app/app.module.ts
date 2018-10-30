@@ -11,6 +11,7 @@ import { GameGeneratorComponent } from './game-generator/game-generator.componen
 import { GmComponent } from './gm/gm.component';
 import { ItemCreatorComponent } from './item-creator/item-creator.component';
 import { ItemlistComponent } from './itemlist/itemlist.component';
+import { CharViewerComponent } from './char-viewer/char-viewer.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ItemlistComponent } from './itemlist/itemlist.component';
     GmComponent,
     ItemCreatorComponent,
     ItemlistComponent,
+    CharViewerComponent,
   ],
   imports: [
     BrowserModule
