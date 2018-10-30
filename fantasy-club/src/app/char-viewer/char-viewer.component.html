@@ -1,4 +1,11 @@
 <button (click)="charViewerToggle()">Toggle Character Viewer</button>
 <div *ngIf="displayToggle">
-  <p>test</p>
+  <button (click)="sharedToggle = !sharedToggle">View Shared with Me</button>
+  <div *ngIf="sharedToggle">
+    <p>test</p>
+  </div>
+  <br>
+  <div *ngIf="adminStatus">
+    <button>Search</button>
+  </div>
 </div>
