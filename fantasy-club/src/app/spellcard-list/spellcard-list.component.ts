@@ -167,4 +167,18 @@ export class SpellcardListComponent implements OnInit {
   removeSpell(x: firebase.database.DataSnapshot) {
     x.ref.remove()
   }
+
+  rollSpell() {
+    var amount = this.selectedSpell.child('diceAmount').val()
+    var type = this.selectedSpell.child('diceType').val()
+
+    var i = 0;
+    this.rolls = [amount];
+    this.total = 0;
+    for(i = 0; i < amount; i++) {
+      var result = Math.floor(Math.random() * type) + 1;
+      this.rolls[i] = result;
+      this.total = this.total + result;
+    }
+  }
 }

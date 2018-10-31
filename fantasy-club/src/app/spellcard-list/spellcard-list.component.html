@@ -58,7 +58,7 @@
   </ul>
   <button (click)="setSelectedSpell(undefined)">Hide</button>
   <button *ngIf="selectedSpellType == 'private || isUserGM()'" (click)="displayEditor()">Edit</button>
-  <button (click)="rollTrap()">Roll Dice</button>
+  <button (click)="rollSpell()">Roll Dice</button>
   <ul >
       <li *ngFor="let item of rolls; index as i" class="roll"> Roll {{i + 1}} : {{item}} </li>
       <li id="total"> Total {{total}} </li>
