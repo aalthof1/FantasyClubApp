@@ -1,0 +1,29 @@
+<h2>Private Abilities</h2>
+<button (click)=privateButton()>View</button>
+<div *ngIf="privateToggle">
+  <ul>
+    <li class="spellCategory" *ngFor="let spell of privateSpells">
+      <button (click)="removeItem(item)">Remove</button>
+      <button (click)="setSelectedItem(item)">Select</button>
+      {{spell.key}}
+    </li>
+    <p *ngIf="privateSpells.length == 0">You have no private items</p>
+  </ul>
+</div>
+<br>
+<br>
+
+
+<h2>Public Abilities</h2>
+<button (click)=publicButton()>View</button>
+<br>
+<br>
+<div *ngIf="publicToggle">
+  <ul>
+    <li class="spellCategory" *ngFor="let spell of publicSpells">
+      <button *ngIf="GMStatus" (click)="removeItem(item)">Remove</button>
+      <button (click)="setSelectedItem(item)">Select</button>
+      {{spell.key}}
+    </li>
+  </ul>
+</div>
