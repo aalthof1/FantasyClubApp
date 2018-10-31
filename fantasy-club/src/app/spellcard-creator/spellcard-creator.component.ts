@@ -50,7 +50,7 @@ export class SpellcardCreatorComponent implements OnInit {
     this.diceAmount = parseInt((document.getElementById("spellDiceAmount") as HTMLInputElement).value);
     this.diceType = parseInt((document.getElementById("spellDiceType") as HTMLInputElement).value);
     if((document.getElementById("spellDiceAmount") as HTMLInputElement).value == "" || parseInt((document.getElementById("spellDiceAmount") as HTMLInputElement).value) < 1) {
-      this.diceAmount = 1;
+      this.diceAmount = -1;
     }
     if(this.diceAmount > 100) {
       this.diceAmount = 100;
@@ -75,7 +75,7 @@ export class SpellcardCreatorComponent implements OnInit {
     this.diceAmount = parseInt((document.getElementById("spellDiceAmount") as HTMLInputElement).value);
     this.diceType = parseInt((document.getElementById("spellDiceType") as HTMLInputElement).value);
     if((document.getElementById("spellDiceAmount") as HTMLInputElement).value == "" || parseInt((document.getElementById("spellDiceAmount") as HTMLInputElement).value) < 1) {
-      this.diceAmount = 1;
+      this.diceAmount = -1;
     }
     if(this.diceAmount > 100) {
       this.diceAmount = 100;

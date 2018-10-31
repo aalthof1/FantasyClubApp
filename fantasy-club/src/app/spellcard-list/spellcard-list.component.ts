@@ -189,6 +189,12 @@ export class SpellcardListComponent implements OnInit {
   rollSpell() {
     var amount = this.selectedSpell.child('diceAmount').val()
     var type = this.selectedSpell.child('diceType').val()
+    if(amount == -1 ) {
+      amount = parseInt((document.getElementById("varDiceAmount") as HTMLInputElement).value);
+      if((document.getElementById("varDiceAmount") as HTMLInputElement).value == "" || parseInt((document.getElementById("varDiceAmount") as HTMLInputElement).value) < 1) {
+      amount = 1;
+      }
+    }
 
     var i = 0;
     this.rolls = [amount];
