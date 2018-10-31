@@ -93,6 +93,7 @@ export class DicerollerComponent implements OnInit {
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/amount").set(amount);
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/type").set(type);
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/mod").set(mod);
+    this.savedRolls.push(name);
   }
 
   fillFromSaved(item: string) {
