@@ -10,17 +10,20 @@ export class SpellcardListComponent implements OnInit {
 
   privateToggle: boolean = false;
   publicToggle: boolean = false;
+  charToggle: boolean = false;
   publicSpells: Array<firebase.database.DataSnapshot> = [];
   privateSpells: Array<firebase.database.DataSnapshot> = [];
+  charSpells: Array<firebase.database.DataSnapshot> = [];
   selectedSpell: firebase.database.DataSnapshot = null;
   selectedSpellType: string = undefined;
-  GMStatus:boolean = false;
-  editDisplay:boolean = false;
+  GMStatus: boolean = false;
+  editDisplay: boolean = false;
   shareMenuToggle: boolean = false;
+  currChar: string;
   d: number
   c: number
-  rolls : Array<number>;
-  total : number;
+  rolls: Array<number>;
+  total: number;
 
   constructor() { }
 
@@ -28,17 +31,22 @@ export class SpellcardListComponent implements OnInit {
   }
 
   privateButton() {
-    this.isUserGM();
     this.privateToggle = !this.privateToggle;
     if (this.privateToggle) {
       this.fillPrivate()
     }
   }
   publicButton() {
-    this.isUserGM();
     this.publicToggle = !this.publicToggle;
     if (this.publicToggle) {
       this.fillPublic()
+    }
+  }
+
+  charButton() {
+    this.charToggle = !this.charToggle;
+    if (this.charToggle) {
+      this.fillChar()
     }
   }
 
@@ -61,6 +69,23 @@ export class SpellcardListComponent implements OnInit {
         }.bind(this))
       }.bind(this))
   }
+
+  fillChar() {
+    firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/current_character").on("value", function (snapshot) {
+      this.currChar = snapshot.val()
+      if ("") {
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/spellcards").on("value",
+          function (snapshot) {
+            this.charSpells = [];
+            snapshot.forEach(function (childsnap) {
+              this.charSpells.push(childsnap);
+            }.bind(this))
+          }.bind(this))
+      }
+    }.bind(this))
+
+  }
+
   isUserGM(): boolean {
     if (firebase.auth().currentUser == null) {
       this.GMStatus = false;
@@ -78,7 +103,7 @@ export class SpellcardListComponent implements OnInit {
         }
       }.bind(this))
   }
-  setSelectedItem(x: firebase.database.DataSnapshot) {
+  setSelectedSpell(x: firebase.database.DataSnapshot) {
     this.selectedSpell = x;
     if (this.selectedSpell != undefined) {
       if (this.selectedSpell.ref.parent.parent.key == "private") {
@@ -92,5 +117,54 @@ export class SpellcardListComponent implements OnInit {
       this.selectedSpellType = undefined;
     }
 
+  }
+
+  displayEditor() {
+    if (firebase.auth().currentUser == null) {
+      return;
+    }
+    this.editDisplay = true;
+  }
+
+  updateSpell() {
+    let x: HTMLInputElement = document.getElementById("SpellNameInput") as HTMLInputElement;
+    let y: HTMLTextAreaElement = document.getElementById("SpellDescription") as HTMLTextAreaElement;
+
+    if (x.value == "" || y.value == "") {
+      return;
+    }
+    //committed to updating the Spell
+    let cID = this.selectedSpell.child("creatorID").val();
+    let cName = this.selectedSpell.child("creatorName").val();
+    this.selectedSpell.ref.remove();
+
+    this.d = parseInt((document.getElementById("diceAmount3") as HTMLInputElement).value);
+    this.c = parseInt((document.getElementById("diceType3") as HTMLInputElement).value);
+
+    if ((document.getElementById("diceAmount3") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceAmount3") as HTMLInputElement).value) < 1) {
+      this.d = 1;
+    }
+    if (this.d > 100) {
+      this.d = 100;
+    }
+    if ((document.getElementById("diceType3") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceType3") as HTMLInputElement).value) < 2) {
+      this.c = 2;
+    }
+
+    firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.uid + "/" + x.value).set(
+      {
+        creatorName: cName,
+        desc: y.value,
+        diceAmount: this.d,
+        diceType: this.c
+      }
+    )
+
+
+    this.setSelectedSpell(undefined);
+    this.editDisplay = false;
+  }
+  removeSpell(x: firebase.database.DataSnapshot) {
+    x.ref.remove()
   }
 }
