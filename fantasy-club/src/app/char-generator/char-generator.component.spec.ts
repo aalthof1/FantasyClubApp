@@ -39,6 +39,10 @@ describe('Create Character', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should construct', () => {
+    expect(component.userId).toEqual(sidebar.user_id);
+  });
+
   it('should update name correctly', () => {
     var oldName = ((document.getElementById("name") as HTMLInputElement).value);
     ((document.getElementById("name") as HTMLInputElement).value) = "Test Name";   

@@ -77,17 +77,17 @@ export class SidebarComponent implements OnInit {
         name: firebase.auth().currentUser.displayName,
         priv: 1,
       });
-      this.app.database().ref('/characters/' + this.user_id + "/");
+      firebase.database().ref('/characters/' + this.user_id + "/");
       console.log("user created with priv level = 1");
     }
     //grabs heroes belonging to user
-    this.app.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot))
+    firebase.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot))
   }
 
   onSuccessfulSignIn(result: firebase.auth.UserCredential) {
     this.user_name = result.user.displayName;
     this.user_id = result.user.uid;
-    this.app.database().ref('/user_id/').once('value')
+    firebase.database().ref('/user_id/').once('value')
       .then(function (snapshot) {
         if (snapshot.hasChild(this.user_id)) {
           console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
@@ -108,14 +108,14 @@ export class SidebarComponent implements OnInit {
             name: firebase.auth().currentUser.displayName,
             priv: 1
           });
-          this.app.database().ref('/characters/' + this.user_id + "/");
+          firebase.database().ref('/characters/' + this.user_id + "/");
           console.log("user created with priv level = 1");
         }
         //grabs heroes belonging to user
-        this.app.database().ref('characters/' + this.user_id + "/").once('value')
+        firebase.database().ref('characters/' + this.user_id + "/").once('value')
           .then(snapshot => this.grabHeroes(snapshot));
         //Grab games
-        this.app.database().ref('games/').once('value')
+        firebase.database().ref('games/').once('value')
           .then(snapshot => this.grabGames(snapshot));
       }.bind(this));
   }
@@ -130,7 +130,7 @@ export class SidebarComponent implements OnInit {
     if (this.isUserSignedIn()) {
       this.user_id = firebase.auth().currentUser.uid;
       this.user_name = firebase.auth().currentUser.displayName;
-      this.app.database().ref("user_id").once("value")
+      firebase.database().ref("user_id").once("value")
         .then(function(snapshot){
           if(snapshot.child(this.user_id).child('priv').val() >= 2)  {
             document.getElementById("gm-container").classList.remove("no-display");
@@ -151,7 +151,7 @@ export class SidebarComponent implements OnInit {
   signOut() {
     // Sign out of Firebase.
     if(this.user_name != "") {
-      this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set("");
+      firebase.database().ref('user_id/' + this.user_id + '/').child('current_character').set("");
     }
   
     this.actualChar = "";
@@ -207,19 +207,19 @@ export class SidebarComponent implements OnInit {
   }
 
   refreshCharacters(): void {
-    this.app.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot));
+    firebase.database().ref('characters/' + this.user_id + "/").on('value', snapshot => this.grabHeroes(snapshot));
   }
 
   refreshGames(): void {
-    this.app.database().ref('games/').on('value', snapshot => this.grabGames(snapshot));
+    firebase.database().ref('games/').on('value', snapshot => this.grabGames(snapshot));
   }
   //TODO fix this VVVVVVVV
   refreshCreatedItems(): void {
-    this.app.database().ref('items/' + this.user_id + "/").on('value', snapshot => this.grabcreatedItems(snapshot));
+    firebase.database().ref('items/' + this.user_id + "/").on('value', snapshot => this.grabcreatedItems(snapshot));
   }
 
   setChar(): void {
-    this.app.database().ref('user_id/' + this.user_id + '/').child('current_character').set(this.currChar);
+    firebase.database().ref('user_id/' + this.user_id + '/').child('current_character').set(this.currChar);
     this.actualChar = this.currChar;
   }
 
