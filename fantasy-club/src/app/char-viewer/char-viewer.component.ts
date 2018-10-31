@@ -21,6 +21,7 @@ export class CharViewerComponent implements OnInit {
   selectedCharacter: firebase.database.DataSnapshot = undefined;
   statName: Array<string> = [];
   statValue: Array<number> = [];
+  isAdmin: boolean = false;
 
   constructor() { }
 
@@ -58,23 +59,42 @@ export class CharViewerComponent implements OnInit {
       }.bind(this))
   }
   sharedMenuFill() {
+    this.setFriendIndex(undefined);
     this.sharedViewerLoading = true;
     firebase.database().ref("shared/").once("value").then(function (snapshot) {
       this.sharedMenuIDs = [];
       this.sharedMenuNames = [];
-      if (snapshot.hasChild(firebase.auth().currentUser.uid)) {
-        snapshot.child(firebase.auth().currentUser.uid).forEach(function (childSnap) {
-          this.sharedMenuIDs.push(childSnap)
-        }.bind(this))
-      }
-      if (this.sharedMenuIDs.length > 0) {
-        for (let index = 0; index < this.sharedMenuIDs.length; index++) {
-          const element = this.sharedMenuIDs[index];
-          firebase.database().ref("user_id/" + element.key).once("value").then(function (snap) {
-            this.sharedMenuNames.push(snap.child("name").val())
+      this.isAdmin = false;
+      firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/priv").once("value").then(function (snip) {
+        if (snip.val() == 3) {
+          //is admin, list all users
+          this.isAdmin = true;
+          console.log("hey you're an admin")
+          firebase.database().ref("user_id").once("value").then(function (slip) {
+            slip.forEach(function (slimjim) {
+              this.sharedMenuIDs.push(slimjim)
+            }.bind(this))
+
+            for (let z = 0; z < this.sharedMenuIDs.length; z++) {
+              this.sharedMenuNames.push(this.sharedMenuIDs[z].child('name').val());
+            }
           }.bind(this))
         }
-      }
+        if (snapshot.hasChild(firebase.auth().currentUser.uid) && !this.isAdmin) {
+          snapshot.child(firebase.auth().currentUser.uid).forEach(function (childSnap) {
+            this.sharedMenuIDs.push(childSnap)
+          }.bind(this))
+        }
+        if (this.sharedMenuIDs.length > 0) {
+          for (let index = 0; index < this.sharedMenuIDs.length; index++) {
+            const element = this.sharedMenuIDs[index];
+            firebase.database().ref("user_id/" + element.key).once("value").then(function (snap) {
+              this.sharedMenuNames.push(snap.child("name").val())
+            }.bind(this))
+          }
+        }
+
+      }.bind(this))
       this.sharedViewerLoading = false;
     }.bind(this))
   }
@@ -82,18 +102,24 @@ export class CharViewerComponent implements OnInit {
     if (i == this.friendCharIndex) {
       return;
     }
-    if (i > this.sharedMenuIDs.length) {
+    else if (i >= this.sharedMenuIDs.length || i == undefined) {
       this.friendCharIndex = -1;
     }
     else {
       this.friendCharIndex = i;
       firebase.database().ref("characters/" + this.sharedMenuIDs[i].key).once("value").then(function (snapshot) {
         snapshot.forEach(function (childSnap) {
-          firebase.database().ref("shared/" + firebase.auth().currentUser.uid + "/" + this.sharedMenuIDs[i].key).once("value").then(function (snap) {
-            if (snap.hasChild(childSnap.key)) {
-              this.friendChars.push(childSnap);
-            }
-          }.bind(this))
+          console.log(childSnap.key)
+          if (this.isAdmin) {
+            this.friendChars.push(childSnap);
+          }
+          else {
+            firebase.database().ref("shared/" + firebase.auth().currentUser.uid + "/" + this.sharedMenuIDs[i].key).once("value").then(function (snap) {
+              if (snap.hasChild(childSnap.key)) {
+                this.friendChars.push(childSnap);
+              }
+            }.bind(this))
+          }
         }.bind(this))
       }.bind(this))
     }
