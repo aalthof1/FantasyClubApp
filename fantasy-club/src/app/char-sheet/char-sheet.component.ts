@@ -33,8 +33,8 @@ export class CharSheetComponent implements OnInit {
   capacity : number = undefined;
   gamePlayerCountView : boolean = false;
   playerCount : number = 0;
-  hasAnnouncement : boolean = true;
-  currentAnnouncement : string = "Hello World";
+  hasAnnouncement : boolean = false;
+  currentAnnouncement : string;
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
     this.charSubscript = this.currentCharacter.get()
@@ -53,6 +53,14 @@ export class CharSheetComponent implements OnInit {
         this.description = undefined;
         this.selectedGame = snapshot.data
         this.currentAnnouncement = this.selectedGame.child("announcement").val();
+        this.selectedGame.child("announcement").ref.on("value", function(snap) {
+          this.currentAnnouncement = snap.val();
+          if(snap.val() == "") {
+            this.hasAnnouncement = false;
+          } else {
+            this.hasAnnouncement = true;
+          }
+        }.bind(this));
         if(this.currentAnnouncement == "" || this.currentAnnouncement == null) {
           this.hasAnnouncement = false;
         } else {
@@ -183,8 +191,6 @@ export class CharSheetComponent implements OnInit {
   changeAnnouncement(){
     var newAnnouncement : string = (document.getElementById("new-announcement") as HTMLInputElement).value;
     this.selectedGame.child("announcement").ref.set(newAnnouncement);
-    this.passService.send(this.selectedGame);
-    this.refresh.emit("refresh");
   }
 
 
