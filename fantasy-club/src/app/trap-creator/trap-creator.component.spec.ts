@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TrapCreatorComponent } from './trap-creator.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 describe('TrapCreatorComponent', () => {
   let component: TrapCreatorComponent;
@@ -8,7 +9,8 @@ describe('TrapCreatorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TrapCreatorComponent ]
+      declarations: [ TrapCreatorComponent ],
+      providers: [SidebarComponent]
     })
     .compileComponents();
   }));

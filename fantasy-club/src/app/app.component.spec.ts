@@ -7,6 +7,12 @@ import { DicerollerComponent } from './diceroller/diceroller.component';
 import { GameGeneratorComponent } from './game-generator/game-generator.component';
 import { GmComponent } from './gm/gm.component';
 import { CharGeneratorComponent } from './char-generator/char-generator.component';
+import { SpellcardListComponent } from './spellcard-list/spellcard-list.component';
+import { ItemCreatorComponent } from './item-creator/item-creator.component';
+import { ItemlistComponent } from './itemlist/itemlist.component';
+import { CharViewerComponent } from './char-viewer/char-viewer.component';
+import { SpellcardCreatorComponent } from './spellcard-creator/spellcard-creator.component';
+import { TrapCreatorComponent } from './trap-creator/trap-creator.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -14,7 +20,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent, SidebarComponent, CharSheetComponent, 
         AdminComponent, DicerollerComponent, GameGeneratorComponent, 
-        GmComponent, CharGeneratorComponent
+        GmComponent, CharGeneratorComponent, SpellcardListComponent,
+        ItemCreatorComponent, ItemlistComponent, CharViewerComponent,
+        SpellcardCreatorComponent, TrapCreatorComponent
       ]
     }).compileComponents();
   }));

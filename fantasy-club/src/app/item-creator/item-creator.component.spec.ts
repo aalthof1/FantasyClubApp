@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemCreatorComponent } from './item-creator.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 describe('ItemCreatorComponent', () => {
   let component: ItemCreatorComponent;
@@ -8,7 +9,8 @@ describe('ItemCreatorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ItemCreatorComponent ]
+      declarations: [ ItemCreatorComponent ],
+      providers: [ SidebarComponent ]
     })
     .compileComponents();
   }));

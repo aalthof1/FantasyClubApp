@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SpellcardCreatorComponent } from './spellcard-creator.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 describe('SpellcardCreatorComponent', () => {
   let component: SpellcardCreatorComponent;
@@ -8,7 +9,8 @@ describe('SpellcardCreatorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpellcardCreatorComponent ]
+      declarations: [ SpellcardCreatorComponent ],
+      providers: [ SidebarComponent ]
     })
     .compileComponents();
   }));

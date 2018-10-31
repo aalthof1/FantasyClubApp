@@ -63,12 +63,6 @@ describe('CharSheetComponent', () => {
     expect(component.edit).toEqual(false);
   });
 
-  it('should hide', () => {
-    component.hide();
-    expect(component.view).toEqual(false);
-    expect(component.edit).toEqual(false);
-  });
-
   it('should refresh stats', () => {
     //component.refreshStatsFromOnline();
     //if(component.statNames.length > 0) {
