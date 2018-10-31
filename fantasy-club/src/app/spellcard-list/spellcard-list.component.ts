@@ -73,8 +73,8 @@ export class SpellcardListComponent implements OnInit {
   fillChar() {
     firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/current_character").on("value", function (snapshot) {
       this.currChar = snapshot.val()
-      if ("") {
-        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/spellcards").on("value",
+      if (this.currChar != "") {
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/spellcards/").on("value",
           function (snapshot) {
             this.charSpells = [];
             snapshot.forEach(function (childsnap) {
@@ -166,6 +166,24 @@ export class SpellcardListComponent implements OnInit {
   }
   removeSpell(x: firebase.database.DataSnapshot) {
     x.ref.remove()
+  }
+
+  setCharSpell() {
+    if(this.currChar != "") {
+      let cName = this.selectedSpell.child("creatorName").val();
+      let descr = this.selectedSpell.child("desc").val();
+      let dA = this.selectedSpell.child("diceAmount").val();
+      let dT = this.selectedSpell.child("diceType").val();
+
+      firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/spellcards/" + this.selectedSpell.key).set(
+        {
+          creatorName: cName,
+          desc: descr,
+          diceAmount: dA,
+          diceType: dT
+        }
+      )
+    }
   }
 
   rollSpell() {
