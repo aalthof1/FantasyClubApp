@@ -60,6 +60,7 @@ export class CharViewerComponent implements OnInit {
   }
   sharedMenuFill() {
     this.setFriendIndex(undefined);
+    this.friendChars = [];
     this.sharedViewerLoading = true;
     firebase.database().ref("shared/").once("value").then(function (snapshot) {
       this.sharedMenuIDs = [];
@@ -106,6 +107,7 @@ export class CharViewerComponent implements OnInit {
       this.friendCharIndex = -1;
     }
     else {
+      this.friendChars = [];
       this.friendCharIndex = i;
       firebase.database().ref("characters/" + this.sharedMenuIDs[i].key).once("value").then(function (snapshot) {
         snapshot.forEach(function (childSnap) {
