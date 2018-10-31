@@ -40,8 +40,8 @@ export class SidebarComponent implements OnInit {
     }
     this.signOut();
     if (this.isUserSignedIn()) {
-      this.user_id = this.app.auth().currentUser.uid;
-      this.user_name = this.app.auth().currentUser.displayName;
+      this.user_id = firebase.auth().currentUser.uid;
+      this.user_name = firebase.auth().currentUser.displayName;
     }
   }
 
@@ -74,7 +74,7 @@ export class SidebarComponent implements OnInit {
     else {
       //we'll create the user in the database with base priviledge
       snapshot.ref.child(this.user_id).set({
-        name: this.app.auth().currentUser.displayName,
+        name: firebase.auth().currentUser.displayName,
         priv: 1,
       });
       this.app.database().ref('/characters/' + this.user_id + "/");
@@ -105,7 +105,7 @@ export class SidebarComponent implements OnInit {
         else {
           //we'll create the user in the database with base priviledge
           snapshot.ref.child(this.user_id).set({
-            name: this.app.auth().currentUser.displayName,
+            name: firebase.auth().currentUser.displayName,
             priv: 1
           });
           this.app.database().ref('/characters/' + this.user_id + "/");
@@ -128,8 +128,8 @@ export class SidebarComponent implements OnInit {
     // Sign in Firebase using popup auth and Google as the identity provider.
     this.signOut();
     if (this.isUserSignedIn()) {
-      this.user_id = this.app.auth().currentUser.uid;
-      this.user_name = this.app.auth().currentUser.displayName;
+      this.user_id = firebase.auth().currentUser.uid;
+      this.user_name = firebase.auth().currentUser.displayName;
       this.app.database().ref("user_id").once("value")
         .then(function(snapshot){
           if(snapshot.child(this.user_id).child('priv').val() >= 2)  {
@@ -156,7 +156,7 @@ export class SidebarComponent implements OnInit {
   
     this.actualChar = "";
     this.currGame = "";
-    this.app.auth().signOut();
+    firebase.auth().signOut();
     this.user_id = "";
     this.user_name = "";
     this.games = [];
