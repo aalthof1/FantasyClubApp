@@ -1,0 +1,7 @@
+.highlight {
+    color: blue;
+}
+
+.highlight:hover {
+    color: lightblue;
+}
