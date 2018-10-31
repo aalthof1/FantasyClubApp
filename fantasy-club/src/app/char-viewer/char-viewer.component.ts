@@ -17,10 +17,10 @@ export class CharViewerComponent implements OnInit {
   sharedMenuNames: Array<string> = [];
   friendCharIndex: number = -1;
   friendChars: Array<firebase.database.DataSnapshot> = [];
-  characterViewerToggle : boolean = false;
-  selectedCharacter : firebase.database.DataSnapshot = undefined;
-  statName : Array<string> = [];
-  statValue : Array<number> = [];
+  characterViewerToggle: boolean = false;
+  selectedCharacter: firebase.database.DataSnapshot = undefined;
+  statName: Array<string> = [];
+  statValue: Array<number> = [];
 
   constructor() { }
 
@@ -98,7 +98,7 @@ export class CharViewerComponent implements OnInit {
       }.bind(this))
     }
   }
-  viewCharacter (x : firebase.database.DataSnapshot) {
+  viewCharacter(x: firebase.database.DataSnapshot) {
     if (x == undefined) {
       this.characterViewerToggle = false;
       this.selectedCharacter = undefined;
@@ -107,11 +107,50 @@ export class CharViewerComponent implements OnInit {
     this.selectedCharacter = x;
     this.characterViewerToggle = true;
     this.statName = [];
-    this.statValue  = [];
-  
-    this.selectedCharacter.forEach(function(snapshot) {
+    this.statValue = [];
+
+    this.selectedCharacter.forEach(function (snapshot) {
       this.statName.push(snapshot.key);
       this.statValue.push(snapshot.val());
+    }.bind(this))
+  }
+  shareCharacter() {
+    let x: string = (document.getElementById("inputCharacter") as HTMLInputElement).value;
+    let y: string = (document.getElementById("inputPlayer") as HTMLInputElement).value;
+
+    if (x == "" || y == "") {
+      return;
+    }
+    firebase.database().ref("characters/" + firebase.auth().currentUser.uid).once("value").then(function (snapshot) {
+      let flag1 = false;
+      let flag2 = false;
+      //ensure character exists
+      snapshot.forEach(function (snap) {
+        if (snap.key == x) {
+          flag1 = true;
+        }
+      }.bind(this))
+
+      if (flag1 == false) {
+        return;
+      }
+      let otherUserID: string = "";
+      firebase.database().ref("user_id").once("value").then(function (snapchild) {
+        snapchild.forEach(function (snap) {
+          if (snap.child("name").val() == y) {
+            flag2 = true;
+            otherUserID = snap.key;
+          }
+        }.bind(this))
+
+
+        if (flag2 == false) {
+          return;
+        }
+        //if we make it this far, the character and player to share with exist
+
+        firebase.database().ref("shared/" + otherUserID + "/" + firebase.auth().currentUser.uid).child(x).set(0);
+      }.bind(this))
     }.bind(this))
   }
 }

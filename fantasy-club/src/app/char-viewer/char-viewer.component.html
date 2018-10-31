@@ -6,11 +6,11 @@
   <div *ngIf="sharedToggle">
     <p *ngIf="sharedViewerLoading">&emsp;Loading... </p>
     <ul *ngIf="sharedViewerLoading == false && sharedMenuNames.length > 0">
-      <li *ngFor="let name of sharedMenuNames; let i = index" (click)="setFriendIndex(i)">
+      <li class= "highlight" *ngFor="let name of sharedMenuNames; let i = index" (click)="setFriendIndex(i)">
         {{name}}
         <ul>
           <div *ngIf="i == friendCharIndex && friendChars.length > 0">
-            <li *ngFor="let character of friendChars" (click)="viewCharacter(character)">{{character.key}}</li>
+            <li class="highlight" *ngFor="let character of friendChars" (click)="viewCharacter(character)">{{character.key}}</li>
           </div>
         </ul>
       </li>
@@ -24,21 +24,24 @@
   <br>
 
   <div *ngIf="shareMenuToggle">
-    <p>test</p>
+    <input type="text" id="inputCharacter" placeholder="Character To Share">
+    <br>
+    <input type="text" id="inputPlayer" placeholder="Share with whom?">
+    <button (click)="shareCharacter()">Share!</button>
   </div>
   <div *ngIf="adminStatus">
     <button>Search</button>
   </div>
   <div *ngIf="selectedCharacter != undefined">
     <hr>
-    <br>
-    <br>
-    <button *ngIf="selectedCharacter != undefined" (click)="viewCharacter( (undefined))">Hide Character</button>
+    <button *ngIf="selectedCharacter != undefined" (click)="viewCharacter((undefined))">Hide Character</button>
     <div class="container-fluid">
       <div class="row">
-        {{selectedCharacter.key}}
+        <div class="col-lg">
+          <p>{{selectedCharacter.key}}</p>
+        </div>
       </div>
-      <div class="row" *ngFor="let stat of statName; let i = index">
+      <div class="row border border-info" *ngFor="let stat of statName; let i = index">
         <div class="col">
           {{statName[i]}}
         </div>
