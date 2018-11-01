@@ -211,6 +211,19 @@ export class ItemlistComponent implements OnInit {
     this.editDisplay = false;
   }
   removeItem(x: firebase.database.DataSnapshot) {
+    if(x.ref.parent.parent.parent.parent.key == "characters") {
+      //we need to remove effect 
+      if (x.child("bonus").val() != "" || x.child("stat").val() != "") {
+        let bonus = x.child("bonus").val()
+        let stat = x.child("stat").val()
+
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar +"/" + stat).once("value").then(function(snap) {
+          let total = parseInt(snap.val())
+          total -= bonus;
+          snap.ref.set(total)
+        })
+      }
+    }
     x.ref.remove()
   }
   shareMenu() {
@@ -313,8 +326,10 @@ export class ItemlistComponent implements OnInit {
         let descr = this.selectedItem.child("desc").val();
         let dA = this.selectedItem.child("diceAmount").val();
         let dT = this.selectedItem.child("diceType").val();
-        let bon = this.selectedItem.child("bonus").val();
+        let bon : number = this.selectedItem.child("bonus").val();
         let stat = this.selectedItem.child("stat").val();
+
+
 
         firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/items/" + this.selectedItem.key).set(
           {
@@ -324,8 +339,14 @@ export class ItemlistComponent implements OnInit {
             diceType: dT,
             bonus: bon,
             stat: stat
-          }
-        )
+          })
+
+
+          firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar).child(stat).once("value").then(function(snap) {
+            let x : number = parseInt(snap.val())
+            x = (+x + +bon)
+            snap.ref.set(x)
+          })
       }
     }.bind(this))
   }
