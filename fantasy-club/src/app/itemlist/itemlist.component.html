@@ -77,7 +77,7 @@
     </ul>
     <button (click)="setSelectedItem(undefined)">Hide</button>
     <button (click)="displayEditor()" *ngIf="GMStatus">Edit</button>
-    <button (click)="setCharItem(selectedItem)">Add to Current Character</button>
+    <button *ngIf="selectedItemType != 'trap'" (click)="setCharItem(selectedItem)">Add to Current Character</button>
     <button  (click)="rollTrap()">Roll Dice</button>
     <button (click)=addToGameToggler()>Add To Game</button>
     <!-- <ul *ngIf="selectedItemType == 'trap'"> -->
