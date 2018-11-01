@@ -26,7 +26,10 @@
   <div *ngIf="shareMenuToggle">
     <input type="text" id="inputCharacter" placeholder="Character To Share">
     <br>
-    <input type="text" id="inputPlayer" placeholder="Share with whom?">
+    <input type="text" id="inputPlayer" list="allUsers" placeholder="Share with whom?">
+    <datalist id="allUsers">
+        <option *ngFor="let player of players">{{player}}</option>
+      </datalist>
     <button (click)="shareCharacter()">Share!</button>
   </div>
   <div *ngIf="adminStatus">
