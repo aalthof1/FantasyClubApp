@@ -16,6 +16,7 @@ import { TrapCreatorComponent } from './trap-creator/trap-creator.component';
 import { SpellcardCreatorComponent } from './spellcard-creator/spellcard-creator.component';
 import { SpellcardListComponent } from './spellcard-list/spellcard-list.component';
 import { NpcCreatorComponent } from './npc-creator/npc-creator.component';
+import { NpclistComponent } from './npclist/npclist.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NpcCreatorComponent } from './npc-creator/npc-creator.component';
     SpellcardCreatorComponent,
     SpellcardListComponent,
     NpcCreatorComponent,
+    NpclistComponent,
   ],
   imports: [
     BrowserModule

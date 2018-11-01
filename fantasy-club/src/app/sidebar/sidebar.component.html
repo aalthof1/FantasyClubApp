@@ -92,6 +92,14 @@
         <app-trap-creator></app-trap-creator>
       </ul>
       </div>
+      <div *ngIf="isUserGM()">
+        <li data-toggle="collapse" data-target="#NPCs" class="collapsed" id="NPC-container">
+          <a href="#"><i class="fa fa-globe fa-lg"></i> NPC Creator <span class="arrow"></span></a>
+        </li>
+        <ul class="sub-menu collapse" id="NPCs">
+          <app-npc-creator></app-npc-creator>
+        </ul>
+        </div>
       <li data-toggle="collapse" data-target="#admin" class="collapsed no-display" id="admin-container">
         <a href="#"><i class="fa fa-globe fa-lg"></i> Admin Settings <span class="arrow"></span></a>
       </li>
