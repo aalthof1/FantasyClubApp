@@ -25,6 +25,8 @@ export class ItemlistComponent implements OnInit {
   c: number
   rolls: Array<number>;
   total: number;
+  stat: string;
+  bonus: number;
   addToGameToggle: boolean = false;
   currChar: string;
   statComp: string = "";
@@ -311,13 +313,17 @@ export class ItemlistComponent implements OnInit {
         let descr = this.selectedItem.child("desc").val();
         let dA = this.selectedItem.child("diceAmount").val();
         let dT = this.selectedItem.child("diceType").val();
+        let bon = this.selectedItem.child("bonus").val();
+        let stat = this.selectedItem.child("stat").val();
 
         firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/items/" + this.selectedItem.key).set(
           {
             creatorName: cName,
             desc: descr,
             diceAmount: dA,
-            diceType: dT
+            diceType: dT,
+            bonus: bon,
+            stat: stat
           }
         )
       }
