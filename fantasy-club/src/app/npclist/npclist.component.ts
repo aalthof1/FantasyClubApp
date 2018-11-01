@@ -11,6 +11,7 @@ export class NpclistComponent implements OnInit {
   npcToggle: boolean = false;
   NPCs: Array<firebase.database.DataSnapshot> = [];
   selectedNPC: firebase.database.DataSnapshot = null;
+  editDisplay: boolean = false;
   shareMenuToggle: boolean = false;
 
   constructor() { }
@@ -28,11 +29,21 @@ export class NpclistComponent implements OnInit {
   fillnpc() {
     firebase.database().ref("/NPC/" + firebase.auth().currentUser.uid).on("value",
       function (snapshot) {
-        this.npcSpells = [];
+        this.NPCs = [];
         snapshot.forEach(function (childsnap) {
-          this.npcSpells.push(childsnap);
+          this.NPCs.push(childsnap);
         }.bind(this))
       }.bind(this))
   }
 
+  setSelectedNPC(x: firebase.database.DataSnapshot) {
+    this.selectedNPC = x;
+    }
+
+    displayEditor() {
+      if (firebase.auth().currentUser == null) {
+        return;
+      }
+      this.editDisplay = true;
+    }
 }

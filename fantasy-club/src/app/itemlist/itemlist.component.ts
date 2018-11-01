@@ -139,8 +139,14 @@ export class ItemlistComponent implements OnInit {
   updateItem() {
     let x: HTMLInputElement = document.getElementById("itemNameInput") as HTMLInputElement;
     let y: HTMLTextAreaElement = document.getElementById("itemDescription") as HTMLTextAreaElement;
+    let bonus =  (document.getElementById("upBonus") as HTMLInputElement).value;
+    let stat = (document.getElementById("upStat") as HTMLInputElement).value;
     this.d = parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value);
     this.c = parseInt((document.getElementById("diceType2") as HTMLInputElement).value);
+
+    console.log(bonus)
+    console.log(stat)
+
 
     if ((document.getElementById("diceAmount2") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value) < 1) {
       this.d = 1;
@@ -158,8 +164,6 @@ export class ItemlistComponent implements OnInit {
     //committed to updating the item
     let cID = this.selectedItem.child("creatorID").val();
     let cName = this.selectedItem.child("creatorName").val();
-    let dA = this.selectedItem.child("diceAmount").val();
-    let dT = this.selectedItem.child("diceType").val();
     this.selectedItem.ref.remove();
     if (this.selectedItem.ref.parent.parent.key == "private") {
       firebase.database().ref("items/private/" + firebase.auth().currentUser.uid + "/" + x.value).set(
@@ -168,7 +172,9 @@ export class ItemlistComponent implements OnInit {
           creatorName: cName,
           desc: y.value,
           diceAmount: this.d,
-          diceType: this.c
+          diceType: this.c,
+          bonus: bonus,
+          stat: stat
         }
       )
     }
@@ -179,7 +185,9 @@ export class ItemlistComponent implements OnInit {
           creatorName: cName,
           desc: y.value,
           diceAmount: this.d,
-          diceType: this.c
+          diceType: this.c,
+          bonus: bonus,
+          stat: stat
         }
       )
     }

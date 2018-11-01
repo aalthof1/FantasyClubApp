@@ -94,6 +94,10 @@
         <br>
         <textarea id="itemDescription" cols="40" rows="5">{{selectedItem.child('desc').val()}}</textarea>
         <br>
+        <input type="number" id="upBonus" value="{{selectedItem.child('bonus').val()}}">
+        <br>
+        <input type="text" id="upStat" value="{{selectedItem.child('stat').val()}}">
+        <br>
         <!-- <div *ngIf="selectedItemType == 'trap'"> -->
             <input type="number" id="diceAmount2" value="{{selectedItem.child('diceAmount').val()}}" min="1">
             <input type="number" id="diceType2" value="{{selectedItem.child('diceType').val()}}" min="2">
