@@ -53,7 +53,7 @@ export class SpellcardListComponent implements OnInit {
 
   fillPrivate() {
     this.statComp = ""
-    firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.uid).on("value",
+    firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.displayName).on("value",
       function (snapshot) {
         this.privateSpells = [];
         snapshot.forEach(function (childsnap) {
@@ -147,7 +147,7 @@ export class SpellcardListComponent implements OnInit {
     this.c = parseInt((document.getElementById("diceType3") as HTMLInputElement).value);
 
     if ((document.getElementById("diceAmount3") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceAmount3") as HTMLInputElement).value) < 1) {
-      this.d = 1;
+      this.d = -1;
     }
     if (this.d > 100) {
       this.d = 100;
@@ -156,7 +156,7 @@ export class SpellcardListComponent implements OnInit {
       this.c = 2;
     }
 
-    firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.uid + "/" + x.value).set(
+    firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.displayName + "/" + x.value).set(
       {
         creatorName: cName,
         desc: y.value,
