@@ -70,7 +70,6 @@ export class CharViewerComponent implements OnInit {
         if (snip.val() == 3) {
           //is admin, list all users
           this.isAdmin = true;
-          console.log("hey you're an admin")
           firebase.database().ref("user_id").once("value").then(function (slip) {
             slip.forEach(function (slimjim) {
               this.sharedMenuIDs.push(slimjim)
@@ -111,7 +110,6 @@ export class CharViewerComponent implements OnInit {
       this.friendCharIndex = i;
       firebase.database().ref("characters/" + this.sharedMenuIDs[i].key).once("value").then(function (snapshot) {
         snapshot.forEach(function (childSnap) {
-          console.log(childSnap.key)
           if (this.isAdmin) {
             this.friendChars.push(childSnap);
           }

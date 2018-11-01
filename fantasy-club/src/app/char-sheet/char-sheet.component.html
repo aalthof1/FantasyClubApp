@@ -71,15 +71,16 @@
 <div *ngIf="selectedGame; else NoGame">
   <h3 class="bg-dark text-white">Session: {{selectedGame.key}}</h3>
   <div *ngIf="hasAnnouncement">
-      <h3 style="color: red;">{{currentAnnouncement}}</h3>
+    <h3 style="color: red;">{{currentAnnouncement}}</h3>
   </div>
   <div *ngIf="currentGameGM">
-      <input style="display: inline;" type="text" id="new-announcement"/>
-      <input style="display: inline;" type="button" value="Change Announcement" (click)="changeAnnouncement()"/>
+    <input style="display: inline;" type="text" id="new-announcement" />
+    <input style="display: inline;" type="button" value="Change Announcement" (click)="changeAnnouncement()" />
   </div>
   <button (click)="printCharacters()">View Player Characters</button>
   <button (click)="printGM()">View GM</button>
   <button (click)="printDesc()">Description</button>
+  <button (click)="showTraps()">Traps</button>
   <br>
   <h4 *ngIf="gamePlayerCountView"># of players: {{playerCount}}</h4>
   <h4 *ngIf="capacity">Capacity: {{capacity}} </h4>
@@ -92,6 +93,27 @@
       {{player}}
       <button *ngIf="currentGameGM" (click)="removeCharacterFromGame(i)">Remove</button>
     </li>
+  </div>
+  <div *ngIf="trapMenuToggle">
+    <p *ngIf="noTrapMessage">No traps are currently in this game</p>
+    <div *ngIf="!noTrapMessage">
+      <ul>
+        <li class="trap" *ngFor="let t of traps; let i = index" (click)="selectTrap(i)">
+          {{t.key}}
+        </li>
+        <div *ngIf="selectedTrap != -1">
+          <ul>
+            <li *ngFor="let tInfo of trapInfo">
+              {{tInfo.key}}
+              <ul>
+                <li> {{tInfo.val()}}</li>
+              </ul>
+            </li>
+          </ul>
+          <button (click)="selectTrap(-1)">Hide Trap</button>
+        </div>
+      </ul>
+    </div>
   </div>
   <br>
 </div>

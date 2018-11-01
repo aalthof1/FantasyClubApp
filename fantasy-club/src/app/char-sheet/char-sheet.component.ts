@@ -35,6 +35,12 @@ export class CharSheetComponent implements OnInit {
   playerCount : number = 0;
   hasAnnouncement : boolean = false;
   currentAnnouncement : string;
+  trapMenuToggle:boolean = false;
+  noTrapMessage: boolean = false;
+  traps: Array<firebase.database.DataSnapshot> = [];
+  trapInfo: Array<firebase.database.DataSnapshot> = [];
+  selectedTrap : number = -1
+
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
     this.charSubscript = this.currentCharacter.get()
@@ -193,8 +199,35 @@ export class CharSheetComponent implements OnInit {
     this.selectedGame.child("announcement").ref.set(newAnnouncement);
   }
 
-
-
-
-
+  showTraps() {
+    this.trapMenuToggle = !this.trapMenuToggle;
+    this.traps = []
+    this.trapInfo = []
+    this.selectedTrap = -1
+    this.noTrapMessage = false
+    
+    if (this.trapMenuToggle == false) {
+     return; 
+    }
+    if (this.selectedGame.hasChild("traps")) {
+      this.selectedGame.child("traps").forEach(function (snapshot) {
+        this.traps.push(snapshot)
+      }.bind(this))
+    }
+    else {
+      this.noTrapMessage = true;
+    }
+  }
+  selectTrap(i : number) {
+    if (i < 0 || i >= this.traps.length) {
+      this.selectedTrap = -1;
+      return;
+    }
+    this.selectedTrap = i;
+    firebase.database().ref("traps/" + firebase.auth().currentUser.uid + "/" + this.traps[i].key).once("value").then(function(snap) {
+      snap.forEach(function(s) {
+        this.trapInfo.push(s)
+      }.bind(this))
+    }.bind(this))
+  }
 }
