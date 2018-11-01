@@ -222,7 +222,7 @@ export class SpellcardListComponent implements OnInit {
       }
     }
     var stat = document.getElementById("stat") as HTMLInputElement
-    if(stat.value == "") {
+    if (stat.value == "") {
       this.statComp = "Please enter a stat"
       return;
     }
@@ -257,4 +257,27 @@ export class SpellcardListComponent implements OnInit {
 
   }
 
+  shareSpell() {
+    var sharee = document.getElementById("shareSpell") as HTMLInputElement;
+    let cName = this.selectedSpell.child("creatorName").val();
+    let descr = this.selectedSpell.child("desc").val();
+    let dA = this.selectedSpell.child("diceAmount").val();
+    let dT = this.selectedSpell.child("diceType").val();
+
+    firebase.database().ref("user_id/").once("value").then(function (snapshot) {
+      snapshot.forEach(function(childsnap) {
+        if (childsnap.child("name").val() == sharee.value) {
+          firebase.database().ref('spellcards/private/' + sharee.value + "/" + this.selectedSpell.key).set(
+            {
+              creatorName: cName,
+              desc: descr,
+              diceAmount: dA,
+              diceType: dT
+            }
+          )
+        }
+      }.bind(this))
+    }.bind(this))
+
+  }
 }

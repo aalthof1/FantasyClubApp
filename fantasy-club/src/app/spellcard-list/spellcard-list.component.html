@@ -78,4 +78,8 @@
           <input required type="number" id="diceType3" value="{{selectedSpell.child('diceType').val()}}" min="2">
       
       <button (click)="updateSpell()">Submit</button>
+      <br>
+      <br>
+      <input *ngIf="selectedSpellType == 'private' || isUserGM()" required type="text" id="shareSpell">
+      <button *ngIf="selectedSpellType == 'private' || isUserGM()" (click)="shareSpell()">Share</button>
   </div>
