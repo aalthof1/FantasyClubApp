@@ -64,10 +64,15 @@
     <button (click)="setSelectedItem(undefined)">Hide</button>
     <button (click)="displayEditor()" *ngIf="GMStatus">Edit</button>
     <button *ngIf="selectedItemType == 'trap'" (click)="rollTrap()">Roll Dice</button>
+    <button (click)=addToGameToggler()>Add To Game</button>
     <ul *ngIf="selectedItemType == 'trap'">
         <li *ngFor="let item of rolls; index as i" class="roll"> Roll {{i + 1}} : {{item}} </li>
         <li id="total"> Total {{total}} </li>
-      </ul>
+    </ul>
+    <div *ngIf="addToGameToggle">
+        <input type="text" id="gameName" placeholder="Game Name">
+        <button id="gameSubmit" (click)="gameSubmit()">Submit</button>
+    </div>
     <button *ngIf="selectedItemType == 'private'" (click)="shareMenu()">Share</button>
     <div *ngIf="editDisplay">
         <input type="text" id="itemNameInput" value="{{selectedItem.key}}">
@@ -75,7 +80,7 @@
         <textarea id="itemDescription" cols="40" rows="5">{{selectedItem.child('desc').val()}}</textarea>
         <br>
         <div *ngIf="selectedItemType == 'trap'">
-            <input type="number" id="diceAmount2" value="{{selectedItem.child('diceAmount').val()}}" min="1"> 
+            <input type="number" id="diceAmount2" value="{{selectedItem.child('diceAmount').val()}}" min="1">
             <input type="number" id="diceType2" value="{{selectedItem.child('diceType').val()}}" min="2">
         </div>
         <button (click)="updateItem()">Submit</button>
