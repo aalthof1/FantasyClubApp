@@ -71,6 +71,9 @@
         <li>
                 Roll: {{selectedItem.child('diceAmount').val()}} d {{selectedItem.child('diceType').val()}}
         </li>
+        <li>
+            Bonus: {{selectedItem.child('bonus').val()}} to {{selectedItem.child('stat').val()}}
+    </li>
     </ul>
     <button (click)="setSelectedItem(undefined)">Hide</button>
     <button (click)="displayEditor()" *ngIf="GMStatus">Edit</button>
