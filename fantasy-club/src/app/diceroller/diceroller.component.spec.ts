@@ -2,8 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { DicerollerComponent } from '../diceroller/diceroller.component';
-import { IfStmt } from '@angular/compiler';
-import { IterableChangeRecord_ } from '@angular/core/src/change_detection/differs/default_iterable_differ';
 
 
 describe('Normal Rolls', () => {
@@ -15,7 +13,6 @@ describe('Normal Rolls', () => {
     TestBed.configureTestingModule({
       declarations: [ DicerollerComponent ],
         providers: [ SidebarComponent ]
-
     })
     .compileComponents();
   }));

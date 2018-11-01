@@ -14,6 +14,9 @@ export class DicerollerComponent implements OnInit {
   mod : number;
   rolls : Array<number>;
   total : number;
+  lastButton : number;
+  tagName : String;
+  typeDisplay : String;
 
   @Input() app: firebase.app.App;
   @Input() userId: string;
@@ -24,9 +27,14 @@ export class DicerollerComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.typeDisplay = "Roll";
+    this.tagName = "Total";
   }
 
   DiceRoller() {
+    this.typeDisplay = "Roll";
+    this.tagName = "Total";
+    this.lastButton = 0;
     this.amount = parseInt((document.getElementById("amount") as HTMLInputElement).value);
     this.type = parseInt((document.getElementById("type") as HTMLInputElement).value);
     this.mod = parseInt((document.getElementById("modifier") as HTMLInputElement).value);
@@ -71,25 +79,75 @@ export class DicerollerComponent implements OnInit {
   }
 
   saveDiceRoll() {
+    this.lastButton = 1;
     var amountText = (document.getElementById("amount") as HTMLInputElement).value;
     var typeText = (document.getElementById("type") as HTMLInputElement).value;
     var modText = (document.getElementById("modifier") as HTMLInputElement).value;
     if(amountText == "" || typeText == "" || modText == "") {
       alert("Please fill all options.");
       return;
-    } else if (firebase.auth().currentUser == null) {
+    }else if (firebase.auth().currentUser == null) {
       alert("Please log in to save a dice combination.");
       return;
     }
+    this.typeDisplay = "Roll";
+    this.tagName = "Total";
     var amount = parseInt(amountText);
     var type = parseInt(typeText);
     var mod = parseInt(modText);
     var name = "";
+    if(amount < 1 || amount > 100) {
+      alert("Please enter valid amount in the range [1,100].");
+      return;
+    }
+    else if (type < 2) {
+      alert("Please enter valid type greater than 2.");
+      return;
+    }
     do {
       name = prompt("Please enter a non-empty name/description for this dice combination.\nNumber of dice = " + amount + ", Number of sides = " + type + ", modifier = " + mod);
     } while(name == "");
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/amount").set(amount);
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/type").set(type);
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/mod").set(mod);
+  }
+
+  averageDiceRoll() {
+    this.lastButton = 2;
+    var amountText = (document.getElementById("amount") as HTMLInputElement).value;
+    var typeText = (document.getElementById("type") as HTMLInputElement).value;
+    var modText = (document.getElementById("modifier") as HTMLInputElement).value;
+    if(amountText == "" || typeText == "") {
+      alert("Please fill all options.");
+      return;
+    } else if (firebase.auth().currentUser == null) {
+      alert("Please log in to use the features of the site.");
+      return;
+    } else if(modText == "") {
+      modText = "0";
+    }
+    this.typeDisplay = "Percent to Roll";
+    this.tagName = "Average";
+    var amount = parseInt(amountText);
+    var type = parseInt(typeText);
+    var mod = parseInt(modText);
+    if(amount < 1 || amount > 100) {
+      alert("Please enter a valid amount in the range [1,100].");
+      return;
+    }
+    else if (type < 2) {
+      alert("Please enter a valid type greater than 2.");
+      return;
+    }
+    var average : number;
+    var modAverage : number;
+    average = amount * (type + 1) / 2;
+    var printString : String;
+    printString = "The unmodified average of " + amount + ", " + type + "-sided dice is " + average +".";
+    if(mod > 0) {
+      modAverage = average + mod;
+      printString +=  "With the modifier, it is " + modAverage + ".";
+    }
+    alert(printString);
   }
 }
