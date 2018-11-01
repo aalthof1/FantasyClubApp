@@ -19,6 +19,8 @@ export class ItemCreatorComponent implements OnInit {
   snapshot: firebase.database.DataSnapshot;
   diceAmount: number;
   diceType: number;
+  stat: string;
+  bonus: string;
 
   constructor(private sidebar: SidebarComponent) {
     this.userId = sidebar.user_id
@@ -38,6 +40,14 @@ export class ItemCreatorComponent implements OnInit {
   createPrivateItem() {
     this.name = ((document.getElementById("itemName") as HTMLInputElement).value);
     this.desc = ((document.getElementById("itemDesc") as HTMLInputElement).value);
+
+    if((document.getElementById("itemStatBonus") as HTMLInputElement).value != "" && (document.getElementById("itemStat") as HTMLInputElement).value != "") {
+      this.stat = ((document.getElementById("itemStat") as HTMLInputElement).value);
+      this.bonus = ((document.getElementById("itemStatBonus") as HTMLInputElement).value);
+    } else {
+      this.stat = "";
+      this.bonus = "";
+    }
     if (this.name == "" || this.desc == "") {
       return;
     }
@@ -58,7 +68,9 @@ export class ItemCreatorComponent implements OnInit {
         creatorName: firebase.auth().currentUser.displayName,
         desc: this.desc,
         diceAmount : this.diceAmount,
-        diceType: this.diceType
+        diceType: this.diceType,
+        stat: this.stat,
+        bonus: this.bonus
       }
     )
   }
@@ -66,6 +78,13 @@ export class ItemCreatorComponent implements OnInit {
   createPublicItem() {
     this.name = ((document.getElementById("itemName") as HTMLInputElement).value);
     this.desc = ((document.getElementById("itemDesc") as HTMLInputElement).value);
+    if((document.getElementById("itemStatBonus") as HTMLInputElement).value != "" && (document.getElementById("itemStat") as HTMLInputElement).value != "") {
+      this.stat = ((document.getElementById("itemStat") as HTMLInputElement).value);
+      this.bonus = ((document.getElementById("itemStatBonus") as HTMLInputElement).value);
+    } else {
+      this.stat = "";
+      this.bonus = "";
+    }
     this.diceAmount = parseInt((document.getElementById("itemDiceAmount") as HTMLInputElement).value);
     this.diceType = parseInt((document.getElementById("itemDiceType") as HTMLInputElement).value);
     if((document.getElementById("itemDiceAmount") as HTMLInputElement).value == "" || parseInt((document.getElementById("itemDiceAmount") as HTMLInputElement).value) < 1) {
@@ -83,7 +102,9 @@ export class ItemCreatorComponent implements OnInit {
         creatorID: firebase.auth().currentUser.uid,
         desc: this.desc,
         diceAmount : this.diceAmount,
-        diceType: this.diceType
+        diceType: this.diceType,
+        stat: this.stat,
+        bonus: this.bonus
       }
     )
   }
