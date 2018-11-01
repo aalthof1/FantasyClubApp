@@ -4,10 +4,11 @@
 
   <div *ngIf="savedRolls.length > 0">
     Used a saved configuration:
-    <select #select (change)="fillFromSaved(select.value)">
+    <select id="savedRollSelect" #select (change)="fillFromSaved(select.value)">
       <option>-- Please Select An Option --</option>
       <option *ngFor="let item of savedRolls">{{item}}</option>
     </select>
+    <input type="button" value="Delete Combination" (click)="deleteCombination()">
   </div>
 
   Amount to roll:<br>

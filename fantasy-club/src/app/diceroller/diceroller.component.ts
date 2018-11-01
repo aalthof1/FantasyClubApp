@@ -98,7 +98,6 @@ export class DicerollerComponent implements OnInit {
 
   fillFromSaved(item: string) {
     if(item == "-- Please Select An Option --") {
-      alert("here");
       this.clearAll();
       return;
     }
@@ -114,6 +113,15 @@ export class DicerollerComponent implements OnInit {
     (document.getElementById("amount") as HTMLInputElement).value = "";
     (document.getElementById("type") as HTMLInputElement).value = "";
     (document.getElementById("modifier") as HTMLInputElement).value = "";
+  }
+
+  deleteCombination() {
+    var name = (document.getElementById("savedRollSelect") as HTMLInputElement).value;
+    if(name == "-- Please Select An Option --") {
+      return;
+    }
+    this.savedRolls.splice(this.savedRolls.indexOf(name),1);
+    firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name).remove();
   }
 
 }
