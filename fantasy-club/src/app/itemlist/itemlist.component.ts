@@ -144,10 +144,6 @@ export class ItemlistComponent implements OnInit {
     this.d = parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value);
     this.c = parseInt((document.getElementById("diceType2") as HTMLInputElement).value);
 
-    console.log(bonus)
-    console.log(stat)
-
-
     if ((document.getElementById("diceAmount2") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value) < 1) {
       this.d = 1;
     }
