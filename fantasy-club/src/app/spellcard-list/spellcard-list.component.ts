@@ -53,7 +53,7 @@ export class SpellcardListComponent implements OnInit {
 
   fillPrivate() {
     this.statComp = ""
-    firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.displayName).on("value",
+    firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.uid).on("value",
       function (snapshot) {
         this.privateSpells = [];
         snapshot.forEach(function (childsnap) {
@@ -156,7 +156,7 @@ export class SpellcardListComponent implements OnInit {
       this.c = 2;
     }
 
-    firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.displayName + "/" + x.value).set(
+    firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.uid + "/" + x.value).set(
       {
         creatorName: cName,
         desc: y.value,
@@ -263,11 +263,13 @@ export class SpellcardListComponent implements OnInit {
     let descr = this.selectedSpell.child("desc").val();
     let dA = this.selectedSpell.child("diceAmount").val();
     let dT = this.selectedSpell.child("diceType").val();
+    let gmID : string = undefined;
 
     firebase.database().ref("user_id/").once("value").then(function (snapshot) {
       snapshot.forEach(function(childsnap) {
         if (childsnap.child("name").val() == sharee.value) {
-          firebase.database().ref('spellcards/private/' + sharee.value + "/" + this.selectedSpell.key).set(
+          gmID = childsnap.key;
+          firebase.database().ref('spellcards/private/' + gmID + "/" + this.selectedSpell.key).set(
             {
               creatorName: cName,
               desc: descr,

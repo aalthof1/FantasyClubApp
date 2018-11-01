@@ -58,7 +58,7 @@ export class SpellcardCreatorComponent implements OnInit {
     if((document.getElementById("spellDiceType") as HTMLInputElement).value == "" || parseInt((document.getElementById("spellDiceType") as HTMLInputElement).value) < 2) {
       this.diceType = 2;
     }
-    firebase.database().ref('spellcards/private/' + firebase.auth().currentUser.displayName + "/" + this.name).set(
+    firebase.database().ref('spellcards/private/' + firebase.auth().currentUser.uid + "/" + this.name).set(
       {
         creatorID: firebase.auth().currentUser.uid,
         creatorName: firebase.auth().currentUser.displayName,
