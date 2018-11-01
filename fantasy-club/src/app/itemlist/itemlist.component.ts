@@ -9,8 +9,10 @@ import * as firebase from 'firebase';
 export class ItemlistComponent implements OnInit {
   privateToggle: boolean = false;
   publicToggle: boolean = false;
+  charToggle: boolean = false;
   publicItems: Array<firebase.database.DataSnapshot> = [];
   privateItems: Array<firebase.database.DataSnapshot> = [];
+  charItems: Array<firebase.database.DataSnapshot> = [];
   selectedItem: firebase.database.DataSnapshot = null;
   selectedItemType: string = undefined;
   trapToggle: boolean = false;
@@ -24,6 +26,8 @@ export class ItemlistComponent implements OnInit {
   rolls: Array<number>;
   total: number;
   addToGameToggle: boolean = false;
+  currChar: string;
+  statComp: string = "";
 
 
   constructor() { }
@@ -44,6 +48,30 @@ export class ItemlistComponent implements OnInit {
     if (this.publicToggle) {
       this.fillPublic()
     }
+  }
+
+  charButton() {
+    this.charToggle = !this.charToggle;
+    if (this.charToggle) {
+      this.fillChar()
+    }
+  }
+
+  fillChar() {
+    this.statComp = ""
+    firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/current_character").on("value", function (snapshot) {
+      this.currChar = snapshot.val()
+      if (this.currChar != "") {
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/items/").on("value",
+          function (snapshot) {
+            this.charItems = [];
+            snapshot.forEach(function (childsnap) {
+              this.charItems.push(childsnap);
+            }.bind(this))
+          }.bind(this))
+      }
+    }.bind(this))
+
   }
 
   fillPrivate() {
@@ -112,15 +140,15 @@ export class ItemlistComponent implements OnInit {
     this.d = parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value);
     this.c = parseInt((document.getElementById("diceType2") as HTMLInputElement).value);
 
-      if ((document.getElementById("diceAmount2") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value) < 1) {
-        this.d = 1;
-      }
-      if (this.d > 100) {
-        this.d = 100;
-      }
-      if ((document.getElementById("diceType2") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceType2") as HTMLInputElement).value) < 2) {
-        this.c = 2;
-      }
+    if ((document.getElementById("diceAmount2") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value) < 1) {
+      this.d = 1;
+    }
+    if (this.d > 100) {
+      this.d = 100;
+    }
+    if ((document.getElementById("diceType2") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceType2") as HTMLInputElement).value) < 2) {
+      this.c = 2;
+    }
 
     if (x.value == "" || y.value == "") {
       return;
@@ -252,7 +280,7 @@ export class ItemlistComponent implements OnInit {
       x.value = ""
     }
   }
-  
+
   gameSubmit() {
     let x: HTMLInputElement = document.getElementById("gameName") as HTMLInputElement;
     if (x.value == "" || x.value == undefined) {
@@ -271,6 +299,27 @@ export class ItemlistComponent implements OnInit {
       }
       else {
         return;
+      }
+    }.bind(this))
+  }
+
+  setCharItem() {
+    firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/current_character").on("value", function (snapshot) {
+      this.currChar = snapshot.val()
+      if (this.currChar != "") {
+        let cName = this.selectedItem.child("creatorName").val();
+        let descr = this.selectedItem.child("desc").val();
+        let dA = this.selectedItem.child("diceAmount").val();
+        let dT = this.selectedItem.child("diceType").val();
+
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/items/" + this.selectedItem.key).set(
+          {
+            creatorName: cName,
+            desc: descr,
+            diceAmount: dA,
+            diceType: dT
+          }
+        )
       }
     }.bind(this))
   }

@@ -174,8 +174,10 @@ export class SpellcardListComponent implements OnInit {
   }
 
   setCharSpell() {
-    if (this.currChar != "") {
-      let cName = this.selectedSpell.child("creatorName").val();
+    firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/current_character").on("value", function (snapshot) {
+      this.currChar = snapshot.val()
+      if (this.currChar != "") {
+        let cName = this.selectedSpell.child("creatorName").val();
       let descr = this.selectedSpell.child("desc").val();
       let dA = this.selectedSpell.child("diceAmount").val();
       let dT = this.selectedSpell.child("diceType").val();
@@ -188,7 +190,8 @@ export class SpellcardListComponent implements OnInit {
           diceType: dT
         }
       )
-    }
+      }
+    }.bind(this))
   }
 
   rollSpell() {

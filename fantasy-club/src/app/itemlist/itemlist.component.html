@@ -29,6 +29,19 @@
     <br>
 </div>
 
+<h2>Character Items</h2>
+<button (click)=charButton()>View</button>
+<div *ngIf="charToggle">
+  <ul>
+    <li class="itemCategory" *ngFor="let item of charItems">
+      <button (click)="removeItem(item)">Remove</button>
+      <button (click)="setSelectedItem(item)">Select</button>
+      {{item.key}}
+    </li>
+  </ul>
+</div>
+<br>
+<br>
 <h2>Public Items</h2>
 <button (click)=publicButton()>View</button>
 <br>
@@ -56,13 +69,12 @@
             <p class="descriptionText">{{selectedItem.child("desc").val()}}</p>
         </li>
         <li>
-            <div *ngIf="selectedItemType == 'trap'">
                 Roll: {{selectedItem.child('diceAmount').val()}} d {{selectedItem.child('diceType').val()}}
-            </div>
         </li>
     </ul>
     <button (click)="setSelectedItem(undefined)">Hide</button>
     <button (click)="displayEditor()" *ngIf="GMStatus">Edit</button>
+    <button (click)="setCharItem(selectedItem)">Add to Current Character</button>
     <button  (click)="rollTrap()">Roll Dice</button>
     <button (click)=addToGameToggler()>Add To Game</button>
     <!-- <ul *ngIf="selectedItemType == 'trap'"> -->
