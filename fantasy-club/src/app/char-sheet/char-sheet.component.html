@@ -116,4 +116,8 @@
     </div>
   </div>
   <br>
+  <div *ngIf="currentGameGM">
+    <input style="display: inline;" type="number" id="xp" placeholder="XP" min="0"/>
+    <button (click)="endGame()">End Game</button>
+  </div>
 </div>

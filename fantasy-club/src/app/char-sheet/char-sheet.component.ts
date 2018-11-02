@@ -15,7 +15,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 export class CharSheetComponent implements OnInit {
   @Output() refresh = new EventEmitter<string>();
 
-  currentGameGM : boolean = false;
+  currentGameGM: boolean = false;
   selectedChar: firebase.database.DataSnapshot;
   selectedGame: firebase.database.DataSnapshot;
   charSubscript: Subscription;
@@ -31,22 +31,26 @@ export class CharSheetComponent implements OnInit {
   GMDisplay: string = undefined;
   description: string = undefined;
   playerCharacters: Array<string> = [];
-  capacity : number = undefined;
-  gamePlayerCountView : boolean = false;
-  playerCount : number = 0;
-  hasAnnouncement : boolean = false;
-  currentAnnouncement : string;
-  trapMenuToggle:boolean = false;
+  capacity: number = undefined;
+  gamePlayerCountView: boolean = false;
+  playerCount: number = 0;
+  hasAnnouncement: boolean = false;
+  currentAnnouncement: string;
+  trapMenuToggle: boolean = false;
   noTrapMessage: boolean = false;
   traps: Array<firebase.database.DataSnapshot> = [];
   trapInfo: Array<firebase.database.DataSnapshot> = [];
+<<<<<<< HEAD
   selectedTrap : number = -1
   canSeeAnnouncement: boolean;
+=======
+  selectedTrap: number = -1
+>>>>>>> origin/master
 
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
     this.charSubscript = this.currentCharacter.get()
-      .subscribe( snapshot => {
+      .subscribe(snapshot => {
         this.view = false;
         this.edit = false;
         this.selectedChar = snapshot.data;
@@ -61,20 +65,20 @@ export class CharSheetComponent implements OnInit {
         this.description = undefined;
         this.selectedGame = snapshot.data
         this.currentAnnouncement = this.selectedGame.child("announcement").val();
-        this.selectedGame.child("announcement").ref.on("value", function(snap) {
+        this.selectedGame.child("announcement").ref.on("value", function (snap) {
           this.currentAnnouncement = snap.val();
-          if(snap.val() == "") {
+          if (snap.val() == "") {
             this.hasAnnouncement = false;
           } else {
             this.hasAnnouncement = true;
           }
         }.bind(this));
-        if(this.currentAnnouncement == "" || this.currentAnnouncement == null) {
+        if (this.currentAnnouncement == "" || this.currentAnnouncement == null) {
           this.hasAnnouncement = false;
         } else {
           this.hasAnnouncement = true;
         }
-        if (firebase.auth().currentUser.uid == this.selectedGame.child("user_id").val() ) {
+        if (firebase.auth().currentUser.uid == this.selectedGame.child("user_id").val()) {
           this.currentGameGM = true;
         }
         else {
@@ -111,7 +115,6 @@ export class CharSheetComponent implements OnInit {
 
   submitChanges(): void {
     this.problem = false;
-    console.log("testing submit button for now");
     this.submitValues = [];
     try {
       this.statNames.forEach(name => {
@@ -138,7 +141,7 @@ export class CharSheetComponent implements OnInit {
     this.refresh.emit("refresh");
   }
 
-  printCharacters() {    
+  printCharacters() {
     this.playerCharacters = [];
     this.selectedGame.ref.once("value").then(function (snapshot) {
       this.selectedGame = snapshot;
@@ -168,18 +171,18 @@ export class CharSheetComponent implements OnInit {
     }.bind(this));
   }
 
-  showCharacter(i : number) {
+  showCharacter(i: number) {
     firebase.database().ref().child("characters/").once("value").then(function (snapshot) {
-      snapshot.forEach(function(childsnap) {
-        childsnap.forEach(function(grandChild) {
+      snapshot.forEach(function (childsnap) {
+        childsnap.forEach(function (grandChild) {
           if (grandChild.key == this.playerCharacters[i]) {
             this.view = false;
-            this.edit = false;    
+            this.edit = false;
             this.selectedChar = grandChild;
           }
         }.bind(this))
       }.bind(this))
-    }.bind(this));    
+    }.bind(this));
   }
 
   isUserInGame(){
@@ -211,8 +214,8 @@ export class CharSheetComponent implements OnInit {
     this.gamePlayerCountView = true;
   }
 
-  changeAnnouncement(){
-    var newAnnouncement : string = (document.getElementById("new-announcement") as HTMLInputElement).value;
+  changeAnnouncement() {
+    var newAnnouncement: string = (document.getElementById("new-announcement") as HTMLInputElement).value;
     this.selectedGame.child("announcement").ref.set(newAnnouncement);
   }
 
@@ -222,9 +225,9 @@ export class CharSheetComponent implements OnInit {
     this.trapInfo = []
     this.selectedTrap = -1
     this.noTrapMessage = false
-    
+
     if (this.trapMenuToggle == false) {
-     return; 
+      return;
     }
     if (this.selectedGame.hasChild("traps")) {
       this.selectedGame.child("traps").forEach(function (snapshot) {
@@ -235,16 +238,52 @@ export class CharSheetComponent implements OnInit {
       this.noTrapMessage = true;
     }
   }
-  selectTrap(i : number) {
+  selectTrap(i: number) {
     if (i < 0 || i >= this.traps.length) {
       this.selectedTrap = -1;
       return;
     }
     this.selectedTrap = i;
-    firebase.database().ref("traps/" + firebase.auth().currentUser.uid + "/" + this.traps[i].key).once("value").then(function(snap) {
-      snap.forEach(function(s) {
+    firebase.database().ref("traps/" + firebase.auth().currentUser.uid + "/" + this.traps[i].key).once("value").then(function (snap) {
+      snap.forEach(function (s) {
         this.trapInfo.push(s)
       }.bind(this))
     }.bind(this))
+  }
+  endGame() {
+    let x: number = parseInt((document.getElementById("xp") as HTMLInputElement).value)
+    if (x == undefined || x < 0) {
+      return;
+    }
+    this.printCharacters()
+    this.selectedGame.child("characters").forEach(function (snapshot) {
+      firebase.database().ref("user_id").once("value").then(function (snap) { //user name
+        snap.forEach(function (slip) { //snap is a user_id
+          if (slip.child("name").val() == snapshot.val()) {
+            firebase.database().ref("characters/" + slip.key + "/" + snapshot.key + "/").once("value").then(function (slap) {
+              if (slap.hasChild("exp")) {
+                let total: number = parseInt(slap.child("exp").val())
+                total = +total + +x;
+                slap.child("exp").ref.set(total)
+              }
+              else {
+                slap.child("exp").ref.set(x);
+              }
+            })
+          }
+        }.bind(this))
+      }.bind(this))
+    }.bind(this))
+
+    console.log(this.playerCharacters)
+    this.playerCharacters.forEach(c => {
+      firebase.database().ref("archive/" + this.selectedGame.key + "/characters/" + c).set(0);
+    });
+    firebase.database().ref("archive/" + this.selectedGame.key + "/exp").set(x);
+    firebase.database().ref("archive/" + this.selectedGame.key + "/desc/").set(this.selectedGame.child("desc").val())
+
+
+    this.selectedGame.ref.remove()
+    this.selectedGame = undefined;
   }
 }
