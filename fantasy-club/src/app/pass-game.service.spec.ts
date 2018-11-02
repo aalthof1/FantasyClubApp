@@ -9,4 +9,9 @@ describe('PassGameService', () => {
     const service: PassGameService = TestBed.get(PassGameService);
     expect(service).toBeTruthy();
   });
+
+  it('should initialize fields', () => {
+    const service: PassGameService = TestBed.get(PassGameService);
+    expect(service.gameSnap).toBeUndefined();
+  });
 });

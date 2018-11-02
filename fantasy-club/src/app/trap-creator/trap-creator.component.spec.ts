@@ -42,4 +42,23 @@ describe('TrapCreatorComponent', () => {
   it('should construct', () => {
     expect(component.userId).toEqual(sidebar.user_id);
   });
+
+  it('should initialize fields', () => {
+    expect(component.name).toBeUndefined();
+    expect(component.desc).toBeUndefined();
+    expect(component.diceAmount).toBeUndefined();
+    expect(component.diceAmount).toBeUndefined();
+    expect(component.public).toBeUndefined();
+    expect(component.traps).toEqual([]);
+    expect(component.snapshot).toBeUndefined();
+  });
+
+  it('should say user is GM', () => {
+    sidebar.user_priv = 2;
+    expect(component.isUserGM()).toBeTruthy();
+    sidebar.user_priv = 3;
+    expect(component.isUserGM()).toBeTruthy();
+    sidebar.user_priv = 1;
+    expect(component.isUserGM()).toBeFalsy();
+  });
 });

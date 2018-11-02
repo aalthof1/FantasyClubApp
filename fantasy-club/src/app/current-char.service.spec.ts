@@ -9,4 +9,9 @@ describe('CurrentCharService', () => {
     const service: CurrentCharService = TestBed.get(CurrentCharService);
     expect(service).toBeTruthy();
   });
+
+  it('should intitialize fields', () => {
+    const service: CurrentCharService = TestBed.get(CurrentCharService);
+    expect(service.characterSnap).toBeUndefined();
+  });
 });
