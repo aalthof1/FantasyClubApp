@@ -17,6 +17,7 @@ export class DicerollerComponent implements OnInit {
   lastButton : number;
   tagName : String;
   typeDisplay : String;
+  m : number;
 
   @Input() app: firebase.app.App;
   @Input() userId: string;
@@ -35,6 +36,7 @@ export class DicerollerComponent implements OnInit {
     this.typeDisplay = "Roll";
     this.tagName = "Total";
     this.lastButton = 0;
+    this.m = 0;
     this.amount = parseInt((document.getElementById("amount") as HTMLInputElement).value);
     this.type = parseInt((document.getElementById("type") as HTMLInputElement).value);
     this.mod = parseInt((document.getElementById("modifier") as HTMLInputElement).value);
@@ -80,6 +82,7 @@ export class DicerollerComponent implements OnInit {
 
   saveDiceRoll() {
     this.lastButton = 1;
+    this.m = 0;
     var amountText = (document.getElementById("amount") as HTMLInputElement).value;
     var typeText = (document.getElementById("type") as HTMLInputElement).value;
     var modText = (document.getElementById("modifier") as HTMLInputElement).value;
@@ -149,5 +152,59 @@ export class DicerollerComponent implements OnInit {
       printString +=  "With the modifier, it is " + modAverage + ".";
     }
     alert(printString);
+
+    var percentages = [(type-1)*(amount-1) + type];
+    var index = 0;
+    for(; index < (type-1)*(amount-1) + type; index++) {
+      percentages[index] = 0;
+    }
+    var numTotal = 0;
+    if(amount < 4) {
+      var i = 1;
+      for(; i <= type; i++) {
+        var j = 1;
+        if(amount > 1) {
+          for(; j <= type; j++) {
+            var k = 1;
+            if(amount > 2) {
+              for(; k <= type; k++) {
+                percentages[i+j+k-3]++;
+                numTotal++;
+              }
+            }
+            else {
+              percentages[i+j-2]++;
+              numTotal++;
+            }
+          }
+        }
+        else {
+          percentages[i-1]++;
+          numTotal++;
+        }
+      }
+      var l = 0;
+      for(l = 0; l < percentages.length; l++) {
+        percentages[l] = percentages[l] / numTotal * 100;
+      }
+    }    
+    else {
+      var numRuns = 0;
+      for(; numRuns < 100000; numRuns++) {
+        var sum : number;
+        sum = 0;
+        var i = 0;
+        for(; i < amount; i++) {
+          sum += Math.floor(Math.random() * type) + 1;
+        }
+        percentages[sum-amount]++;
+      }
+      for(i = 0; i < percentages.length; i++) {
+        percentages[i] /= 1000;
+      }
+    }
+    this.rolls = percentages;
+    this.total = average;
+    this.m = amount;
   }
 }
