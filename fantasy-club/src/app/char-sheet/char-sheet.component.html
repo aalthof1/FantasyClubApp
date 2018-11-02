@@ -81,6 +81,7 @@
   <button (click)="printGM()">View GM</button>
   <button (click)="printDesc()">Description</button>
   <button (click)="showTraps()">Traps</button>
+  <button (click)="showAbilities()">Abilities</button>
   <br>
   <h4 *ngIf="gamePlayerCountView"># of players: {{playerCount}}</h4>
   <h4 *ngIf="capacity">Capacity: {{capacity}} </h4>
@@ -115,6 +116,27 @@
       </ul>
     </div>
   </div>
+  <div *ngIf="abilityMenuToggle">
+      <p *ngIf="noAbilityMessage">No abilities are currently in this game</p>
+      <div *ngIf="!noAbilityMessage">
+        <ul>
+          <li class="ability" *ngFor="let a of abilities; let i = index" (click)="selectAbility(i)">
+            {{a.key}}
+          </li>
+          <div *ngIf="selectedAbility != -1">
+            <ul>
+              <li *ngFor="let aInfo of abilityInfo">
+                {{aInfo.key}}
+                <ul>
+                  <li> {{aInfo.val()}}</li>
+                </ul>
+              </li>
+            </ul>
+            <button (click)="selectAbility(-1)">Hide Ability</button>
+          </div>
+        </ul>
+      </div>
+    </div>
   <br>
   <div *ngIf="currentGameGM">
     <input style="display: inline;" type="number" id="xp" placeholder="XP" min="0"/>
