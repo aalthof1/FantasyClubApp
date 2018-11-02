@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as firebase from 'firebase';
 
 @Component({
@@ -22,10 +22,16 @@ export class CharViewerComponent implements OnInit {
   statName: Array<string> = [];
   statValue: Array<number> = [];
   isAdmin: boolean = false;
+  players: Array<string> = [];
 
   constructor() { }
 
   ngOnInit() {
+    firebase.database().ref("user_id").once("value").then(function(snapshot){
+      snapshot.forEach(function(child){
+        this.players.push(child.child("name").val());
+      }.bind(this));
+    }.bind(this));
   }
 
   charViewerToggle() {
