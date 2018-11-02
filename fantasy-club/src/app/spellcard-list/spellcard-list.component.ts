@@ -26,6 +26,8 @@ export class SpellcardListComponent implements OnInit {
   rolls: Array<number>;
   total: number;
   statComp: string = "";
+  addToGameToggle: boolean = false;
+
 
   constructor() { }
 
@@ -317,5 +319,34 @@ export class SpellcardListComponent implements OnInit {
       }.bind(this))
     }.bind(this))
 
+  }
+  addToGameToggler() {
+    this.addToGameToggle = !this.addToGameToggle;
+    if (!this.addToGameToggle) {
+      let x: HTMLInputElement = document.getElementById("gameName2") as HTMLInputElement;
+      x.value = ""
+    }
+  }
+
+  gameSubmit() {
+    let x: HTMLInputElement = document.getElementById("gameName2") as HTMLInputElement;
+    if (x.value == "" || x.value == undefined) {
+      return
+    }
+
+    firebase.database().ref("games").once("value").then(function (snapshot) {
+      if (snapshot.hasChild(x.value)) {
+        if (firebase.auth().currentUser.uid == snapshot.child(x.value).child("user_id").val()) {
+          snapshot.child(x.value + "/abilities/" + this.selectedSpell.key).ref.set("0")
+          this.addToGameToggler()
+        }
+        else {
+          return;
+        }
+      }
+      else {
+        return;
+      }
+    }.bind(this))
   }
 }

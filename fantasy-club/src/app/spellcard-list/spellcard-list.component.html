@@ -61,12 +61,17 @@
   <button *ngIf="selectedSpellType == 'private' || isUserGM()" (click)="displayEditor()">Edit</button>
   <button (click)="setCharSpell(selectedSpell)">Add to Current Character</button>
   <button (click)="rollSpell()">Roll Dice</button>
+  <button (click)=addToGameToggler()>Add To Game</button>
   <input *ngIf="selectedSpell.child('diceAmount').val() == -1" required type="number" id="varDiceAmount" value="1" min="1">
   <br><button (click)="statCompare()">Compare Against</button> <input  required type="text" id="stat">
   <ul >
       <li *ngFor="let item of rolls; index as i" class="roll"> Roll {{i + 1}}: {{item}} </li>
       <li id="total"> Total: {{total}} </li>
     </ul>
+    <div *ngIf="addToGameToggle">
+        <input type="text" id="gameName2" placeholder="Game Name">
+        <button id="gameSubmit2" (click)="gameSubmit()">Submit</button>
+    </div>
     <p *ngIf="statComp != ''">{{statComp}}</p>
   <div *ngIf="editDisplay">
       <input required type="text" id="SpellNameInput" value="{{selectedSpell.key}}">
