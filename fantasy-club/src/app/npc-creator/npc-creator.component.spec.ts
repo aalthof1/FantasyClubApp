@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NpcCreatorComponent } from './npc-creator.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 describe('NpcCreatorComponent', () => {
   let component: NpcCreatorComponent;
@@ -8,7 +9,8 @@ describe('NpcCreatorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NpcCreatorComponent ]
+      declarations: [ NpcCreatorComponent ],
+      providers: [SidebarComponent]
     })
     .compileComponents();
   }));

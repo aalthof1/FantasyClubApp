@@ -13,6 +13,8 @@ import { ItemlistComponent } from './itemlist/itemlist.component';
 import { CharViewerComponent } from './char-viewer/char-viewer.component';
 import { SpellcardCreatorComponent } from './spellcard-creator/spellcard-creator.component';
 import { TrapCreatorComponent } from './trap-creator/trap-creator.component';
+import { NpclistComponent } from './npclist/npclist.component';
+import { NpcCreatorComponent } from './npc-creator/npc-creator.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -22,7 +24,8 @@ describe('AppComponent', () => {
         AdminComponent, DicerollerComponent, GameGeneratorComponent, 
         GmComponent, CharGeneratorComponent, SpellcardListComponent,
         ItemCreatorComponent, ItemlistComponent, CharViewerComponent,
-        SpellcardCreatorComponent, TrapCreatorComponent
+        SpellcardCreatorComponent, TrapCreatorComponent, NpclistComponent,
+        NpcCreatorComponent
       ]
     }).compileComponents();
   }));

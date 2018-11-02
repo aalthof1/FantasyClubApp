@@ -15,6 +15,8 @@ import { ItemCreatorComponent } from '../item-creator/item-creator.component';
 import { SpellcardCreatorComponent } from '../spellcard-creator/spellcard-creator.component';
 import { TrapCreatorComponent } from '../trap-creator/trap-creator.component';
 import * as firebase from 'firebase';
+import { NpcCreatorComponent } from '../npc-creator/npc-creator.component';
+import { NpclistComponent } from '../npclist/npclist.component';
 
 
 describe('Login Utility', () => {
@@ -30,7 +32,8 @@ describe('Login Utility', () => {
         AdminComponent, DicerollerComponent, GameGeneratorComponent, 
         GmComponent, CharGeneratorComponent, SpellcardListComponent,
         ItemlistComponent, CharViewerComponent, ItemCreatorComponent,
-        SpellcardCreatorComponent, TrapCreatorComponent
+        SpellcardCreatorComponent, TrapCreatorComponent, NpcCreatorComponent,
+        NpclistComponent
       ],
       providers: [ SidebarComponent ]
     })
@@ -96,7 +99,8 @@ describe('User Field Updates', () => {
         AdminComponent, DicerollerComponent, GameGeneratorComponent, 
         GmComponent, CharGeneratorComponent, SpellcardListComponent,
         ItemlistComponent, CharViewerComponent, ItemCreatorComponent,
-        SpellcardCreatorComponent, TrapCreatorComponent
+        SpellcardCreatorComponent, TrapCreatorComponent, NpcCreatorComponent,
+        NpclistComponent
       ],
       providers: [ SidebarComponent ]
     })
@@ -142,7 +146,7 @@ describe('User Field Updates', () => {
     component.signIn();
     expect(component.signIn).toHaveBeenCalled();
     expect(component.createdItems).toEqual([]);
-    component.refreshCreatedItems();  
+    component.refreshCreatedItems();
     expect(component.createdItems.length).toBeGreaterThan(0);
   });
 
