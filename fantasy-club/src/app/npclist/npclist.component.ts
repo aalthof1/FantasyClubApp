@@ -95,8 +95,8 @@ export class NpclistComponent implements OnInit {
     x.ref.remove()
   }
 
-  shareSpell() {
-    var sharee = document.getElementById("shareSpell") as HTMLInputElement;
+  shareNPC() {
+    var sharee = document.getElementById("shareNPC") as HTMLInputElement;
     let cName = this.selectedNPC.child("creatorName").val();
     let descr = this.selectedNPC.child("desc").val();
     let agi = this.selectedNPC.child('agi').val()
