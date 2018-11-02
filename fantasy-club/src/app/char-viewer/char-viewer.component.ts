@@ -47,6 +47,7 @@ export class CharViewerComponent implements OnInit {
     this.displayToggle = !this.displayToggle;
     this.isUserGM();
   }
+
   isUserGM(): boolean {
     if (firebase.auth().currentUser == null) {
       this.GMStatus = false;
@@ -68,6 +69,7 @@ export class CharViewerComponent implements OnInit {
         }
       }.bind(this))
   }
+
   sharedMenuFill() {
     this.setFriendIndex(undefined);
     this.friendChars = [];
@@ -108,6 +110,7 @@ export class CharViewerComponent implements OnInit {
       this.sharedViewerLoading = false;
     }.bind(this))
   }
+
   setFriendIndex(i: number) {
     if (i == this.friendCharIndex) {
       return;
@@ -134,6 +137,7 @@ export class CharViewerComponent implements OnInit {
       }.bind(this))
     }
   }
+
   viewCharacter(x: firebase.database.DataSnapshot) {
     if (x == undefined) {
       this.characterViewerToggle = false;
@@ -150,6 +154,7 @@ export class CharViewerComponent implements OnInit {
       this.statValue.push(snapshot.val());
     }.bind(this))
   }
+
   shareCharacter() {
     let x: string = (document.getElementById("inputCharacter") as HTMLInputElement).value;
     let y: string = (document.getElementById("inputPlayer") as HTMLInputElement).value;
@@ -189,6 +194,7 @@ export class CharViewerComponent implements OnInit {
       }.bind(this))
     }.bind(this))
   }
+
   selectArchive(i: number) {
     this.archiveList = [];
     this.archive[i].forEach(function (snapshot) {
@@ -197,6 +203,7 @@ export class CharViewerComponent implements OnInit {
       }
     }.bind(this))
   }
+  
   toggleArchive() {
     this.isUserGM()
     if (this.GMStatus || this.adminStatus) {
