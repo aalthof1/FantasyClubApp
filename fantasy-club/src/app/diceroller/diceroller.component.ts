@@ -122,6 +122,7 @@ export class DicerollerComponent implements OnInit {
     }
     this.savedRolls.splice(this.savedRolls.indexOf(name),1);
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name).remove();
+    this.clearAll();
   }
 
 }

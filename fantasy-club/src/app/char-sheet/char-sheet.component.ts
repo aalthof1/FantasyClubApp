@@ -4,6 +4,7 @@ import { PassGameService } from "../pass-game.service";
 import * as firebase from 'firebase';
 import { Subscription } from 'rxjs';
 import { _iterableDiffersFactory } from '@angular/core/src/application_module';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-char-sheet',
@@ -40,6 +41,7 @@ export class CharSheetComponent implements OnInit {
   traps: Array<firebase.database.DataSnapshot> = [];
   trapInfo: Array<firebase.database.DataSnapshot> = [];
   selectedTrap : number = -1
+  canSeeAnnouncement: boolean;
 
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
@@ -180,6 +182,21 @@ export class CharSheetComponent implements OnInit {
     }.bind(this));    
   }
 
+  isUserInGame(){
+    if(this.selectedGame.child("user_name").val() == firebase.auth().currentUser.displayName) {
+      this.canSeeAnnouncement = true;
+      return this.canSeeAnnouncement;
+    }
+    this.selectedGame.child("characters").ref.once("value").then(function(snapshot){
+      this.canSeeAnnouncement = false;
+      snapshot.forEach(function(child: firebase.database.DataSnapshot){
+        if(child.val() == firebase.auth().currentUser.displayName) {
+          this.canSeeAnnouncement = true;
+        }
+      }.bind(this));
+    }.bind(this));
+    return this.canSeeAnnouncement;
+  }
 
   getCapacity(): void {
     if (this.selectedGame.hasChild("capacityLimit")) {
