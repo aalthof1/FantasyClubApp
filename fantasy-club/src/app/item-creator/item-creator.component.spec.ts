@@ -21,7 +21,6 @@ describe('ItemCreatorComponent', () => {
     fixture = TestBed.createComponent(ItemCreatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    sidebar = TestBed.get(SidebarComponent);
     if(!firebase.apps.length) {
       var config = {
         apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
@@ -40,7 +39,29 @@ describe('ItemCreatorComponent', () => {
   });
 
   it('should construct', () => {
+    sidebar = TestBed.get(SidebarComponent);
     expect(component.userId).toEqual(sidebar.user_id);
   });
 
+  it('should initialize fields', () => {
+    expect(component.name).toBeUndefined();
+    expect(component.desc).toBeUndefined();
+    expect(component.public).toBeUndefined();
+    expect(component.items).toEqual([]);
+    expect(component.snapshot).toBeUndefined();
+    expect(component.diceAmount).toBeUndefined();
+    expect(component.diceType).toBeUndefined();
+    expect(component.stat).toBeUndefined();
+    expect(component.bonus).toBeUndefined();
+  });
+
+  it('should say user is GM', () => {
+    sidebar = TestBed.get(SidebarComponent);
+    sidebar.user_priv = 2;
+    expect(component.isUserGM()).toBeTruthy();
+    sidebar.user_priv = 3;
+    expect(component.isUserGM()).toBeTruthy();
+    sidebar.user_priv = 1;
+    expect(component.isUserGM()).toBeFalsy();
+  });
 });
