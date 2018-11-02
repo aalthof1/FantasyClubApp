@@ -144,6 +144,7 @@ export class SpellcardListComponent implements OnInit {
   }
   setSelectedSpell(x: firebase.database.DataSnapshot) {
     this.statComp = ""
+    this.addToGameToggle = false;
     this.selectedSpell = x;
     if (this.selectedSpell != undefined) {
       if (this.selectedSpell.ref.parent.parent.key == "private") {
