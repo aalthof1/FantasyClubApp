@@ -70,7 +70,7 @@
 
 <div *ngIf="selectedGame; else NoGame">
   <h3 class="bg-dark text-white">Session: {{selectedGame.key}}</h3>
-  <div *ngIf="hasAnnouncement">
+  <div *ngIf="hasAnnouncement && isUserInGame()">
     <h3 style="color: red;">{{currentAnnouncement}}</h3>
   </div>
   <div *ngIf="currentGameGM">
