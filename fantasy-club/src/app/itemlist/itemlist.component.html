@@ -4,7 +4,7 @@
     <div *ngIf="trapToggle">
         <ul>
             <li class="trapCategory" *ngFor="let trap of traps">
-                <button (click)="removeItem(trap)">Remove</button>
+                <button (click)="removeTrap(trap)">Remove</button>
                 <button (click)="setSelectedTrap(trap)">Select</button>
                 {{trap.key}}
             </li>

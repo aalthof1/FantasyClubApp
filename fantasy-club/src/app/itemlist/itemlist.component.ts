@@ -221,6 +221,7 @@ export class ItemlistComponent implements OnInit {
   }
 
   removeItem(x: firebase.database.DataSnapshot) {
+
     if(x.ref.parent.parent.parent.parent.key == "characters") {
       //we need to remove effect 
       if (x.child("bonus").val() != "" || x.child("stat").val() != "") {
@@ -234,6 +235,10 @@ export class ItemlistComponent implements OnInit {
         })
       }
     }
+    x.ref.remove()
+  }
+
+  removeTrap(x: firebase.database.DataSnapshot) {
     x.ref.remove()
   }
 
