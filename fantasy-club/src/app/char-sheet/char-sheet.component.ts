@@ -151,6 +151,7 @@ export class CharSheetComponent implements OnInit {
       this.playerCharacters.push(child.key);
     })
   }
+
   printGM() {
     this.GMDisplay = this.selectedGame.child("user_name").val();
   }
@@ -239,6 +240,7 @@ export class CharSheetComponent implements OnInit {
       this.noTrapMessage = true;
     }
   }
+
   selectTrap(i: number) {
     if (i < 0 || i >= this.traps.length) {
       this.selectedTrap = -1;
@@ -271,6 +273,7 @@ export class CharSheetComponent implements OnInit {
       this.noAbilityMessage = true;
     }
   }
+
   selectAbility(i: number) {
     if (i < 0 || i >= this.abilities.length) {
       this.selectedAbility = -1;
@@ -310,7 +313,6 @@ export class CharSheetComponent implements OnInit {
       }.bind(this))
     }.bind(this))
 
-    // console.log(this.playerCharacters)
     this.playerCharacters.forEach(c => {
       firebase.database().ref("archive/" + this.selectedGame.key + "/characters/" + c).set(0);
     });
