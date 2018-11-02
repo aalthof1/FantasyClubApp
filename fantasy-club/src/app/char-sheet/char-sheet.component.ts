@@ -41,6 +41,11 @@ export class CharSheetComponent implements OnInit {
   traps: Array<firebase.database.DataSnapshot> = [];
   trapInfo: Array<firebase.database.DataSnapshot> = [];
   selectedTrap : number = -1
+  abilityMenuToggle: boolean = false;
+  noAbilityMessage: boolean = false;
+  abilities: Array<firebase.database.DataSnapshot> = [];
+  abilityInfo: Array<firebase.database.DataSnapshot> = [];
+  selectedAbility : number = -1
   canSeeAnnouncement: boolean;
 
 
@@ -246,6 +251,40 @@ export class CharSheetComponent implements OnInit {
       }.bind(this))
     }.bind(this))
   }
+
+  showAbilities() {
+    this.abilityMenuToggle = !this.abilityMenuToggle;
+    this.abilities = []
+    this.abilityInfo = []
+    this.selectedAbility = -1
+    this.noAbilityMessage = false
+
+    if (this.abilityMenuToggle == false) {
+      return;
+    }
+    if (this.selectedGame.hasChild("abilities")) {
+      this.selectedGame.child("abilities").forEach(function (snapshot) {
+        this.abilities.push(snapshot)
+      }.bind(this))
+    }
+    else {
+      this.noAbilityMessage = true;
+    }
+  }
+  selectAbility(i: number) {
+    if (i < 0 || i >= this.abilities.length) {
+      this.selectedAbility = -1;
+      return;
+    }
+    this.selectedAbility = i;
+    firebase.database().ref("abilities/private/" + firebase.auth().currentUser.uid + "/" + this.abilities[i].key).once("value").then(function (snap) {
+      snap.forEach(function (s) {
+        this.abilityInfo.push(s)
+        // console.log(s) 
+      }.bind(this))
+    }.bind(this))
+  }
+
   endGame() {
     let x: number = parseInt((document.getElementById("xp") as HTMLInputElement).value)
     if (x == undefined || x < 0) {
@@ -271,7 +310,7 @@ export class CharSheetComponent implements OnInit {
       }.bind(this))
     }.bind(this))
 
-    console.log(this.playerCharacters)
+    // console.log(this.playerCharacters)
     this.playerCharacters.forEach(c => {
       firebase.database().ref("archive/" + this.selectedGame.key + "/characters/" + c).set(0);
     });
