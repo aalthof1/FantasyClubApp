@@ -44,6 +44,7 @@ export class ItemlistComponent implements OnInit {
       this.fillPrivate()
     }
   }
+
   publicButton() {
     this.isUserGM();
     this.publicToggle = !this.publicToggle;
@@ -97,6 +98,7 @@ export class ItemlistComponent implements OnInit {
         }.bind(this))
       }.bind(this))
   }
+
   isUserGM(): boolean {
     if (firebase.auth().currentUser == null) {
       this.GMStatus = false;
@@ -114,6 +116,7 @@ export class ItemlistComponent implements OnInit {
         }
       }.bind(this))
   }
+
   setSelectedItem(x: firebase.database.DataSnapshot) {
     this.selectedItem = x;
     if (this.selectedItem != undefined) {
@@ -129,6 +132,7 @@ export class ItemlistComponent implements OnInit {
     }
 
   }
+
   displayEditor() {
     if (firebase.auth().currentUser == null || this.isUserGM() == false) {
       return;
@@ -136,6 +140,7 @@ export class ItemlistComponent implements OnInit {
     this.editDisplay = true;
     this.shareMenuToggle = false;
   }
+
   updateItem() {
     let x: HTMLInputElement = document.getElementById("itemNameInput") as HTMLInputElement;
     let y: HTMLTextAreaElement = document.getElementById("itemDescription") as HTMLTextAreaElement;
@@ -214,6 +219,7 @@ export class ItemlistComponent implements OnInit {
     this.setSelectedItem(undefined);
     this.editDisplay = false;
   }
+
   removeItem(x: firebase.database.DataSnapshot) {
     if(x.ref.parent.parent.parent.parent.key == "characters") {
       //we need to remove effect 
@@ -230,10 +236,12 @@ export class ItemlistComponent implements OnInit {
     }
     x.ref.remove()
   }
+
   shareMenu() {
     this.shareMenuToggle = !this.shareMenuToggle;
     this.editDisplay = false;
   }
+  
   shareWithGM() {
     let x: HTMLInputElement = document.getElementById("inputGM") as HTMLInputElement;
     if (x.value == "") {
