@@ -118,7 +118,6 @@ export class DicerollerComponent implements OnInit {
     this.savedRolls.push(name);
   }
 
-<<<<<<< HEAD
   averageDiceRoll() {
     this.lastButton = 2;
     var amountText = (document.getElementById("amount") as HTMLInputElement).value;
@@ -307,7 +306,6 @@ export class DicerollerComponent implements OnInit {
     printString = "The chance of rolling at least " + toBeat + " with " + amount + ", " + type + "-sided dice with a modifier of " + mod + " is " + toPrint +".";
     alert(printString);
   }
-=======
   fillFromSaved(item: string) {
     if(item == "-- Please Select An Option --") {
       this.clearAll();
@@ -337,5 +335,4 @@ export class DicerollerComponent implements OnInit {
     this.clearAll();
   }
 
->>>>>>> 0951b75edea32497d071614571b59081e5610fd8
 }
