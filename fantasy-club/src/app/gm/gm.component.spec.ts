@@ -45,10 +45,22 @@ describe('GmComponent', () => {
   });
 
   it('should get dice rolls', () => {
+    spyOn(component, "displayDiceRolls");
+    let oldName: string = (document.getElementById("dice-username") as HTMLInputElement).value;
+    (document.getElementById("dice-username") as HTMLInputElement).value = " ";
+    component.getDiceRolls();
+    expect(component.displayDiceRolls).toHaveBeenCalled();
+    (document.getElementById("dice-username") as HTMLInputElement).value = oldName;
+    expect((document.getElementById("dice-username") as HTMLInputElement).value).toEqual(oldName);
+  });
+
+  it('should not get dice rolls', () => {
     let oldName: string = (document.getElementById("dice-username") as HTMLInputElement).value;
     (document.getElementById("dice-username") as HTMLInputElement).value = "";
     component.getDiceRolls();
-    
+    expect(document.getElementById("roll-container").innerHTML).toEqual("");
+    (document.getElementById("dice-username") as HTMLInputElement).value = oldName;
+    expect((document.getElementById("dice-username") as HTMLInputElement).value).toEqual(oldName);
   });
 
 });
