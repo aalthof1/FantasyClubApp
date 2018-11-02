@@ -40,12 +40,8 @@ export class CharSheetComponent implements OnInit {
   noTrapMessage: boolean = false;
   traps: Array<firebase.database.DataSnapshot> = [];
   trapInfo: Array<firebase.database.DataSnapshot> = [];
-<<<<<<< HEAD
   selectedTrap : number = -1
   canSeeAnnouncement: boolean;
-=======
-  selectedTrap: number = -1
->>>>>>> origin/master
 
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
