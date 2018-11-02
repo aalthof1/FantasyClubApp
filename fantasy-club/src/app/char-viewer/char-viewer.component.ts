@@ -23,12 +23,16 @@ export class CharViewerComponent implements OnInit {
   statValue: Array<number> = [];
   isAdmin: boolean = false;
   players: Array<string> = [];
+  archiveToggle: boolean = false;
+  archive: Array<firebase.database.DataSnapshot> = []
+  archiveList: Array<firebase.database.DataSnapshot> = []
+
 
   constructor() { }
 
   ngOnInit() {
-    firebase.database().ref("user_id").once("value").then(function(snapshot){
-      snapshot.forEach(function(child){
+    firebase.database().ref("user_id").once("value").then(function (snapshot) {
+      snapshot.forEach(function (child) {
         this.players.push(child.child("name").val());
       }.bind(this));
     }.bind(this));
@@ -184,5 +188,28 @@ export class CharViewerComponent implements OnInit {
         firebase.database().ref("shared/" + otherUserID + "/" + firebase.auth().currentUser.uid).child(x).set(0);
       }.bind(this))
     }.bind(this))
+  }
+  selectArchive(i: number) {
+    this.archiveList = [];
+    this.archive[i].forEach(function (snapshot) {
+      if (snapshot.key != "characters") {
+        this.archiveList.push(snapshot)
+      }
+    }.bind(this))
+  }
+  toggleArchive() {
+    this.isUserGM()
+    if (this.GMStatus || this.adminStatus) {
+      this.archiveToggle = !this.archiveToggle;
+      this.archive = [];
+      if (this.archiveToggle) {
+        firebase.database().ref("archive").on("value", function (snapshot) {
+          snapshot.forEach(function (snap) {
+            this.archive.push(snap)
+          }.bind(this))
+        }.bind(this))
+      }
+
+    }
   }
 }
