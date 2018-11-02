@@ -91,6 +91,7 @@ describe('User Field Updates', () => {
   let fixture: ComponentFixture<SidebarComponent>;
   let result: firebase.auth.UserCredential;
   let provider: firebase.auth.GoogleAuthProvider;
+  let snap : firebase.database.DataSnapshot;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -115,6 +116,15 @@ describe('User Field Updates', () => {
         component.user_id = "testUser4";
         component.user_priv = 3;
         component.currChar = "test_char";
+    });
+    spyOn(component, "refreshCharacters").and.callFake( function() {
+        component.characters.push(snap);
+    });
+    spyOn(component, "refreshGames").and.callFake( function() {
+        component.games.push(snap);
+    });
+    spyOn(component, "refreshCreatedItems").and.callFake( function() {
+        component.createdItems.push(snap);
     });
   });
 
@@ -147,6 +157,7 @@ describe('User Field Updates', () => {
     expect(component.signIn).toHaveBeenCalled();
     expect(component.createdItems).toEqual([]);
     component.refreshCreatedItems();
+    expect(component.refreshCreatedItems).toHaveBeenCalled();
     expect(component.createdItems.length).toBeGreaterThan(0);
   });
 
@@ -155,6 +166,7 @@ describe('User Field Updates', () => {
     expect(component.signIn).toHaveBeenCalled();
     expect(component.games).toEqual([]);
     component.refreshGames();
+    expect(component.refreshGames).toHaveBeenCalled();
     expect(component.games.length).toBeGreaterThan(0);
   });
 
@@ -163,6 +175,7 @@ describe('User Field Updates', () => {
     expect(component.signIn).toHaveBeenCalled();
     expect(component.characters).toEqual([]);
     component.refreshCharacters();
+    expect(component.refreshCharacters).toHaveBeenCalled();
     expect(component.characters.length).toBeGreaterThan(0);
   });
 });

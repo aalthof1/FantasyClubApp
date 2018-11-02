@@ -25,6 +25,10 @@ export class CharGeneratorComponent implements OnInit {
   }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
+    if(snapshot == null) {
+      console.log("snapshot undefined");
+      return;
+    }
     snapshot.forEach(function (childSnapshot) {
       this.characters.push(childSnapshot.key);
     }.bind(this))

@@ -45,30 +45,29 @@ describe('Create Character', () => {
 
   it('should update name correctly', () => {
     var oldName = ((document.getElementById("name") as HTMLInputElement).value);
-    ((document.getElementById("name") as HTMLInputElement).value) = "Test Name";   
+    ((document.getElementById("name") as HTMLInputElement).value) = "Test Name";
+    expect(((document.getElementById("name") as HTMLInputElement).value)).toEqual("Test Name");   
     component.createChar();
     ((document.getElementById("name") as HTMLInputElement).value) = oldName;
+    expect(((document.getElementById("name") as HTMLInputElement).value)).toEqual(oldName); 
   });
 
   it('should not update name', () => {
     var oldName = ((document.getElementById("name") as HTMLInputElement).value);
-    ((document.getElementById("name") as HTMLInputElement).value) = "";   
+    ((document.getElementById("name") as HTMLInputElement).value) = "";
+    expect(((document.getElementById("name") as HTMLInputElement).value)).toEqual(oldName);    
     component.createChar();
     ((document.getElementById("name") as HTMLInputElement).value) = oldName;
+    expect(((document.getElementById("name") as HTMLInputElement).value)).toEqual(oldName); 
   });
 
-  it('should update name correctly', () => {
-    var oldName = ((document.getElementById("name") as HTMLInputElement).value);
-    ((document.getElementById("name") as HTMLInputElement).value) = "Another_Test";   
-    component.createChar();
-    ((document.getElementById("name") as HTMLInputElement).value) = oldName;
-  });
-
-  it('should update name correctly', () => {
-    var oldName = ((document.getElementById("name") as HTMLInputElement).value);
-    ((document.getElementById("name") as HTMLInputElement).value) = "Still_More_Tests";   
-    component.createChar();
-    ((document.getElementById("name") as HTMLInputElement).value) = oldName;
+  it('should not grab characters correctly', () => {
+    spyOn(console, "log");
+    expect(component.characters).toEqual([]);
+    expect(component.snapshot).toBeUndefined();
+    component.grabHeroes(component.snapshot);
+    expect(console.log).toHaveBeenCalled();
+    expect(component.characters).toEqual([]);
   });
 
 });
