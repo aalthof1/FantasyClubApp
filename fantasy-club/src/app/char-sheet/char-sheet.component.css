@@ -12,10 +12,10 @@ input[type=number] {
     width: 50%;
 }
 
-.playerCharacterName {
+.playerCharacterName, .trap {
     color: blue;
 }
 
-.playerCharacterName:hover {
+.playerCharacterName:hover, .trap:hover {
     color: lightblue;
 }

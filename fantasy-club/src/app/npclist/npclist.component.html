@@ -1,0 +1,82 @@
+<h2>NPCs</h2>
+<button (click)=NPCButton()>View</button>
+<div *ngIf="npcToggle">
+  <ul>
+    <li class="npcCategory" *ngFor="let npc of NPCs">
+      <button (click)="removeNPC(npc)">Remove</button>
+      <button (click)="setSelectedNPC(npc)">Select</button>
+      {{npc.key}}
+    </li>
+  </ul>
+</div>
+<br>
+<br>
+
+
+<div *ngIf="selectedNPC">
+  <h2>{{selectedNPC.key}}</h2>
+  <ul>
+      <li>
+          Creator : {{selectedNPC.child("creatorName").val()}}
+      </li>
+      <li>
+          Description : <br>
+          <p class="descriptionText">{{selectedNPC.child("desc").val()}}</p>
+      </li>
+      <li>
+        agi: {{selectedNPC.child('agi').val()}}
+      </li>
+      <li>
+        com: {{selectedNPC.child('com').val()}}
+      </li>
+      <li>
+        cse: {{selectedNPC.child('cse').val()}}
+      </li>
+      <li>
+        dp: {{selectedNPC.child('dp').val()}}
+      </li>
+      <li>
+        hea: {{selectedNPC.child('hea').val()}}
+      </li>
+      <li>
+        int: {{selectedNPC.child('int').val()}}
+      </li>
+      <li>
+        per: {{selectedNPC.child('per').val()}}
+      </li>
+      <li>
+        pwr: {{selectedNPC.child('pwr').val()}}
+      </li>
+      <li>
+        str: {{selectedNPC.child('str').val()}}
+      </li>
+      <li>
+        wil: {{selectedNPC.child('wil').val()}}
+      </li>
+      
+  </ul>
+  <button (click)="setSelectedNPC(undefined)">Hide</button>
+  <button (click)="displayEditor()">Edit</button>
+  <div *ngIf="editDisplay">
+      Name: <input required type="text" id="NPCeditName" value="{{selectedNPC.key}}">
+      <br>
+      Description: <textarea id="NPCeditDesc" cols="40" rows="5" required>{{selectedNPC.child('desc').val()}}</textarea>
+      <br>
+      agi: <input required type="number" id="agi" value="{{selectedNPC.child('agi').val()}}" min="1"><br>
+      com: <input required type="number" id="com" value="{{selectedNPC.child('com').val()}}" min="1"><br>   
+      cse: <input required type="number" id="cse" value="{{selectedNPC.child('cse').val()}}" min="1"><br>
+      dp:  <input required type="number" id="dp" value="{{selectedNPC.child('dp').val()}}" min="1">  <br>
+      hea: <input required type="number" id="hea" value="{{selectedNPC.child('hea').val()}}" min="1"><br>
+      int: <input required type="number" id="int" value="{{selectedNPC.child('int').val()}}" min="1"><br>
+      per: <input required type="number" id="per" value="{{selectedNPC.child('per').val()}}" min="1"><br>
+      pwr: <input required type="number" id="pwr" value="{{selectedNPC.child('pwr').val()}}" min="1"><br>
+      str: <input required type="number" id="str" value="{{selectedNPC.child('str').val()}}" min="1"><br>
+      wil: <input required type="number" id="wil" value="{{selectedNPC.child('wil').val()}}" min="1"><br>
+       
+      <button (click)="updateNPC()">Submit</button>
+      <br>
+      <br>
+      Share with: <input required type="text" id="shareNPC" >
+      <br>
+      <button (click)="shareNPC()">Share</button>
+  </div>

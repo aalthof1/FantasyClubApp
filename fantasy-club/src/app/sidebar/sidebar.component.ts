@@ -21,6 +21,7 @@ export class SidebarComponent implements OnInit {
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
   createdItems: Array<firebase.database.DataSnapshot> = [];
+  savedRolls: Array<string> = [];
 
   config = {
     apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
@@ -118,6 +119,12 @@ export class SidebarComponent implements OnInit {
         firebase.database().ref('games/').once('value')
           .then(snapshot => this.grabGames(snapshot));
       }.bind(this));
+      firebase.database().ref("savedRolls/").child(this.user_name).once("value")
+        .then(function(snapshot) {
+          snapshot.forEach(function(child){
+            this.savedRolls.push(child.key);
+          }.bind(this));
+        }.bind(this));
   }
 
   onUnsuccessfulSignIn(error) {

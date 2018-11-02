@@ -1,4 +1,5 @@
 <button (click)="charViewerToggle()">Toggle Character Viewer</button>
+<button (click)="toggleArchive()">Toggle Archive Viewer</button>
 <br>
 <div *ngIf="displayToggle">
   <br>
@@ -6,7 +7,7 @@
   <div *ngIf="sharedToggle">
     <p *ngIf="sharedViewerLoading">&emsp;Loading... </p>
     <ul *ngIf="sharedViewerLoading == false && sharedMenuNames.length > 0">
-      <li class= "highlight" *ngFor="let name of sharedMenuNames; let i = index" (click)="setFriendIndex(i)">
+      <li class="highlight" *ngFor="let name of sharedMenuNames; let i = index" (click)="setFriendIndex(i)">
         {{name}}
         <ul>
           <div *ngIf="i == friendCharIndex && friendChars.length > 0">
@@ -26,11 +27,11 @@
   <div *ngIf="shareMenuToggle">
     <input type="text" id="inputCharacter" placeholder="Character To Share">
     <br>
-    <input type="text" id="inputPlayer" placeholder="Share with whom?">
+    <input type="text" id="inputPlayer" list="allUsers" placeholder="Share with whom?">
+    <datalist id="allUsers">
+      <option *ngFor="let player of players">{{player}}</option>
+    </datalist>
     <button (click)="shareCharacter()">Share!</button>
-  </div>
-  <div *ngIf="adminStatus">
-    <button>Search</button>
   </div>
   <div *ngIf="selectedCharacter != undefined">
     <hr>
@@ -50,7 +51,19 @@
         </div>
       </div>
     </div>
-
   </div>
 
+</div>
+
+<div *ngIf="archiveToggle">
+  <ul>
+    <li *ngFor="let game of archive; let i = index" (click)="selectArchive(i)">
+      {{game.key}}
+    </li>
+  </ul>
+  <ul *ngIf="archiveList.length > 0">
+    <li *ngFor="let x of archiveList">
+      {{x.key}} : {{x.val()}}
+    </li>
+  </ul>
 </div>

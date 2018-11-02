@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as firebase from 'firebase';
 
 @Component({
@@ -22,10 +22,20 @@ export class CharViewerComponent implements OnInit {
   statName: Array<string> = [];
   statValue: Array<number> = [];
   isAdmin: boolean = false;
+  players: Array<string> = [];
+  archiveToggle: boolean = false;
+  archive: Array<firebase.database.DataSnapshot> = []
+  archiveList: Array<firebase.database.DataSnapshot> = []
+
 
   constructor() { }
 
   ngOnInit() {
+    firebase.database().ref("user_id").once("value").then(function (snapshot) {
+      snapshot.forEach(function (child) {
+        this.players.push(child.child("name").val());
+      }.bind(this));
+    }.bind(this));
   }
 
   charViewerToggle() {
@@ -70,7 +80,6 @@ export class CharViewerComponent implements OnInit {
         if (snip.val() == 3) {
           //is admin, list all users
           this.isAdmin = true;
-          console.log("hey you're an admin")
           firebase.database().ref("user_id").once("value").then(function (slip) {
             slip.forEach(function (slimjim) {
               this.sharedMenuIDs.push(slimjim)
@@ -111,7 +120,6 @@ export class CharViewerComponent implements OnInit {
       this.friendCharIndex = i;
       firebase.database().ref("characters/" + this.sharedMenuIDs[i].key).once("value").then(function (snapshot) {
         snapshot.forEach(function (childSnap) {
-          console.log(childSnap.key)
           if (this.isAdmin) {
             this.friendChars.push(childSnap);
           }
@@ -180,5 +188,28 @@ export class CharViewerComponent implements OnInit {
         firebase.database().ref("shared/" + otherUserID + "/" + firebase.auth().currentUser.uid).child(x).set(0);
       }.bind(this))
     }.bind(this))
+  }
+  selectArchive(i: number) {
+    this.archiveList = [];
+    this.archive[i].forEach(function (snapshot) {
+      if (snapshot.key != "characters") {
+        this.archiveList.push(snapshot)
+      }
+    }.bind(this))
+  }
+  toggleArchive() {
+    this.isUserGM()
+    if (this.GMStatus || this.adminStatus) {
+      this.archiveToggle = !this.archiveToggle;
+      this.archive = [];
+      if (this.archiveToggle) {
+        firebase.database().ref("archive").on("value", function (snapshot) {
+          snapshot.forEach(function (snap) {
+            this.archive.push(snap)
+          }.bind(this))
+        }.bind(this))
+      }
+
+    }
   }
 }

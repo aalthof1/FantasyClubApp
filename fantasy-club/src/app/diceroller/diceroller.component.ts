@@ -21,10 +21,12 @@ export class DicerollerComponent implements OnInit {
 
   @Input() app: firebase.app.App;
   @Input() userId: string;
+  @Input() savedRolls: Array<string>;
 
   constructor(private sidebar: SidebarComponent) {
     this.app = sidebar.app
     this.userId = sidebar.user_id
+    this.savedRolls = sidebar.savedRolls
    }
 
   ngOnInit() {
@@ -113,8 +115,10 @@ export class DicerollerComponent implements OnInit {
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/amount").set(amount);
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/type").set(type);
     firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name + "/mod").set(mod);
+    this.savedRolls.push(name);
   }
 
+<<<<<<< HEAD
   averageDiceRoll() {
     this.lastButton = 2;
     var amountText = (document.getElementById("amount") as HTMLInputElement).value;
@@ -303,4 +307,35 @@ export class DicerollerComponent implements OnInit {
     printString = "The chance of rolling at least " + toBeat + " with " + amount + ", " + type + "-sided dice with a modifier of " + mod + " is " + toPrint +".";
     alert(printString);
   }
+=======
+  fillFromSaved(item: string) {
+    if(item == "-- Please Select An Option --") {
+      this.clearAll();
+      return;
+    }
+    firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + item).once("value")
+      .then(function(snapshot : firebase.database.DataSnapshot){
+        (document.getElementById("amount") as HTMLInputElement).value = snapshot.child("amount").val();
+        (document.getElementById("type") as HTMLInputElement).value = snapshot.child("type").val();
+        (document.getElementById("modifier") as HTMLInputElement).value = snapshot.child("mod").val();
+      }.bind(this));
+  }
+
+  clearAll() {
+    (document.getElementById("amount") as HTMLInputElement).value = "";
+    (document.getElementById("type") as HTMLInputElement).value = "";
+    (document.getElementById("modifier") as HTMLInputElement).value = "";
+  }
+
+  deleteCombination() {
+    var name = (document.getElementById("savedRollSelect") as HTMLInputElement).value;
+    if(name == "-- Please Select An Option --") {
+      return;
+    }
+    this.savedRolls.splice(this.savedRolls.indexOf(name),1);
+    firebase.database().ref("savedRolls/" + this.sidebar.user_name + "/" + name).remove();
+    this.clearAll();
+  }
+
+>>>>>>> 0951b75edea32497d071614571b59081e5610fd8
 }

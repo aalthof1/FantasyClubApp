@@ -50,7 +50,7 @@ export class SpellcardCreatorComponent implements OnInit {
     this.diceAmount = parseInt((document.getElementById("spellDiceAmount") as HTMLInputElement).value);
     this.diceType = parseInt((document.getElementById("spellDiceType") as HTMLInputElement).value);
     if((document.getElementById("spellDiceAmount") as HTMLInputElement).value == "" || parseInt((document.getElementById("spellDiceAmount") as HTMLInputElement).value) < 1) {
-      this.diceAmount = 1;
+      this.diceAmount = -1;
     }
     if(this.diceAmount > 100) {
       this.diceAmount = 100;
@@ -58,7 +58,7 @@ export class SpellcardCreatorComponent implements OnInit {
     if((document.getElementById("spellDiceType") as HTMLInputElement).value == "" || parseInt((document.getElementById("spellDiceType") as HTMLInputElement).value) < 2) {
       this.diceType = 2;
     }
-    firebase.database().ref('spellcards/private/' + this.sidebar.user_id + "/" + this.name).set(
+    firebase.database().ref('spellcards/private/' + firebase.auth().currentUser.uid + "/" + this.name).set(
       {
         creatorID: firebase.auth().currentUser.uid,
         creatorName: firebase.auth().currentUser.displayName,
@@ -75,7 +75,7 @@ export class SpellcardCreatorComponent implements OnInit {
     this.diceAmount = parseInt((document.getElementById("spellDiceAmount") as HTMLInputElement).value);
     this.diceType = parseInt((document.getElementById("spellDiceType") as HTMLInputElement).value);
     if((document.getElementById("spellDiceAmount") as HTMLInputElement).value == "" || parseInt((document.getElementById("spellDiceAmount") as HTMLInputElement).value) < 1) {
-      this.diceAmount = 1;
+      this.diceAmount = -1;
     }
     if(this.diceAmount > 100) {
       this.diceAmount = 100;

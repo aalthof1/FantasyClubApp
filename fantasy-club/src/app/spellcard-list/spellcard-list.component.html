@@ -35,6 +35,7 @@
 <div *ngIf="publicToggle">
   <ul>
     <li class="spellCategory" *ngFor="let spell of publicSpells">
+      <button (click)="removeSpell(spell)">Remove</button>
       <button (click)="setSelectedSpell(spell)">Select</button>
       {{spell.key}}
     </li>
@@ -57,20 +58,28 @@
       </li>
   </ul>
   <button (click)="setSelectedSpell(undefined)">Hide</button>
-  <button *ngIf="selectedSpellType == 'private || isUserGM()'" (click)="displayEditor()">Edit</button>
+  <button *ngIf="selectedSpellType == 'private' || isUserGM()" (click)="displayEditor()">Edit</button>
+  <button (click)="setCharSpell(selectedSpell)">Add to Current Character</button>
   <button (click)="rollSpell()">Roll Dice</button>
+  <input *ngIf="selectedSpell.child('diceAmount').val() == -1" required type="number" id="varDiceAmount" value="1" min="1">
+  <br><button (click)="statCompare()">Compare Against</button> <input  required type="text" id="stat">
   <ul >
-      <li *ngFor="let item of rolls; index as i" class="roll"> Roll {{i + 1}} : {{item}} </li>
-      <li id="total"> Total {{total}} </li>
+      <li *ngFor="let item of rolls; index as i" class="roll"> Roll {{i + 1}}: {{item}} </li>
+      <li id="total"> Total: {{total}} </li>
     </ul>
+    <p *ngIf="statComp != ''">{{statComp}}</p>
   <div *ngIf="editDisplay">
       <input required type="text" id="SpellNameInput" value="{{selectedSpell.key}}">
       <br>
       <textarea id="SpellDescription" cols="40" rows="5" required>{{selectedSpell.child('desc').val()}}</textarea>
       <br>
       
-          <input required type="number" id="diceAmount3" value="{{selectedSpell.child('diceAmount').val()}}" min="1"> 
+          <input required type="number" id="diceAmount3" value="{{selectedSpell.child('diceAmount').val()}}" min=""> 
           <input required type="number" id="diceType3" value="{{selectedSpell.child('diceType').val()}}" min="2">
       
       <button (click)="updateSpell()">Submit</button>
+      <br>
+      <br>
+      <input *ngIf="selectedSpellType == 'private' || isUserGM()" required type="text" id="shareSpell">
+      <button *ngIf="selectedSpellType == 'private' || isUserGM()" (click)="shareSpell()">Share</button>
   </div>

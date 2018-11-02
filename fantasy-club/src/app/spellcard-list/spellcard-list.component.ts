@@ -24,6 +24,7 @@ export class SpellcardListComponent implements OnInit {
   c: number
   rolls: Array<number>;
   total: number;
+  statComp: string = "";
 
   constructor() { }
 
@@ -51,6 +52,7 @@ export class SpellcardListComponent implements OnInit {
   }
 
   fillPrivate() {
+    this.statComp = ""
     firebase.database().ref("spellcards/private/" + firebase.auth().currentUser.uid).on("value",
       function (snapshot) {
         this.privateSpells = [];
@@ -61,6 +63,7 @@ export class SpellcardListComponent implements OnInit {
   }
 
   fillPublic() {
+    this.statComp = ""
     firebase.database().ref("spellcards/public").on("value",
       function (snapshot) {
         this.publicSpells = [];
@@ -71,10 +74,11 @@ export class SpellcardListComponent implements OnInit {
   }
 
   fillChar() {
+    this.statComp = ""
     firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/current_character").on("value", function (snapshot) {
       this.currChar = snapshot.val()
-      if ("") {
-        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/spellcards").on("value",
+      if (this.currChar != "") {
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/spellcards/").on("value",
           function (snapshot) {
             this.charSpells = [];
             snapshot.forEach(function (childsnap) {
@@ -104,6 +108,7 @@ export class SpellcardListComponent implements OnInit {
       }.bind(this))
   }
   setSelectedSpell(x: firebase.database.DataSnapshot) {
+    this.statComp = ""
     this.selectedSpell = x;
     if (this.selectedSpell != undefined) {
       if (this.selectedSpell.ref.parent.parent.key == "private") {
@@ -142,7 +147,7 @@ export class SpellcardListComponent implements OnInit {
     this.c = parseInt((document.getElementById("diceType3") as HTMLInputElement).value);
 
     if ((document.getElementById("diceAmount3") as HTMLInputElement).value == "" || parseInt((document.getElementById("diceAmount3") as HTMLInputElement).value) < 1) {
-      this.d = 1;
+      this.d = -1;
     }
     if (this.d > 100) {
       this.d = 100;
@@ -168,17 +173,116 @@ export class SpellcardListComponent implements OnInit {
     x.ref.remove()
   }
 
+  setCharSpell() {
+    firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/current_character").on("value", function (snapshot) {
+      this.currChar = snapshot.val()
+      if (this.currChar != "") {
+        let cName = this.selectedSpell.child("creatorName").val();
+      let descr = this.selectedSpell.child("desc").val();
+      let dA = this.selectedSpell.child("diceAmount").val();
+      let dT = this.selectedSpell.child("diceType").val();
+
+      firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/spellcards/" + this.selectedSpell.key).set(
+        {
+          creatorName: cName,
+          desc: descr,
+          diceAmount: dA,
+          diceType: dT
+        }
+      )
+      }
+    }.bind(this))
+  }
+
   rollSpell() {
+    this.statComp = ""
     var amount = this.selectedSpell.child('diceAmount').val()
     var type = this.selectedSpell.child('diceType').val()
+    if (amount == -1) {
+      amount = parseInt((document.getElementById("varDiceAmount") as HTMLInputElement).value);
+      if ((document.getElementById("varDiceAmount") as HTMLInputElement).value == "" || parseInt((document.getElementById("varDiceAmount") as HTMLInputElement).value) < 1) {
+        amount = 1;
+      }
+    }
 
     var i = 0;
     this.rolls = [amount];
     this.total = 0;
-    for(i = 0; i < amount; i++) {
+    for (i = 0; i < amount; i++) {
       var result = Math.floor(Math.random() * type) + 1;
       this.rolls[i] = result;
       this.total = this.total + result;
     }
+  }
+
+  statCompare() {
+    var amount = this.selectedSpell.child('diceAmount').val()
+    var type = this.selectedSpell.child('diceType').val()
+    if (amount == -1) {
+      amount = parseInt((document.getElementById("varDiceAmount") as HTMLInputElement).value);
+      if ((document.getElementById("varDiceAmount") as HTMLInputElement).value == "" || parseInt((document.getElementById("varDiceAmount") as HTMLInputElement).value) < 1) {
+        amount = 1;
+      }
+    }
+    var stat = document.getElementById("stat") as HTMLInputElement
+    if (stat.value == "") {
+      this.statComp = "Please enter a stat"
+      return;
+    }
+    var i = 0;
+    this.rolls = [amount];
+    this.total = 0;
+    for (i = 0; i < amount; i++) {
+      var result = Math.floor(Math.random() * type) + 1;
+      this.rolls[i] = result;
+      this.total = this.total + result;
+    }
+    var statAmount;
+    firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/current_character").on("value", function (snapshot) {
+      this.currChar = snapshot.val()
+      if (this.currChar != "") {
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/" + stat.value).once("value")
+          .then(function (snapshot) {
+            statAmount = snapshot.val()
+            if (!snapshot.exists()) {
+              this.statComp = "Please input an actual stat"
+              return;
+            }
+            if (statAmount < this.total) {
+              this.statComp = "FAIL"
+            }
+            else {
+              this.statComp = "SUCCESS"
+            }
+          }.bind(this))
+      }
+    }.bind(this))
+
+  }
+
+  shareSpell() {
+    var sharee = document.getElementById("shareSpell") as HTMLInputElement;
+    let cName = this.selectedSpell.child("creatorName").val();
+    let descr = this.selectedSpell.child("desc").val();
+    let dA = this.selectedSpell.child("diceAmount").val();
+    let dT = this.selectedSpell.child("diceType").val();
+    let gmID : string = undefined;
+
+    firebase.database().ref("user_id/").once("value").then(function (snapshot) {
+      snapshot.forEach(function(childsnap) {
+        if (childsnap.child("name").val() == sharee.value) {
+          gmID = childsnap.key;
+          firebase.database().ref('spellcards/private/' + gmID + "/" + this.selectedSpell.key).set(
+            {
+              creatorName: cName,
+              desc: descr,
+              diceAmount: dA,
+              diceType: dT
+            }
+          )
+        }
+      }.bind(this))
+    }.bind(this))
+
   }
 }

@@ -2,6 +2,15 @@
   Dice Roller
 </p>
 
+  <div *ngIf="savedRolls.length > 0">
+    Used a saved configuration:
+    <select id="savedRollSelect" #select (change)="fillFromSaved(select.value)">
+      <option>-- Please Select An Option --</option>
+      <option *ngFor="let item of savedRolls">{{item}}</option>
+    </select>
+    <input type="button" value="Delete Combination" (click)="deleteCombination()">
+  </div>
+
   Amount to roll:<br>
   <input type="number" id="amount" min="1"><br>
   Type to roll:<br>
