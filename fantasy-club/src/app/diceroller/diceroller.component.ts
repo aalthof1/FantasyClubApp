@@ -207,4 +207,100 @@ export class DicerollerComponent implements OnInit {
     this.total = average;
     this.m = amount;
   }
+
+  compareAgainst() {
+    var amountText = (document.getElementById("amount") as HTMLInputElement).value;
+    var typeText = (document.getElementById("type") as HTMLInputElement).value;
+    var modText = (document.getElementById("modifier") as HTMLInputElement).value;
+    if(amountText == "" || typeText == "") {
+      alert("Please fill all options.");
+      return;
+    } else if (firebase.auth().currentUser == null) {
+      alert("Please log in to use the features of the site.");
+      return;
+    } else if(modText == "") {
+      modText = "0";
+    }
+    var amount = parseInt(amountText);
+    var type = parseInt(typeText);
+    var mod = parseInt(modText);
+    if(amount < 1 || amount > 100) {
+      alert("Please enter a valid amount in the range [1,100].");
+      return;
+    }
+    else if (type < 2) {
+      alert("Please enter a valid type greater than 2.");
+      return;
+    }
+    var average : number;
+    var modAverage : number;
+    average = amount * (type + 1) / 2;
+    var printString : String;
+    var name : string;
+
+    do {
+       name = prompt("Please enter the value you would like to roll greater than or equal to.\n Amount to roll = " + amount + ", Number of sides = " + type + ", modifier = " + mod);
+    } while(name == "");
+
+    var toBeat = parseInt(name);
+    var percentages = [(type-1)*(amount-1) + type];
+    var index = 0;
+    for(; index < (type-1)*(amount-1) + type; index++) {
+      percentages[index] = 0;
+    }
+    var numTotal = 0;
+    if(amount < 4) {
+      var i = 1;
+      for(; i <= type; i++) {
+        var j = 1;
+        if(amount > 1) {
+          for(; j <= type; j++) {
+            var k = 1;
+            if(amount > 2) {
+              for(; k <= type; k++) {
+                percentages[i+j+k-3]++;
+                numTotal++;
+              }
+            }
+            else {
+              percentages[i+j-2]++;
+              numTotal++;
+            }
+          }
+        }
+        else {
+          percentages[i-1]++;
+          numTotal++;
+        }
+      }
+      var l = 0;
+      for(l = 0; l < percentages.length; l++) {
+        percentages[l] = percentages[l] / numTotal * 100;
+      }
+    }    
+    else {
+      var numRuns = 0;
+      for(; numRuns < 100000; numRuns++) {
+        var sum : number;
+        sum = 0;
+        var i = 0;
+        for(; i < amount; i++) {
+          sum += Math.floor(Math.random() * type) + 1;
+        }
+        percentages[sum-amount]++;
+      }
+      for(i = 0; i < percentages.length; i++) {
+        percentages[i] /= 1000;
+      }
+    }
+    var toPrint : number = 0;
+    var index2 = toBeat - mod - amount;
+    for(; index2 < percentages.length; index2++) {
+      toPrint += percentages[index2];
+    }
+
+    var printString : String;
+    printString = "The chance of rolling at least " + toBeat + " with " + amount + ", " + type + "-sided dice with a modifier of " + mod + " is " + toPrint +".";
+    alert(printString);
+  }
 }

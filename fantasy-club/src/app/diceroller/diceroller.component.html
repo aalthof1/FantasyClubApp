@@ -11,6 +11,7 @@
   <input style="display: inline;" type="button" (click)="DiceRoller()" value="Submit">
   <input style="display: inline;" type="button" (click)="saveDiceRoll()" value="Save"><br>
   <input style="display: inline;" type="button" (click)="averageDiceRoll()" value="Average"><br>
+  <input style="display: inline;" type="button" (click)="compareAgainst()" value="Compare"><br>
   <ul>
     <li *ngFor="let item of rolls; index as i" class="roll"> {{typeDisplay}} {{i + m}} : {{item}} </li>
     <li id="total"> {{tagName}} {{total}} </li>
