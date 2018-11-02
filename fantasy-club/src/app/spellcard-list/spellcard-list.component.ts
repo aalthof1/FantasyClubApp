@@ -205,6 +205,7 @@ export class SpellcardListComponent implements OnInit {
     this.setSelectedSpell(undefined);
     this.editDisplay = false;
   }
+
   removeSpell(x: firebase.database.DataSnapshot) {
     x.ref.remove()
   }
@@ -293,7 +294,6 @@ export class SpellcardListComponent implements OnInit {
           }.bind(this))
       }
     }.bind(this))
-
   }
 
   shareSpell() {
@@ -321,6 +321,7 @@ export class SpellcardListComponent implements OnInit {
     }.bind(this))
 
   }
+  
   addToGameToggler() {
     this.addToGameToggle = !this.addToGameToggle;
     if (!this.addToGameToggle) {
