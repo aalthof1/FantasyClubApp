@@ -17,6 +17,7 @@ export class SpellcardListComponent implements OnInit {
   selectedSpell: firebase.database.DataSnapshot = null;
   selectedSpellType: string = undefined;
   GMStatus: boolean = false;
+  adminStatus: boolean = false;
   editDisplay: boolean = false;
   shareMenuToggle: boolean = false;
   currChar: string;
@@ -57,9 +58,23 @@ export class SpellcardListComponent implements OnInit {
       function (snapshot) {
         this.privateSpells = [];
         snapshot.forEach(function (childsnap) {
+          console.log(childsnap)
           this.privateSpells.push(childsnap);
         }.bind(this))
       }.bind(this))
+      this.isUserAdmin();
+    if (this.adminStatus) {
+      firebase.database().ref("spellcards/private/").once("value").then(function (snapshot) {
+        console.log(snapshot)
+        snapshot.forEach(function (childsnap) {
+          console.log(childsnap)
+          childsnap.forEach(function (childsnap2) {
+            console.log(childsnap)
+            this.privateSpells.push(childsnap2);
+          }.bind(this))
+        }.bind(this))
+    }.bind(this))
+  }
   }
 
   fillPublic() {
@@ -103,6 +118,24 @@ export class SpellcardListComponent implements OnInit {
         }
         else {
           this.GMStatus = false;
+          return false;
+        }
+      }.bind(this))
+  }
+
+  isUserAdmin(): boolean {
+    if (firebase.auth().currentUser == null) {
+      this.adminStatus = false;
+      return false;
+    }
+    firebase.database().ref("user_id/" + firebase.auth().currentUser.uid + "/priv").once("value")
+      .then(function (snapshot) {
+        if (snapshot.val() >= 3) {
+          this.adminStatus = true;
+          return true;
+        }
+        else {
+          this.adminStatus = false;
           return false;
         }
       }.bind(this))
@@ -178,18 +211,18 @@ export class SpellcardListComponent implements OnInit {
       this.currChar = snapshot.val()
       if (this.currChar != "") {
         let cName = this.selectedSpell.child("creatorName").val();
-      let descr = this.selectedSpell.child("desc").val();
-      let dA = this.selectedSpell.child("diceAmount").val();
-      let dT = this.selectedSpell.child("diceType").val();
+        let descr = this.selectedSpell.child("desc").val();
+        let dA = this.selectedSpell.child("diceAmount").val();
+        let dT = this.selectedSpell.child("diceType").val();
 
-      firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/spellcards/" + this.selectedSpell.key).set(
-        {
-          creatorName: cName,
-          desc: descr,
-          diceAmount: dA,
-          diceType: dT
-        }
-      )
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/spellcards/" + this.selectedSpell.key).set(
+          {
+            creatorName: cName,
+            desc: descr,
+            diceAmount: dA,
+            diceType: dT
+          }
+        )
       }
     }.bind(this))
   }
@@ -266,10 +299,10 @@ export class SpellcardListComponent implements OnInit {
     let descr = this.selectedSpell.child("desc").val();
     let dA = this.selectedSpell.child("diceAmount").val();
     let dT = this.selectedSpell.child("diceType").val();
-    let gmID : string = undefined;
+    let gmID: string = undefined;
 
     firebase.database().ref("user_id/").once("value").then(function (snapshot) {
-      snapshot.forEach(function(childsnap) {
+      snapshot.forEach(function (childsnap) {
         if (childsnap.child("name").val() == sharee.value) {
           gmID = childsnap.key;
           firebase.database().ref('spellcards/private/' + gmID + "/" + this.selectedSpell.key).set(
