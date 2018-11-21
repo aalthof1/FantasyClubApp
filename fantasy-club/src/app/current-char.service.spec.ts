@@ -14,4 +14,8 @@ describe('CurrentCharService', () => {
     const service: CurrentCharService = TestBed.get(CurrentCharService);
     expect(service.characterSnap).toBeUndefined();
   });
+  it('should get subject', () => {
+    const service: CurrentCharService = TestBed.get(CurrentCharService);
+    expect(service.get).toBeDefined();
+  });
 });

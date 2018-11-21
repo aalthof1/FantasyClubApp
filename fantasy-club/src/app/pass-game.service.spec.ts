@@ -14,4 +14,9 @@ describe('PassGameService', () => {
     const service: PassGameService = TestBed.get(PassGameService);
     expect(service.gameSnap).toBeUndefined();
   });
+
+  it('should get subject', () => {
+    const service: PassGameService = TestBed.get(PassGameService);
+    expect(service.get).toBeDefined();
+  });
 });
