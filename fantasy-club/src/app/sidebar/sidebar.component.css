@@ -287,6 +287,11 @@ body {
   padding: 0px;
 }
 
+.darkMode {
+  background-color: #181c20;
+  color: white;
+}
+
 .no-display {
   display: none;
 }

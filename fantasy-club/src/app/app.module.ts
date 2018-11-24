@@ -17,6 +17,7 @@ import { SpellcardCreatorComponent } from './spellcard-creator/spellcard-creator
 import { SpellcardListComponent } from './spellcard-list/spellcard-list.component';
 import { NpcCreatorComponent } from './npc-creator/npc-creator.component';
 import { NpclistComponent } from './npclist/npclist.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { NpclistComponent } from './npclist/npclist.component';
     SpellcardListComponent,
     NpcCreatorComponent,
     NpclistComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule

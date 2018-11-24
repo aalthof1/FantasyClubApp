@@ -2,6 +2,7 @@ import { Component, OnInit, } from '@angular/core';
 import * as firebase from 'firebase';
 import { CurrentCharService } from "../current-char.service";
 import { PassGameService } from "../pass-game.service";
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +11,7 @@ import { PassGameService } from "../pass-game.service";
 })
 export class SidebarComponent implements OnInit {
   constructor
-  (private currentChar: CurrentCharService, private passGameService : PassGameService/*, private passCIService : PassCIService*/) {}
+  (private currentChar: CurrentCharService, private passGameService : PassGameService, private settingsService: SettingsService) {}
 
   user_id: string = "";
   user_name: string = "";
@@ -22,6 +23,7 @@ export class SidebarComponent implements OnInit {
   games: Array<firebase.database.DataSnapshot> = [];
   createdItems: Array<firebase.database.DataSnapshot> = [];
   savedRolls: Array<string> = [];
+  darkMode: false;
 
   config = {
     apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
@@ -44,6 +46,16 @@ export class SidebarComponent implements OnInit {
       this.user_id = firebase.auth().currentUser.uid;
       this.user_name = firebase.auth().currentUser.displayName;
     }
+    this.settingsService.currentDarkMode.subscribe(
+      function(darkMode) {
+        if(darkMode) {
+          alert("here1");
+          document.getElementsByTagName("body")[0].classList.add("darkMode");
+        } else {
+          alert("here2");
+          document.getElementsByTagName("body")[0].classList.remove("darkMode");
+        }
+    });
   }
 
 
