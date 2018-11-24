@@ -4,7 +4,6 @@ import { PassGameService } from "../pass-game.service";
 import * as firebase from 'firebase';
 import { Subscription } from 'rxjs';
 import { _iterableDiffersFactory } from '@angular/core/src/application_module';
-import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-char-sheet',

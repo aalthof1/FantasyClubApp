@@ -1,0 +1,68 @@
+.mat-toolbar {
+    background: #3f51b5;
+    color: #fff;
+    height: 64px;
+    display: flex;
+    box-sizing: border-box;
+    padding: 0 16px;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    font: 500 20px/32px Roboto,"Helvetica Neue",sans-serif;
+    margin: 0;
+}
+
+.mat-button {
+    box-sizing: border-box;
+    position: relative;
+    user-select: none;
+    cursor: pointer;
+    outline: 0;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    display: inline-block;
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: baseline;
+    text-align: center;
+    margin: 0;
+    min-width: 88px;
+    line-height: 36px;
+    padding: 0 16px;
+    border-radius: 2px;
+    overflow: visible;
+    color: inherit;
+    background: 0 0;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    background: #3f51b5;
+    display: flex;
+    box-sizing: border-box;
+    padding: 0 16px;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+}
+
+.space {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+
+.option-pane {
+    background-color: gray;
+    min-height: 100px;
+    padding: 10px;
+}
+
+.no-display {
+    display: none;
+}
+
+mat-card {
+    padding:0;
+}

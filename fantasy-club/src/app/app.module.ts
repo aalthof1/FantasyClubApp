@@ -1,6 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+//material imports
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CharSheetComponent } from './char-sheet/char-sheet.component';
@@ -18,6 +23,8 @@ import { SpellcardListComponent } from './spellcard-list/spellcard-list.componen
 import { NpcCreatorComponent } from './npc-creator/npc-creator.component';
 import { NpclistComponent } from './npclist/npclist.component';
 import { SettingsComponent } from './settings/settings.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { OptionPaneComponent } from './option-pane/option-pane.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +45,13 @@ import { SettingsComponent } from './settings/settings.component';
     NpcCreatorComponent,
     NpclistComponent,
     SettingsComponent,
+    NavigationComponent,
+    OptionPaneComponent,
   ],
   imports: [
+    MatToolbarModule,
+    MatCardModule,
+    MatButtonModule,
     BrowserModule
   ],
   providers: [],

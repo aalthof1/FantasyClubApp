@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+    <span><b>Purdue Fantasy Club</b></span>
+    <span class="space"></span>
+    <span><button mat-button (click)="toggleCharacters()">Characters</button></span>
+    <span><button mat-button (click)="toggleSessions()">Current Sessions</button></span>
+    <span><button mat-button (click)="toggleDR()">Dice Roller</button></span>
+    <span><button mat-button (click)="toggleItems()">Items</button></span>
+    <span><button mat-button (click)="toggleAbilities()">Abilities</button></span>
+    <span><button mat-button (click)="toggleTraps()">Traps</button></span>
+    <span><button mat-button (click)="toggleSettings()">Settings</button></span>
+</mat-toolbar>
+<mat-card>
+  <div class="option-pane no-display">
+    <div *ngIf="getCurrentPane()=='settings'">
+      <app-settings></app-settings>
+    </div>
+  </div>
+</mat-card>
