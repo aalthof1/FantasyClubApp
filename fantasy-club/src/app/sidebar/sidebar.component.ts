@@ -49,10 +49,8 @@ export class SidebarComponent implements OnInit {
     this.settingsService.currentDarkMode.subscribe(
       function(darkMode) {
         if(darkMode) {
-          alert("here1");
           document.getElementsByTagName("body")[0].classList.add("darkMode");
         } else {
-          alert("here2");
           document.getElementsByTagName("body")[0].classList.remove("darkMode");
         }
     });
