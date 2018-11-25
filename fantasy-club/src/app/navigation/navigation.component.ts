@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-navigation',
@@ -8,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class NavigationComponent implements OnInit {
 
   currentPane = "";
-  constructor() { }
+
+  constructor(private sidebar: SidebarComponent) { }
 
   ngOnInit() {
   }
@@ -34,6 +36,7 @@ export class NavigationComponent implements OnInit {
     } else {
       document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
       this.currentPane = "diceRoller";
+      console.log("currentPane = " + this.currentPane);
     }
   }
 

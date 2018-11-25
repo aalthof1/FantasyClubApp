@@ -24,6 +24,7 @@ export class SidebarComponent implements OnInit {
   createdItems: Array<firebase.database.DataSnapshot> = [];
   savedRolls: Array<string> = [];
   darkMode: false;
+  currentPane = "";
 
   config = {
     apiKey: "AIzaSyA7rfAhOVMuPaTkzGQXSwNnNx5iZDG8-EQ",
@@ -58,6 +59,49 @@ export class SidebarComponent implements OnInit {
     });
   }
 
+  toggleLogin() {
+    if(this.currentPane == 'login') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "login";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }
+  }
+
+  toggleCharacters() {
+    if(this.currentPane == 'characters') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "characters";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }
+  }
+
+  toggleSettings() {
+    if(this.currentPane == 'settings') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "settings";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }
+  }
+
+  toggleDR() {
+    if(this.currentPane == 'diceroller') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "diceroller";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }
+  }
+
+  getCurrentPane() {
+    return this.currentPane;
+  }
 
   isUserSignedIn() {
     if (firebase.auth().currentUser != null) {
@@ -106,14 +150,6 @@ export class SidebarComponent implements OnInit {
           console.log("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
           this.user_priv = snapshot.child(this.user_id).child('priv').val();
           //alert("user exists with priv level = " + snapshot.child(this.user_id).child('priv').val());
-          if(snapshot.child(this.user_id).child('priv').val() >= 2)  {
-            document.getElementById("gm-container").classList.remove("no-display");
-            document.getElementById("gm").classList.remove("no-display");
-          }
-          if(snapshot.child(this.user_id).child('priv').val() >= 3)  {
-            document.getElementById("admin-container").classList.remove("no-display");
-            document.getElementById("admin").classList.remove("no-display");
-          }
         }
         else {
           //we'll create the user in the database with base priviledge
@@ -180,10 +216,6 @@ export class SidebarComponent implements OnInit {
     this.user_name = "";
     this.games = [];
     this.createdItems = [];
-    document.getElementById("admin-container").classList.add("no-display");
-    document.getElementById("admin").classList.add("no-display");
-    document.getElementById("gm-container").classList.add("no-display");
-    document.getElementById("gm").classList.add("no-display");
   }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
