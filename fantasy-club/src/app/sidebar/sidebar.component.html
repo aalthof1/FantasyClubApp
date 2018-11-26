@@ -1,18 +1,18 @@
-<mat-toolbar color="primary">
-  <span><h5>Purdue Fantasy Club</h5></span>
+<mat-toolbar id="navigation" color="primary">
+  <span><h3>Purdue Fantasy Club</h3></span>
   <div class="col">
     <span><b>User: {{user_name}}</b></span><br>
     <span><b>Character: {{actualChar}}</b></span>
   </div>
   <span class="space"></span>
-  <span><button mat-button (click)="toggleLogin()">Log In/Out</button></span>
-  <span><button mat-button (click)="toggleCharacters()">Characters</button></span>
-  <span><button mat-button (click)="toggleSessions()">Current Sessions</button></span>
-  <span><button mat-button (click)="toggleDR()">Dice Roller</button></span>
-  <span><button mat-button (click)="toggleItems()">Items</button></span>
-  <span><button mat-button (click)="toggleAbilities()">Abilities</button></span>
-  <span><button mat-button (click)="toggleTraps()">Traps</button></span>
-  <span><button mat-button (click)="toggleSettings()">Settings</button></span>
+  <span class="button-container first"><button mat-button (click)="toggleLogin()">Log In/Out</button></span>
+  <span class="button-container"><button mat-button (click)="toggleCharacters()">Characters</button></span>
+  <span class="button-container"><button mat-button (click)="toggleSessions()">Current Sessions</button></span>
+  <span class="button-container"><button mat-button (click)="toggleDR()">Dice Roller</button></span>
+  <span class="button-container"><button mat-button (click)="toggleItems()">Items</button></span>
+  <span class="button-container"><button mat-button (click)="toggleAbilities()">Abilities</button></span>
+  <span class="button-container"><button mat-button (click)="toggleTraps()">Traps</button></span>
+  <span class="button-container"><button mat-button (click)="toggleSettings()">Settings</button></span>
 </mat-toolbar>
 <mat-card>
 <div class="option-pane no-display">

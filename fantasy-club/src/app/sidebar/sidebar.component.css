@@ -288,8 +288,8 @@ body {
 }
 
 .darkMode {
-  background-color: #181c20;
-  color: white;
+  background-color: #000 !important;
+  color: #CFB53B !important;
 }
 
 .no-display {
@@ -297,8 +297,8 @@ body {
 }
 
 .mat-toolbar {
-  background: #3f51b5;
-  color: #fff;
+  background:#CFB53B;
+  color: #000;
   height: 64px;
   display: flex;
   box-sizing: border-box;
@@ -309,6 +309,11 @@ body {
   white-space: nowrap;
   font: 500 20px/32px Roboto,"Helvetica Neue",sans-serif;
   margin: 0;
+  border-bottom: 0.5px solid black;
+}
+
+.button-container {
+  height: inherit;
 }
 
 .mat-button {
@@ -331,11 +336,10 @@ body {
   border-radius: 2px;
   overflow: visible;
   color: inherit;
-  background: 0 0;
   font-family: Roboto,"Helvetica Neue",sans-serif;
   font-size: 14px;
   font-weight: 500;
-  background: #3f51b5;
+  background: inherit;
   display: flex;
   box-sizing: border-box;
   padding: 0 16px;
@@ -343,6 +347,16 @@ body {
   flex-direction: row;
   align-items: center;
   margin: 0;
+  height:inherit;
+  border-right: 0.5px solid black;
+}
+
+.first {
+  border-left: 0.5px solid black;
+}
+
+.mat-button:hover {
+  background-color: #d19b3d
 }
 
 .space {
@@ -352,13 +366,9 @@ body {
 }
 
 .option-pane {
-  background-color: gray;
+  background-color: rgb(70,70,70);
   min-height: 100px;
   padding: 10px;
-}
-
-.no-display {
-  display: none;
 }
 
 mat-card {
