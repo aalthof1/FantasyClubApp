@@ -289,7 +289,7 @@ body {
 
 .darkMode {
   background-color: #000 !important;
-  color: #CFB53B !important;
+  color:  #d48933 !important;
 }
 
 .no-display {
@@ -297,7 +297,7 @@ body {
 }
 
 .mat-toolbar {
-  background:#CFB53B;
+  background-color: #d19b3d;
   color: #000;
   height: 64px;
   display: flex;
@@ -337,7 +337,7 @@ body {
   overflow: visible;
   color: inherit;
   font-family: Roboto,"Helvetica Neue",sans-serif;
-  font-size: 14px;
+  font-size: 24px;
   font-weight: 500;
   background: inherit;
   display: flex;
@@ -356,7 +356,7 @@ body {
 }
 
 .mat-button:hover {
-  background-color: #d19b3d
+  background:#CFB53B;
 }
 
 .space {
@@ -373,4 +373,8 @@ body {
 
 mat-card {
   padding:0;
+}
+
+a {
+  font-size: 20px;
 }

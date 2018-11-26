@@ -1,5 +1,14 @@
 .row {
     margin: 10px;
+    background-image: url("./images/parchment.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.darkMode {
+    background-image: url(https://www.runescape.com/img/rs3/background-content-top.jpg) !important;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .container-fluid {
