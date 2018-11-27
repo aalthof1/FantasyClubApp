@@ -25,6 +25,7 @@ import { NpclistComponent } from './npclist/npclist.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { OptionPaneComponent } from './option-pane/option-pane.component';
+import { CreatorComponent } from './creator/creator.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { OptionPaneComponent } from './option-pane/option-pane.component';
     SettingsComponent,
     NavigationComponent,
     OptionPaneComponent,
+    CreatorComponent,
   ],
   imports: [
     MatToolbarModule,

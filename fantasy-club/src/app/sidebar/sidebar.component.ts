@@ -83,6 +83,56 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+  toggleSessions() {
+    if(this.currentPane == 'sessions') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "sessions";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }    
+  }
+
+  toggleItems() {
+    if(this.currentPane == 'items') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "items";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }    
+  }
+
+  toggleCreator() {
+    if(this.currentPane == 'creator') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "creator";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }    
+  }
+
+  toggleAbilities() {
+    if(this.currentPane == 'abilities') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "abilities";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }    
+  }
+
+  toggleTraps() {
+    if(this.currentPane == 'traps') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "traps";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }    
+  }
+
   toggleSettings() {
     if(this.currentPane == 'settings') {
       this.currentPane = "";

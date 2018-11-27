@@ -1,0 +1,37 @@
+<div *ngIf="isUserSignedIn();else sign_in">
+  <div *ngIf="isUserGM();else normal">
+    <select id="creator-select" #creator (change)="updateCreator(creator.value)">
+        <option>-- Please Select An Option --</option>
+        <option>Items</option>
+        <option>Abilities</option>
+        <option>Traps</option>
+        <option>NPCs</option>
+    </select>
+  </div>
+  <ng-template #normal>
+      <select id="creator-select" #creator (change)="updateCreator(creator.value)">
+          <option>-- Please Select An Option --</option>
+          <option>Items</option>
+          <option>Abilities</option>
+      </select>
+  </ng-template>
+  <div *ngIf="getSelectedCreator()=='-- Please Select An Option --'">
+    <!-- PUT NOTHING HERE, NOTHING SELECTED -->
+  </div>
+  <div *ngIf="getSelectedCreator()=='Items'">
+    <app-item-creator (refresh)="refreshCreatedItems()"></app-item-creator>
+  </div>
+  <div *ngIf="getSelectedCreator()=='Abilities'">
+      <app-spellcard-creator></app-spellcard-creator>
+  </div>
+  <div *ngIf="getSelectedCreator()=='Traps'">
+      <app-trap-creator></app-trap-creator>
+  </div>
+  <div *ngIf="getSelectedCreator()=='NPCs'">
+      <app-npc-creator></app-npc-creator>
+  </div>
+    
+</div>
+<ng-template #sign_in>
+  <h2>Please sign in to use the creator</h2>
+</ng-template>

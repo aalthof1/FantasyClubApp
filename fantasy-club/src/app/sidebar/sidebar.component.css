@@ -369,6 +369,7 @@ body {
   background-color: rgb(70,70,70);
   min-height: 100px;
   padding: 10px;
+  color: #CFB53B;
 }
 
 mat-card {

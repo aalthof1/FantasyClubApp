@@ -9,39 +9,59 @@
   <span class="button-container"><button mat-button (click)="toggleCharacters()">Characters</button></span>
   <span class="button-container"><button mat-button (click)="toggleSessions()">Current Sessions</button></span>
   <span class="button-container"><button mat-button (click)="toggleDR()">Dice Roller</button></span>
-  <span class="button-container"><button mat-button (click)="toggleItems()">Items</button></span>
-  <span class="button-container"><button mat-button (click)="toggleAbilities()">Abilities</button></span>
-  <span class="button-container"><button mat-button (click)="toggleTraps()">Traps</button></span>
+  <span class="button-container"><button mat-button (click)="toggleCreator()">Creator</button></span>
   <span class="button-container"><button mat-button (click)="toggleSettings()">Settings</button></span>
 </mat-toolbar>
+
 <mat-card>
-<div class="option-pane no-display">
-  <div *ngIf="getCurrentPane()=='login'">
-      <input type="button" value="Log In" (click)=signIn()/>
-      <input type="button" value="Log Out" (click)=signOut()/>
-  </div>
-  <div *ngIf="getCurrentPane()=='settings'">
-    <app-settings></app-settings>
-  </div>
-  <div *ngIf="getCurrentPane()=='diceroller'">
-    <app-diceroller></app-diceroller>
-  </div>
-  <div *ngIf="getCurrentPane()=='characters'">
-    <div *ngIf="isUserSignedIn();else sign_in">
-      <ul class="sub-menu" id="characters">
-        <li *ngFor="let char of characters; let i = index" (click)="passCharacter(char)">
-          <a href=#>{{char.key}}</a>
+  <div class="option-pane no-display">
+    <div *ngIf="getCurrentPane()=='login'">
+        <input type="button" value="Log In" (click)=signIn()/>
+        <input type="button" value="Log Out" (click)=signOut()/>
+    </div>
+
+    <div *ngIf="getCurrentPane()=='settings'">
+      <app-settings></app-settings>
+    </div>
+
+    <div *ngIf="getCurrentPane()=='diceroller'">
+      <app-diceroller></app-diceroller>
+    </div>
+
+    <div *ngIf="getCurrentPane()=='characters'">
+      <div *ngIf="isUserSignedIn();else sign_in">
+        <ul class="sub-menu" id="characters">
+          <li *ngFor="let char of characters; let i = index" (click)="passCharacter(char)">
+            <a href=#>{{char.key}}</a>
+          </li>
+          <li *ngIf="isUserSignedIn()">
+            <input type="button" (click)="setChar()" value="Set Character">
+            <app-char-generator (refresh)="refreshCharacters()"></app-char-generator>
+          </li>
+        </ul>
+      </div>
+      <ng-template #sign_in><h2>Please log in to view characters.</h2></ng-template>
+    </div>
+
+    <div *ngIf="getCurrentPane()=='sessions'">
+      <ul class="sub-menu" id="games">
+        <li *ngFor="let game of games; let i = index" (click)="passGame(game)">
+          <a href=#>{{game.key}}</a>
         </li>
-  
-        <li *ngIf="isUserSignedIn()">
-          <input type="button" (click)="setChar()" value="Set Character">
-          <app-char-generator (refresh)="refreshCharacters()"></app-char-generator>
-        </li>
+        <ng-container *ngIf="isUserSignedIn(); else elseTemplate">
+          <app-game-generator (refresh)="refreshGames()"></app-game-generator>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <h2>Sign in to see games.</h2>
+        </ng-template>
       </ul>
     </div>
-    <ng-template #sign_in><h2>Please log in to view characters.</h2></ng-template>
+
+    <div *ngIf="getCurrentPane()=='creator'">
+      <app-creator></app-creator>
+    </div>
+
   </div>
-</div>
 </mat-card>
 <!--<div class="nav-side-menu">
   <div class="brand">Fantasy Club</div>
