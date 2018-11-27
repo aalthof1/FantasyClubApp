@@ -9,11 +9,7 @@
     </select>
   </div>
   <ng-template #normal>
-      <select id="creator-select" #creator (change)="updateCreator(creator.value)">
-          <option>-- Please Select An Option --</option>
-          <option>Items</option>
-          <option>Abilities</option>
-      </select>
+    <app-spellcard-creator></app-spellcard-creator>
   </ng-template>
   <div *ngIf="getSelectedCreator()=='-- Please Select An Option --'">
     <!-- PUT NOTHING HERE, NOTHING SELECTED -->

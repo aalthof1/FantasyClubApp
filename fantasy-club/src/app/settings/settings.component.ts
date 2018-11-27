@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../settings.service';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-settings',
@@ -9,7 +10,7 @@ import { SettingsService } from '../settings.service';
 export class SettingsComponent implements OnInit {
   darkMode = false;
 
-  constructor(private ss: SettingsService) { }
+  constructor(private ss: SettingsService, private sc: SidebarComponent) { }
 
   ngOnInit() {
     this.ss.currentDarkMode.subscribe(darkMode => this.darkMode = darkMode);
@@ -17,6 +18,14 @@ export class SettingsComponent implements OnInit {
 
   toggleDarkMode() {
     this.ss.toggleDarkMode(this.darkMode);
+  }
+
+  isUserGM() {
+    return this.sc.isUserGM();
+  }
+
+  isUserAdmin() {
+    return this.sc.isUserAdmin();
   }
 
 }

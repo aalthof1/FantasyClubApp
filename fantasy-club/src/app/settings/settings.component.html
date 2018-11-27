@@ -1,1 +1,9 @@
 <input type="button" value="Dark Mode" (click)="toggleDarkMode()"/>
+<div *ngIf="isUserGM()">
+    <hr>
+    <app-gm></app-gm>
+</div>
+<div *ngIf="isUserAdmin()">
+    <hr>
+    <app-admin></app-admin>
+</div>
