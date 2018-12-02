@@ -12,7 +12,7 @@
 }
 
 body {
-  background-image: url("./app/images/parchment.jpg");
+  background-image: url("./assets/images/parchment.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
