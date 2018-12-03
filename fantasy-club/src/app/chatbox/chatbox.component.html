@@ -3,10 +3,11 @@
 <div *ngIf="toggle">
 
   <div *ngIf="selectedSession == undefined">
-      <p class="listOfGame" *ngFor="let game of sessionList" (click)="selectedSession = game; getMessages()">{{game.key}}</p>
+    <p class="listOfGame" *ngFor="let game of sessionList" (click)="selectedSession = game; getMessages()">{{game.key}}</p>
   </div>
   <div id="messageBox" class="border border-info" *ngIf="selectedSession != undefined">
-    <input placeholder="Enter a message here:" type="text" id="messageEnter">
+    <input onkeydown="if (event.keyCode==13) document.getElementById('mesButton').click() " placeholder=" Enter a message here:"
+      type="text" id="messageEnter">
     <button id="mesButton" (click)="addMessage()">Submit</button>
     <p *ngIf="noMessages">no messages, yet</p>
     <p *ngFor="let mes of messageList; let i = index;"> {{ messageUser[i] }} : {{messageText[i]}} </p>

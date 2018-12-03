@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 
 
+
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
@@ -22,6 +23,15 @@ export class ChatboxComponent implements OnInit {
   noMessages: boolean = true;
   highestKey : number = -1;
 
+  clearData() {
+    this.sessionList = [];
+    this.selectedSession = null;
+    this.messageList = [];
+    this.messageUser = [];
+    this.noMessages = true;
+    this.highestKey = -1;
+    this.messageText = [];
+  }
 
   loggedIn() {
     if (firebase.auth().currentUser != null) {
@@ -33,17 +43,18 @@ export class ChatboxComponent implements OnInit {
   toggleChatbox() {
     if (this.toggle == true) {
       this.toggle = false;
+      this.clearData();
       return;
     }
     if (this.loggedIn()) {
       this.toggle = true;
+      this.clearData();
       this.displaySessions()
     }
   }
   unselect() {
-    this.selectedSession = undefined;
-    this.noMessages = true;
-    this.messageList = [];
+    this.clearData()
+    this.displaySessions();
   }
   displaySessions() {
     firebase.database().ref("games").once("value").then(function (snapshot) {
@@ -52,6 +63,14 @@ export class ChatboxComponent implements OnInit {
       }.bind(this))
     }.bind(this))
   }
+  updateSnapshot() {
+    this.selectedSession.ref.once("value").then(function (snapshot) {
+      this.selectedSession = snapshot;
+      this.getMessages();
+    }.bind(this))
+  }
+
+
   getMessages() {
     if(this.selectedSession == undefined) {
       return;
@@ -88,10 +107,14 @@ export class ChatboxComponent implements OnInit {
       return;
     }
     let number = this.highestKey + 1;
-    this.selectedSession.child("messages/" + number.toString()).ref.set({
+    this.highestKey++;
+    this.selectedSession.ref.child("messages/" + number.toString()).set({
       user : firebase.auth().currentUser.displayName, 
       msg : input
-    })
-    document.getElementById("messageEnter").innerText = "";
+    }).then(() => {
+      this.getMessages(); 
+      this.noMessages = false;
+      (document.getElementById("messageEnter") as HTMLInputElement).value = "";
+    } ); 
   }
 }
