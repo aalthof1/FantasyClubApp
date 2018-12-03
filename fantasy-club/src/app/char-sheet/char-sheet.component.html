@@ -41,13 +41,18 @@
       <div class="col">
         {{val}}
       </div>
-      <div *ngIf="i <=3">
-      <div class="col">
-        <input type="number" value="{{ val }}" id="{{combatStatNames[i] + '-value'}}">
+      <div *ngIf="i <= 3">
+        <div class="col">
+          <input type="number" value="{{ val }}" id="{{combatStatNames[i] + '-value'}}">
+        </div>
       </div>
+      <div *ngIf="i > 3 && i < 8">
+        <input type="number" value="{{ 0 }}" id="{{combatStatNames[i] + '-mod'}}">
+        <button (click)="toHitRoller(combatStatValues[i], combatStatNames[i] + '-mod')" id="{{combatStatNames[i] + '-roll'}}">Roll to hit</button>
       </div>
     </div>
   </div>
+  <li id="total"> Total: {{rawRoll}} + {{modifier}} + {{amount}} = {{result}} </li>
 </div>
 
 <div *ngIf="edit == true">
@@ -135,29 +140,29 @@
     </div>
   </div>
   <div *ngIf="abilityMenuToggle">
-      <p *ngIf="noAbilityMessage">No abilities are currently in this game</p>
-      <div *ngIf="!noAbilityMessage">
-        <ul>
-          <li class="ability" *ngFor="let a of abilities; let i = index" (click)="selectAbility(i)">
-            {{a.key}}
-          </li>
-          <div *ngIf="selectedAbility != -1">
-            <ul>
-              <li *ngFor="let aInfo of abilityInfo">
-                {{aInfo.key}}
-                <ul>
-                  <li> {{aInfo.val()}}</li>
-                </ul>
-              </li>
-            </ul>
-            <button (click)="selectAbility(-1)">Hide Ability</button>
-          </div>
-        </ul>
-      </div>
+    <p *ngIf="noAbilityMessage">No abilities are currently in this game</p>
+    <div *ngIf="!noAbilityMessage">
+      <ul>
+        <li class="ability" *ngFor="let a of abilities; let i = index" (click)="selectAbility(i)">
+          {{a.key}}
+        </li>
+        <div *ngIf="selectedAbility != -1">
+          <ul>
+            <li *ngFor="let aInfo of abilityInfo">
+              {{aInfo.key}}
+              <ul>
+                <li> {{aInfo.val()}}</li>
+              </ul>
+            </li>
+          </ul>
+          <button (click)="selectAbility(-1)">Hide Ability</button>
+        </div>
+      </ul>
     </div>
+  </div>
   <br>
   <div *ngIf="currentGameGM">
-    <input style="display: inline;" type="number" id="xp" placeholder="XP" min="0"/>
+    <input style="display: inline;" type="number" id="xp" placeholder="XP" min="0" />
     <button (click)="endGame()">End Game</button>
   </div>
 </div>
