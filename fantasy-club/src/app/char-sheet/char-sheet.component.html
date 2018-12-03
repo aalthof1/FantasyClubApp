@@ -2,7 +2,7 @@
   <h3 class="bg-dark text-white">{{selectedChar.key}}</h3>
   <button (click)="viewActivate()" id="viewButton">View</button>
   <button (click)="editActivate()" id="editButton">Edit</button>
-
+  <button (click)="combatActivate()" id="combatButton">Combat</button>
   <br>
   <button *ngIf="edit == true" button id="submit" (click)="submitChanges()">Submit Changes</button>
 
@@ -27,6 +27,24 @@
       </div>
       <div class="col">
         {{val}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="combat == true">
+  <div class="container-fluid">
+    <div class="row border border-dark" *ngFor="let val of combatStatValues; let i = index">
+      <div class="col">
+        {{combatStatNames[i]}}
+      </div>
+      <div class="col">
+        {{val}}
+      </div>
+      <div *ngIf="i <=3">
+      <div class="col">
+        <input type="number" value="{{ val }}" id="{{combatStatNames[i] + '-value'}}">
+      </div>
       </div>
     </div>
   </div>

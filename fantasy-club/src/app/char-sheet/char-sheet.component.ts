@@ -20,10 +20,13 @@ export class CharSheetComponent implements OnInit {
   charSubscript: Subscription;
   gameSubscript: Subscription;
   view: boolean = false;
-  edit: boolean = false;
+  edit: boolean = false; 
+  combat: boolean = false;
   statData: ArrayLike<[string, number]>
   statValues: Array<number>;
   statNames: Array<string> = ["agi", "cmod", "com", "cse", "dp", "du", "eu", "gmod", "hea", "int", "lmod", "mmod", "move", "per", "pu", "pwr", "str", "wil"];
+  combatStatNames: Array<string> = ["dp", "eu", "du", "pu", "cmod", "mmod", "gmod", "lmod", "str", "int", "per", "cse", "hea", "agi", "pwr", "com", "wil", "move"];
+  combatStatValues: Array<number>;
   viewValues: Array<number>;
   submitValues: Array<number>;
   problem: boolean = false;
@@ -53,6 +56,7 @@ export class CharSheetComponent implements OnInit {
       .subscribe(snapshot => {
         this.view = false;
         this.edit = false;
+        this.combat = false;
         this.selectedChar = snapshot.data;
       });
     this.gameSubscript = this.passService.get()
@@ -101,6 +105,9 @@ export class CharSheetComponent implements OnInit {
     if (this.view == true) {
       this.view = false;
     }
+    if (this.combat == true) {
+      this.combat = false;
+    }
     this.edit = true;
     this.refreshStatsFromOnline();
   }
@@ -109,8 +116,99 @@ export class CharSheetComponent implements OnInit {
     if (this.edit == true) {
       this.edit = false;
     }
+    if (this.combat == true) {
+      this.combat = false;
+    }
     this.view = true;
     this.refreshStatsFromOnline();
+  }
+
+  combatActivate() {
+    if (this.edit == true) {
+      this.edit = false;
+    }
+    if (this.view == true) {
+      this.view = false;
+    }
+    this.combat = true;
+    this.refreshStatsFromOnline();
+    //statNames: Array<string> = ["agi", "cmod", "com", "cse", "dp", "du", "eu", "gmod", "hea", "int", "lmod", "mmod", "move", "per", "pu", "pwr", "str", "wil"];
+    //combatStatNames: Array<string> = ["dp", "eu", "du", "pu", "cmod", "mmod", "gmod", "lmod", "str", "int", "per", "cse", "hea", "agi", "pwr", "com", "wil", "move"];
+    this.combatStatValues = this.statValues;
+    var dp = this.statValues[4];
+    var eu = this.statValues[6];
+    var du = this.statValues[5];
+    var pu = this.statValues[14];
+    var cmod = this.statValues[1];
+    var mmod = this.statValues[11];
+    var gmod = this.statValues[7];
+    var lmod = this.statValues[10];
+    var str = this.statValues[16];
+    var int = this.statValues[9];
+    var per = this.statValues[13];
+    var cse = this.statValues[3];
+    var hea = this.statValues[8];
+    var agi = this.statValues[0];
+    var pwr = this.statValues[15];
+    var com = this.statValues[2];
+    var wil = this.statValues[17];
+    var move = this.statValues[12];
+    
+    this.combatStatValues[0] = dp
+    this.combatStatValues[1] = eu
+    this.combatStatValues[2] = du
+    this.combatStatValues[3] = pu
+    this.combatStatValues[4] = cmod
+    this.combatStatValues[5] = mmod
+    this.combatStatValues[6] = gmod
+    this.combatStatValues[7] = lmod
+    this.combatStatValues[8] = str
+    this.combatStatValues[9] = int
+    this.combatStatValues[10] = per
+    this.combatStatValues[11] = cse
+    this.combatStatValues[12] = hea
+    this.combatStatValues[13] = agi
+    this.combatStatValues[14] = pwr
+    this.combatStatValues[15] = com
+    this.combatStatValues[16] = wil
+    this.combatStatValues[17] = move
+    // this.combatStatValues = this.statValues;
+    // this.combatStatValues[0] = this.statValues[4];
+    // console.log(this.statValues[4])
+    // this.combatStatValues[1] = this.statValues[6];
+    // console.log(this.statValues[6])
+    // this.combatStatValues[2] = this.statValues[5];
+    // console.log(this.statValues[5])
+    // this.combatStatValues[3] = this.statValues[14];
+    // console.log(this.statValues[14])
+    // this.combatStatValues[4] = this.statValues[1];
+    // console.log(this.statValues[1])
+    // this.combatStatValues[5] = this.statValues[11];
+    // console.log(this.statValues[11])
+    // this.combatStatValues[6] = this.statValues[7];
+    // console.log(this.statValues[7])
+    // this.combatStatValues[7] = this.statValues[10];
+    // console.log(this.statValues[10])
+    // this.combatStatValues[8] = this.statValues[16];
+    // console.log(this.statValues[16])
+    // this.combatStatValues[9] = this.statValues[9];
+    // console.log(this.statValues[9])
+    // this.combatStatValues[10] = this.statValues[13];
+    // console.log(this.statValues[13])
+    // this.combatStatValues[11] = this.statValues[3];
+    // console.log(this.statValues[3])
+    // this.combatStatValues[12] = this.statValues[8];
+    // console.log(this.statValues[8])
+    // this.combatStatValues[13] = this.statValues[0];
+    // console.log(this.statValues[0])
+    // this.combatStatValues[14] = this.statValues[15];
+    // console.log(this.statValues[15])
+    // this.combatStatValues[15] = this.statValues[2];
+    // console.log(this.statValues[2])
+    // this.combatStatValues[16] = this.statValues[17];
+    // console.log(this.statValues[17])
+    // this.combatStatValues[17] = this.statValues[12];
+    // console.log(this.statValues[12])
   }
 
   submitChanges(): void {
