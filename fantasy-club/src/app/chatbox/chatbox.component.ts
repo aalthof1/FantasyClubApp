@@ -14,6 +14,14 @@ export class ChatboxComponent implements OnInit {
 
   ngOnInit() {
   }
+  sessionList : Array<firebase.database.DataSnapshot> = [];
+  selectedSession : firebase.database.DataSnapshot = null;
+  messageList : Array<firebase.database.DataSnapshot> = [];
+  messageUser : Array<string> = [];
+  messageText : Array<string> = [];
+  noMessages: boolean = true;
+  highestKey : number = -1;
+
 
   loggedIn() {
     if (firebase.auth().currentUser != null) {
@@ -29,9 +37,61 @@ export class ChatboxComponent implements OnInit {
     }
     if (this.loggedIn()) {
       this.toggle = true;
-      
+      this.displaySessions()
     }
-    //else nothing
   }
-
+  unselect() {
+    this.selectedSession = undefined;
+    this.noMessages = true;
+    this.messageList = [];
+  }
+  displaySessions() {
+    firebase.database().ref("games").once("value").then(function (snapshot) {
+      snapshot.forEach(function(childsnap) {
+        this.sessionList.push(childsnap)
+      }.bind(this))
+    }.bind(this))
+  }
+  getMessages() {
+    if(this.selectedSession == undefined) {
+      return;
+    }
+    if (this.selectedSession.hasChild("messages")) {
+      this.noMessages = false;
+      this.selectedSession.child("messages").ref.orderByKey().on("value", function(snapshot) {
+        this.messageList = [];
+        this.messageUsers = [];
+        this.messageText = [];
+        snapshot.forEach(function(childsnap) {
+          this.messageList.unshift(childsnap);
+          this.messageUser.unshift(childsnap.child("user").val())
+          this.messageText.unshift(childsnap.child("msg").val())
+          if (parseInt(childsnap.key) > this.highestKey) {
+            this.highestKey = parseInt(childsnap.key);
+          } 
+          while (this.messageList.length > 10) {
+            this.messageList.pop();
+            this.messageUser.pop();
+            this.messageText.pop();
+          }
+        }.bind(this))
+      }.bind(this))
+    }
+    else {
+      this.noMessages = true;
+    }
+  }
+  addMessage() {
+    let input = (document.getElementById("messageEnter") as HTMLInputElement).value;
+    if (input == "" || input == undefined) {
+      console.log("no input found")
+      return;
+    }
+    let number = this.highestKey + 1;
+    this.selectedSession.child("messages/" + number.toString()).ref.set({
+      user : firebase.auth().currentUser.displayName, 
+      msg : input
+    })
+    document.getElementById("messageEnter").innerText = "";
+  }
 }

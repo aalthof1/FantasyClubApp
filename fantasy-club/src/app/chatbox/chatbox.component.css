@@ -1,0 +1,17 @@
+#messageBox {
+    background-color: white;
+}
+.listOfGame {
+    color: blue;
+}
+
+#messageEnter {
+    width: 90%;
+}
+#mesButton {
+    width: 10%;
+}
+
+.listOfGame:hover {
+    color: lightblue;
+}
