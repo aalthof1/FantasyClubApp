@@ -41,6 +41,11 @@
       <div class="col">
         {{val}}
       </div>
+      <div *ngIf="i <=3">
+      <div class="col">
+        <input type="number" value="{{ val }}" id="{{combatStatNames[i] + '-value'}}">
+      </div>
+      </div>
     </div>
   </div>
 </div>
