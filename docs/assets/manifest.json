@@ -1,0 +1,8 @@
+{
+  "short_name": "Fantasy Club",
+  "name": "Fantasy Club",
+  "background_color": "#FFFFFF",
+  "display": "browser",
+  "theme_color": "#FFFFFF",
+  "gcm_sender_id": "103953800507"
+}
