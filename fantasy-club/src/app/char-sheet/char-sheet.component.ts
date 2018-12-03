@@ -20,7 +20,7 @@ export class CharSheetComponent implements OnInit {
   charSubscript: Subscription;
   gameSubscript: Subscription;
   view: boolean = false;
-  edit: boolean = false; 
+  edit: boolean = false;
   combat: boolean = false;
   result: number = 0;
   rawRoll: number = 0;
@@ -46,13 +46,17 @@ export class CharSheetComponent implements OnInit {
   noTrapMessage: boolean = false;
   traps: Array<firebase.database.DataSnapshot> = [];
   trapInfo: Array<firebase.database.DataSnapshot> = [];
-  selectedTrap : number = -1
+  selectedTrap: number = -1
   abilityMenuToggle: boolean = false;
   noAbilityMessage: boolean = false;
   abilities: Array<firebase.database.DataSnapshot> = [];
   abilityInfo: Array<firebase.database.DataSnapshot> = [];
-  selectedAbility : number = -1
+  selectedAbility: number = -1
   canSeeAnnouncement: boolean;
+  PMtoggle: boolean = false;
+  PMnames : Array<string> = [];
+  PMmsg : Array<string> = [];
+
 
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
@@ -157,7 +161,7 @@ export class CharSheetComponent implements OnInit {
     var com = this.statValues[2];
     var wil = this.statValues[17];
     var move = this.statValues[12];
-    
+
     this.combatStatValues[0] = dp
     this.combatStatValues[1] = eu
     this.combatStatValues[2] = du
@@ -258,15 +262,15 @@ export class CharSheetComponent implements OnInit {
     }.bind(this));
   }
 
-  isUserInGame(){
-    if(this.selectedGame.child("user_name").val() == firebase.auth().currentUser.displayName) {
+  isUserInGame() {
+    if (this.selectedGame.child("user_name").val() == firebase.auth().currentUser.displayName) {
       this.canSeeAnnouncement = true;
       return this.canSeeAnnouncement;
     }
-    this.selectedGame.child("characters").ref.once("value").then(function(snapshot){
+    this.selectedGame.child("characters").ref.once("value").then(function (snapshot) {
       this.canSeeAnnouncement = false;
-      snapshot.forEach(function(child: firebase.database.DataSnapshot){
-        if(child.val() == firebase.auth().currentUser.displayName) {
+      snapshot.forEach(function (child: firebase.database.DataSnapshot) {
+        if (child.val() == firebase.auth().currentUser.displayName) {
           this.canSeeAnnouncement = true;
         }
       }.bind(this));
@@ -393,5 +397,25 @@ export class CharSheetComponent implements OnInit {
 
     this.selectedGame.ref.remove()
     this.selectedGame = undefined;
+  }
+
+  displayPMs() {
+    this.PMtoggle = !this.PMtoggle;
+    if (this.PMtoggle) {     
+      if (!this.selectedGame.hasChild("GMmessages")) {
+        return;
+      }
+      //we DO have messages
+      this.selectedGame.ref.child("GMmessages").once("value").then(function (snapshot) {
+        snapshot.forEach(function (childsnap) {
+          this.PMnames.push(childsnap.key);
+          this.PMmsg.push(childsnap.val());
+        }.bind(this))
+      }.bind(this))
+    }
+    else {
+      this.PMnames = [];
+      this.PMmsg = [];
+    }
   }
 }

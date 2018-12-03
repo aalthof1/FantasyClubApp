@@ -48,7 +48,8 @@
       </div>
       <div *ngIf="i > 3 && i < 8">
         <input type="number" value="{{ 0 }}" id="{{combatStatNames[i] + '-mod'}}">
-        <button (click)="toHitRoller(combatStatValues[i], combatStatNames[i] + '-mod')" id="{{combatStatNames[i] + '-roll'}}">Roll to hit</button>
+        <button (click)="toHitRoller(combatStatValues[i], combatStatNames[i] + '-mod')" id="{{combatStatNames[i] + '-roll'}}">Roll
+          to hit</button>
       </div>
     </div>
   </div>
@@ -105,8 +106,15 @@
   <button (click)="printDesc()">Description</button>
   <button (click)="showTraps()">Traps</button>
   <button (click)="showAbilities()">Abilities</button>
+  <button *ngIf="currentGameGM" (click)="displayPMs()">View PMs</button>
   <br>
   <h4 *ngIf="gamePlayerCountView"># of players: {{playerCount}}</h4>
+  <div *ngIf="PMtoggle">
+    <p *ngIf="PMnames.length == 0">You have no PMs</p>
+    <p *ngFor="let m of PMnames; let i = index">
+      {{PMnames[i]}} : {{PMmsg[i]}}
+    </p>
+  </div>
   <h4 *ngIf="capacity">Capacity: {{capacity}} </h4>
   <h4 *ngIf="description">{{description}}</h4>
   <h4 *ngIf="GMDisplay">GM: {{GMDisplay}}</h4>
