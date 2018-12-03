@@ -106,6 +106,11 @@
   <button (click)="printDesc()">Description</button>
   <button (click)="showTraps()">Traps</button>
   <button (click)="showAbilities()">Abilities</button>
+  <button (click)="messageToggle()" *ngIf="!currentGameGM">Message GM</button>
+  <div *ngIf="messageGMtoggle">
+    <textarea  id="messageArea" cols="30" rows="10" placeholder="write your message here"></textarea>
+    <button (click)="submitMessage()">Submit</button>
+  </div>
   <button *ngIf="currentGameGM" (click)="displayPMs()">View PMs</button>
   <br>
   <h4 *ngIf="gamePlayerCountView"># of players: {{playerCount}}</h4>

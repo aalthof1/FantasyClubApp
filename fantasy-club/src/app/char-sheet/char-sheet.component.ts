@@ -56,7 +56,24 @@ export class CharSheetComponent implements OnInit {
   PMtoggle: boolean = false;
   PMnames : Array<string> = [];
   PMmsg : Array<string> = [];
+  messageGMtoggle : boolean = false;
 
+
+  submitMessage() {
+    let input = (document.getElementById("messageArea") as HTMLTextAreaElement).value;
+    if (input == "" || input == undefined) {
+      return;
+    }
+    //message is valid
+    this.selectedGame.ref.child("GMmessages").child(firebase.auth().currentUser.displayName).set(input);
+    (document.getElementById("messageArea") as HTMLTextAreaElement).value = "";
+    this.messageGMtoggle = false;
+    
+  }
+
+  messageToggle() {
+    this.messageGMtoggle = !this.messageGMtoggle;
+  }
 
 
   constructor(private currentCharacter: CurrentCharService, private passService: PassGameService) {
