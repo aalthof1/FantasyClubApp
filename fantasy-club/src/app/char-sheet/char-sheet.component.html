@@ -53,12 +53,27 @@
       </div>
     </div>
   </div>
+  <div><select id="attack-select" #attack (change)="updateAttack(attack.value)">
+    <option>Single Attack</option>
+    <option>Bad Multiattack</option>
+    <option>Average Multiattack</option>
+    <option>Good Multiattack</option>
+</select>
+<li *ngIf="getSelectedAttack() != 'Single Attack'">Number of Attacks:
+<input type="number" value="1" id="attackAmount" min = 1></li>
+
+</div>
+  Damage:
   <input type="number" value="0" id="wamount"> d
   <input type="number" value="0" id="wdice"> + 
   <input type="number" value="0" id="wamount2"> d
   <input type="number" value="0" id="wdice2"> +
   <input type="number" value="0" id="wbonus">
-  <li id="toHit"> To Hit: {{rawRoll}} + {{modifier}} + {{amount}} = {{result}} </li>
+  <button *ngIf="getSelectedAttack() != 'Single Attack'" (click)="damageRoll()" id="damageRoll}}">Roll damage</button>
+  <div *ngIf="rawRoll != 0 && getSelectedAttack() == 'Single Attack'"><li id="toHit"> To Hit: {{rawRoll}} + {{modifier}} + {{amount}} = {{result}} </li></div>
+  <div *ngIf="getSelectedAttack() != 'Single Attack'"><li id="toHitm"> To Hit:</li>
+  <li *ngFor="let item of totalrolls; index as i">Attack {{i + 1}}: {{rawrollm[i]}} + {{multimod[i]}} + {{amount}} = {{item}}</li>
+  </div>
   <div *ngIf="wamount != 0"><li *ngFor="let item of wrolls; index as i" class="wrolls"> d{{wdice}} Roll {{i + 1}}: {{item}} </li></div>
   <div *ngIf="wamount2 != 0"><li *ngFor="let item of wrolls2; index as i" class="wrolls"> d{{wdice2}} Roll {{i + 1}}: {{item}} </li></div>
   <div *ngIf="wbonus != 0"><li id="bonusDamage"> Bonus: {{wbonus}} </li></div>

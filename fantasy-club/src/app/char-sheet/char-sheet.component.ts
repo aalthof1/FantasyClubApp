@@ -34,8 +34,13 @@ export class CharSheetComponent implements OnInit {
   wtotal: number = 0;
   wtotal2: number = 0;
   damage: number = 0;
+  attacknum: number = 1;
+  selectedAttack = "Single Attack";
   wrolls: Array<number>;
   wrolls2: Array<number>;
+  totalrolls: Array<number>;
+  rawrollm: Array<number>;
+  multimod: Array<number>;
   statData: ArrayLike<[string, number]>
   statValues: Array<number>;
   statNames: Array<string> = ["agi", "cmod", "com", "cse", "dp", "du", "eu", "gmod", "hea", "int", "lmod", "mmod", "move", "per", "pu", "pwr", "str", "wil"];
@@ -64,9 +69,9 @@ export class CharSheetComponent implements OnInit {
   selectedAbility: number = -1
   canSeeAnnouncement: boolean;
   PMtoggle: boolean = false;
-  PMnames : Array<string> = [];
-  PMmsg : Array<string> = [];
-  messageGMtoggle : boolean = false;
+  PMnames: Array<string> = [];
+  PMmsg: Array<string> = [];
+  messageGMtoggle: boolean = false;
 
 
   submitMessage() {
@@ -78,7 +83,7 @@ export class CharSheetComponent implements OnInit {
     this.selectedGame.ref.child("GMmessages").child(firebase.auth().currentUser.displayName).set(input);
     (document.getElementById("messageArea") as HTMLTextAreaElement).value = "";
     this.messageGMtoggle = false;
-    
+
   }
 
   messageToggle() {
@@ -210,55 +215,175 @@ export class CharSheetComponent implements OnInit {
   }
 
   toHitRoller(input, textbox) {
-    this.damage = 0;
-    this.amount = parseInt((document.getElementById(textbox) as HTMLInputElement).value);
-    if((document.getElementById(textbox) as HTMLInputElement).value == "") {
-      this.amount = 0;
-      (document.getElementById(textbox) as HTMLInputElement).value = '0';
+    if (this.selectedAttack == "Single Attack") {
+      this.damage = 0;
+      this.amount = parseInt((document.getElementById(textbox) as HTMLInputElement).value);
+      if ((document.getElementById(textbox) as HTMLInputElement).value == "") {
+        this.amount = 0;
+        (document.getElementById(textbox) as HTMLInputElement).value = '0';
+      }
+      this.wdice = parseInt((document.getElementById("wdice") as HTMLInputElement).value);
+      if ((document.getElementById("wdice") as HTMLInputElement).value == "" || parseInt((document.getElementById("wdice") as HTMLInputElement).value) < 0) {
+        this.wdice = 0;
+        (document.getElementById("wdice") as HTMLInputElement).value = '0';
+      }
+      this.wdice2 = parseInt((document.getElementById("wdice2") as HTMLInputElement).value);
+      if ((document.getElementById("wdice2") as HTMLInputElement).value == "" || parseInt((document.getElementById("wdice2") as HTMLInputElement).value) < 0) {
+        this.wdice2 = 0;
+        (document.getElementById("wdice2") as HTMLInputElement).value = '0';
+      }
+      this.wamount = parseInt((document.getElementById("wamount") as HTMLInputElement).value);
+      if ((document.getElementById("wamount") as HTMLInputElement).value == "" || parseInt((document.getElementById("wamount") as HTMLInputElement).value) < 0) {
+        this.wamount = 0;
+        (document.getElementById("wamount") as HTMLInputElement).value = '0';
+      }
+      this.wamount2 = parseInt((document.getElementById("wamount2") as HTMLInputElement).value);
+      if ((document.getElementById("wamount2") as HTMLInputElement).value == "" || parseInt((document.getElementById("wamount2") as HTMLInputElement).value) < 0) {
+        this.wamount2 = 0;
+        (document.getElementById("wamount2") as HTMLInputElement).value = '0';
+      }
+      this.wbonus = parseInt((document.getElementById("wbonus") as HTMLInputElement).value);
+      if ((document.getElementById("wbonus") as HTMLInputElement).value == "") {
+        this.wbonus = 0;
+        (document.getElementById("wbonus") as HTMLInputElement).value = '0';
+      }
+      this.modifier = input;
+      this.rawRoll = (Math.floor(Math.random() * 20) + 1);
+      this.result = this.rawRoll + input + this.amount;
+      var i = 0;
+      this.wrolls = [this.wamount];
+      this.wtotal = 0;
+      for (i = 0; i < this.wamount; i++) {
+        var result = Math.floor(Math.random() * this.wdice) + 1;
+        this.wrolls[i] = result;
+        this.damage = this.damage + result;
+      }
+      this.wrolls2 = [this.wamount2];
+      for (i = 0; i < this.wamount2; i++) {
+        var result = Math.floor(Math.random() * this.wdice2) + 1;
+        this.wrolls2[i] = result;
+        this.damage = this.damage + result;
+      }
+      this.damage = this.damage + this.wbonus;
     }
+    else if (this.selectedAttack == "Bad Multiattack") {
+      this.rawrollm = [this.attacknum];
+      this.totalrolls = [this.attacknum];
+      this.multimod = [this.attacknum];
+      this.amount = parseInt((document.getElementById(textbox) as HTMLInputElement).value);
+      if ((document.getElementById(textbox) as HTMLInputElement).value == "") {
+        this.amount = 0;
+        (document.getElementById(textbox) as HTMLInputElement).value = '0';
+      }
+      this.attacknum = parseInt((document.getElementById("attackAmount") as HTMLInputElement).value);
+      if ((document.getElementById("attackAmount") as HTMLInputElement).value == "") {
+        this.amount = 1;
+        (document.getElementById("attackAmount") as HTMLInputElement).value = '1';
+      }
+      this.modifier = input;
+      var i = 0;
+      for (i = 0; i < this.attacknum; i++) {
+        this.rawrollm[i] = (Math.floor(Math.random() * 20) + 1);
+        this.multimod[i] = input - (i * 6)
+        this.totalrolls[i] = this.rawrollm[i] + this.amount + this.multimod[i];
+      }
+    }
+    else if (this.selectedAttack == "Average Multiattack") {
+      this.rawrollm = [this.attacknum];
+      this.totalrolls = [this.attacknum];
+      this.multimod = [this.attacknum];
+      this.amount = parseInt((document.getElementById(textbox) as HTMLInputElement).value);
+      if ((document.getElementById(textbox) as HTMLInputElement).value == "") {
+        this.amount = 0;
+        (document.getElementById(textbox) as HTMLInputElement).value = '0';
+      }
+      this.attacknum = parseInt((document.getElementById("attackAmount") as HTMLInputElement).value);
+      if ((document.getElementById("attackAmount") as HTMLInputElement).value == "") {
+        this.amount = 1;
+        (document.getElementById("attackAmount") as HTMLInputElement).value = '1';
+      }
+      this.modifier = input;
+      var i = 0;
+      for (i = 0; i < this.attacknum; i++) {
+        this.rawrollm[i] = (Math.floor(Math.random() * 20) + 1);
+        this.multimod[i] = input - (i * 4)
+        this.totalrolls[i] = this.rawrollm[i] + this.amount + this.multimod[i];
+      }
+    }
+    else if (this.selectedAttack == "Good Multiattack") {
+      this.rawrollm = [this.attacknum];
+      this.totalrolls = [this.attacknum];
+      this.multimod = [this.attacknum];
+      this.amount = parseInt((document.getElementById(textbox) as HTMLInputElement).value);
+      if ((document.getElementById(textbox) as HTMLInputElement).value == "") {
+        this.amount = 0;
+        (document.getElementById(textbox) as HTMLInputElement).value = '0';
+      }
+      this.attacknum = parseInt((document.getElementById("attackAmount") as HTMLInputElement).value);
+      if ((document.getElementById("attackAmount") as HTMLInputElement).value == "") {
+        this.amount = 1;
+        (document.getElementById("attackAmount") as HTMLInputElement).value = '1';
+      }
+      this.modifier = input;
+      var i = 0;
+      for (i = 0; i < this.attacknum; i++) {
+        this.rawrollm[i] = (Math.floor(Math.random() * 20) + 1);
+        this.multimod[i] = input - (i * 3)
+        this.totalrolls[i] = this.rawrollm[i] + this.amount + this.multimod[i];
+      }
+    }
+  }
+
+  damageRoll() {
+    this.damage = 0;
     this.wdice = parseInt((document.getElementById("wdice") as HTMLInputElement).value);
-    if((document.getElementById("wdice") as HTMLInputElement).value == "" || parseInt((document.getElementById("wdice") as HTMLInputElement).value) < 0) {
+    if ((document.getElementById("wdice") as HTMLInputElement).value == "" || parseInt((document.getElementById("wdice") as HTMLInputElement).value) < 0) {
       this.wdice = 0;
       (document.getElementById("wdice") as HTMLInputElement).value = '0';
     }
     this.wdice2 = parseInt((document.getElementById("wdice2") as HTMLInputElement).value);
-    if((document.getElementById("wdice2") as HTMLInputElement).value == "" || parseInt((document.getElementById("wdice2") as HTMLInputElement).value) < 0) {
+    if ((document.getElementById("wdice2") as HTMLInputElement).value == "" || parseInt((document.getElementById("wdice2") as HTMLInputElement).value) < 0) {
       this.wdice2 = 0;
       (document.getElementById("wdice2") as HTMLInputElement).value = '0';
     }
     this.wamount = parseInt((document.getElementById("wamount") as HTMLInputElement).value);
-    if((document.getElementById("wamount") as HTMLInputElement).value == "" || parseInt((document.getElementById("wamount") as HTMLInputElement).value) < 0) {
+    if ((document.getElementById("wamount") as HTMLInputElement).value == "" || parseInt((document.getElementById("wamount") as HTMLInputElement).value) < 0) {
       this.wamount = 0;
       (document.getElementById("wamount") as HTMLInputElement).value = '0';
     }
     this.wamount2 = parseInt((document.getElementById("wamount2") as HTMLInputElement).value);
-    if((document.getElementById("wamount2") as HTMLInputElement).value == "" || parseInt((document.getElementById("wamount2") as HTMLInputElement).value) < 0) {
+    if ((document.getElementById("wamount2") as HTMLInputElement).value == "" || parseInt((document.getElementById("wamount2") as HTMLInputElement).value) < 0) {
       this.wamount2 = 0;
       (document.getElementById("wamount2") as HTMLInputElement).value = '0';
     }
     this.wbonus = parseInt((document.getElementById("wbonus") as HTMLInputElement).value);
-    if((document.getElementById("wbonus") as HTMLInputElement).value == "") {
+    if ((document.getElementById("wbonus") as HTMLInputElement).value == "") {
       this.wbonus = 0;
       (document.getElementById("wbonus") as HTMLInputElement).value = '0';
     }
-    this.modifier = input;
-    this.rawRoll = (Math.floor(Math.random() * 20) + 1);
-    this.result = this.rawRoll + input + this.amount;
     var i = 0;
     this.wrolls = [this.wamount];
     this.wtotal = 0;
-    for(i = 0; i < this.wamount; i++) {
+    for (i = 0; i < this.wamount; i++) {
       var result = Math.floor(Math.random() * this.wdice) + 1;
       this.wrolls[i] = result;
       this.damage = this.damage + result;
     }
     this.wrolls2 = [this.wamount2];
-    for(i = 0; i < this.wamount2; i++) {
+    for (i = 0; i < this.wamount2; i++) {
       var result = Math.floor(Math.random() * this.wdice2) + 1;
       this.wrolls2[i] = result;
       this.damage = this.damage + result;
     }
     this.damage = this.damage + this.wbonus;
+  }
+
+  updateAttack(val) {
+    this.selectedAttack = val;
+  }
+
+  getSelectedAttack() {
+    return this.selectedAttack;
   }
 
   submitChanges(): void {
@@ -473,7 +598,7 @@ export class CharSheetComponent implements OnInit {
 
   displayPMs() {
     this.PMtoggle = !this.PMtoggle;
-    if (this.PMtoggle) {     
+    if (this.PMtoggle) {
       if (!this.selectedGame.hasChild("GMmessages")) {
         return;
       }
