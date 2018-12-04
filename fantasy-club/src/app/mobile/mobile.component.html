@@ -1,0 +1,35 @@
+<div id="mobileBox">
+  <button id="loginButton" *ngIf="signedIn == false" (click)="login()">Login</button>
+
+  <div class="displayStuff" *ngIf="signedIn">
+    <h3>{{displayName}}</h3>
+    <div *ngIf="selectedCharacter == null">
+      <h4 id="heading">Characters:</h4>
+      <div class="container">
+        <div *ngFor="let c of characters; let i = index" class="row" (click)="selectChar(i)">
+          <h4>
+            {{c.key}}
+          </h4>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="displayStuff" *ngIf="selectedCharacter != null">
+    <button (click)="selectChar(-1)">Back</button>
+    <h3>
+      {{selectedCharacter.key}}
+    </h3>
+    <div class="container border border-primary">
+      <div *ngFor="let stat of statNames;let i = index" class="row border border-primary">
+        <div class="col">
+          <p>{{statNames[i]}}</p>
+        </div>
+        <div class="col">
+          {{statVal[i]}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
