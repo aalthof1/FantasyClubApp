@@ -144,8 +144,7 @@ export class ItemlistComponent implements OnInit {
   updateItem() {
     let x: HTMLInputElement = document.getElementById("itemNameInput") as HTMLInputElement;
     let y: HTMLTextAreaElement = document.getElementById("itemDescription") as HTMLTextAreaElement;
-    let bonus =  (document.getElementById("upBonus") as HTMLInputElement).value;
-    let stat = (document.getElementById("upStat") as HTMLInputElement).value;
+    
     this.d = parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value);
     this.c = parseInt((document.getElementById("diceType2") as HTMLInputElement).value);
 
@@ -167,6 +166,8 @@ export class ItemlistComponent implements OnInit {
     let cName = this.selectedItem.child("creatorName").val();
     this.selectedItem.ref.remove();
     if (this.selectedItem.ref.parent.parent.key == "private") {
+      let bonus = (document.getElementById("upBonus") as HTMLInputElement).value;
+      let stat = (document.getElementById("upStat") as HTMLInputElement).value;
       firebase.database().ref("items/private/" + firebase.auth().currentUser.uid + "/" + x.value).set(
         {
           creatorID: cID,
@@ -180,6 +181,8 @@ export class ItemlistComponent implements OnInit {
       )
     }
     else if (this.selectedItem.ref.parent.parent.key == "public") {
+      let bonus = (document.getElementById("upBonus") as HTMLInputElement).value;
+      let stat = (document.getElementById("upStat") as HTMLInputElement).value;
       firebase.database().ref("items/public/" + x.value).set(
         {
           creatorID: cID,
@@ -192,7 +195,7 @@ export class ItemlistComponent implements OnInit {
         }
       )
     }
-    else {
+    else if (this.selectedItem.ref.parent.parent.key == "traps") {
       this.d = parseInt((document.getElementById("diceAmount2") as HTMLInputElement).value);
       this.c = parseInt((document.getElementById("diceType2") as HTMLInputElement).value);
 
@@ -214,7 +217,21 @@ export class ItemlistComponent implements OnInit {
           diceType: this.c
         }
       )
-
+    }
+    else {
+      let bonus = (document.getElementById("upBonus") as HTMLInputElement).value;
+      let stat = (document.getElementById("upStat") as HTMLInputElement).value;
+      firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/items/" + x.value).set(
+        {
+          creatorID: cID,
+          creatorName: cName,
+          desc: y.value,
+          diceAmount: this.d,
+          diceType: this.c,
+          bonus: bonus,
+          stat: stat
+        }
+      )
     }
     this.setSelectedItem(undefined);
     this.editDisplay = false;
@@ -222,13 +239,13 @@ export class ItemlistComponent implements OnInit {
 
   removeItem(x: firebase.database.DataSnapshot) {
 
-    if(x.ref.parent.parent.parent.parent.key == "characters") {
+    if (x.ref.parent.parent.parent.parent.key == "characters") {
       //we need to remove effect 
       if (x.child("bonus").val() != "" || x.child("stat").val() != "") {
         let bonus = x.child("bonus").val()
         let stat = x.child("stat").val()
 
-        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar +"/" + stat).once("value").then(function(snap) {
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar + "/" + stat).once("value").then(function (snap) {
           let total = parseInt(snap.val())
           total -= bonus;
           snap.ref.set(total)
@@ -246,7 +263,7 @@ export class ItemlistComponent implements OnInit {
     this.shareMenuToggle = !this.shareMenuToggle;
     this.editDisplay = false;
   }
-  
+
   shareWithGM() {
     let x: HTMLInputElement = document.getElementById("inputGM") as HTMLInputElement;
     if (x.value == "") {
@@ -343,7 +360,7 @@ export class ItemlistComponent implements OnInit {
         let descr = this.selectedItem.child("desc").val();
         let dA = this.selectedItem.child("diceAmount").val();
         let dT = this.selectedItem.child("diceType").val();
-        let bon : number = this.selectedItem.child("bonus").val();
+        let bon: number = this.selectedItem.child("bonus").val();
         let stat = this.selectedItem.child("stat").val();
 
 
@@ -359,11 +376,11 @@ export class ItemlistComponent implements OnInit {
           })
 
 
-          firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar).child(stat).once("value").then(function(snap) {
-            let x : number = parseInt(snap.val())
-            x = (+x + +bon)
-            snap.ref.set(x)
-          })
+        firebase.database().ref("characters/" + firebase.auth().currentUser.uid + "/" + this.currChar).child(stat).once("value").then(function (snap) {
+          let x: number = parseInt(snap.val())
+          x = (+x + +bon)
+          snap.ref.set(x)
+        })
       }
     }.bind(this))
   }
