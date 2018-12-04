@@ -1,33 +1,3 @@
-<div *ngIf="GMStatus">
-    <h2>Traps</h2>
-    <button (click)=trapButton()>View</button>
-    <div *ngIf="trapToggle">
-        <ul>
-            <li class="trapCategory" *ngFor="let trap of traps">
-                <button (click)="removeTrap(trap)">Remove</button>
-                <button (click)="setSelectedTrap(trap)">Select</button>
-                {{trap.key}}
-            </li>
-            <p *ngIf="traps.length == 0">You have no traps</p>
-        </ul>
-    </div>
-    <br>
-    <br>
-    <h2>Private Items</h2>
-    <button (click)=privateButton()>View</button>
-    <div *ngIf="privateToggle">
-        <ul>
-            <li class="itemCategory" *ngFor="let item of privateItems">
-                <button (click)="removeItem(item)">Remove</button>
-                <button (click)="setSelectedItem(item)">Select</button>
-                {{item.key}}
-            </li>
-            <p *ngIf="privateItems.length == 0">You have no private items</p>
-        </ul>
-    </div>
-    <br>
-    <br>
-</div>
 
 <h2>Character Items</h2>
 <button (click)=charButton()>View</button>
@@ -56,7 +26,40 @@
     </ul>
 </div>
 <br>
-<br>
+
+
+<div *ngIf="GMStatus">
+  
+    <h2>Private Items</h2>
+    <button (click)=privateButton()>View</button>
+    <div *ngIf="privateToggle">
+        <ul>
+            <li class="itemCategory" *ngFor="let item of privateItems">
+                <button (click)="removeItem(item)">Remove</button>
+                <button (click)="setSelectedItem(item)">Select</button>
+                {{item.key}}
+            </li>
+            <p *ngIf="privateItems.length == 0">You have no private items</p>
+        </ul>
+    </div>
+    <br>
+    <br>
+    <h2>Traps</h2>
+    <button (click)=trapButton()>View</button>
+    <div *ngIf="trapToggle">
+        <ul>
+            <li class="trapCategory" *ngFor="let trap of traps">
+                <button (click)="removeTrap(trap)">Remove</button>
+                <button (click)="setSelectedTrap(trap)">Select</button>
+                {{trap.key}}
+            </li>
+            <p *ngIf="traps.length == 0">You have no traps</p>
+        </ul>
+    </div>
+    <br>
+    <br>
+</div>
+
 
 <div *ngIf="selectedItem">
     <h2>{{selectedItem.key}}</h2>
