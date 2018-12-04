@@ -210,11 +210,6 @@ export class CharSheetComponent implements OnInit {
   }
 
   toHitRoller(input, textbox) {
-  //   wdice: number = 0;
-  // wamount: number = 0;
-  // wdice2: number = 0;
-  // wamount2: number = 0;
-  // wbonus: number = 0;
     this.damage = 0;
     this.amount = parseInt((document.getElementById(textbox) as HTMLInputElement).value);
     if((document.getElementById(textbox) as HTMLInputElement).value == "") {
@@ -263,6 +258,7 @@ export class CharSheetComponent implements OnInit {
       this.wrolls2[i] = result;
       this.damage = this.damage + result;
     }
+    this.damage = this.damage + this.wbonus;
   }
 
   submitChanges(): void {
