@@ -43,8 +43,8 @@ export class CharSheetComponent implements OnInit {
   multimod: Array<number>;
   statData: ArrayLike<[string, number]>
   statValues: Array<number>;
-  statNames: Array<string> = ["agi", "cmod", "com", "cse", "dp", "du", "eu", "gmod", "hea", "int", "lmod", "mmod", "move", "per", "pu", "pwr", "str", "wil"];
-  combatStatNames: Array<string> = ["DP", "EU", "DU", "PU", "Combat Mod", "Missile Mod", "Grapple Mod", "Linear Mod", "STR", "INT", "PER", "CSE", "HEA", "AGI", "PWR", "COM", "WIL", "Movement"];
+  statNames: Array<string> = ["agi", "cmod", "com", "cse", "dp", "du", "eu", "excagi", "exccom", "exccse", "exchea", "excint", "excper", "excpwr", "excstr", "excwil", "gmod", "hea", "int", "lmod", "mmod", "move", "per", "pu", "pwr", "str", "wil"];
+  combatStatNames: Array<string> = ["DP", "EU", "DU", "PU", "Combat Mod", "Missile Mod", "Grapple Mod", "Linear Mod", "STR", "Exceptional STR", "INT", "Exceptional INT", "PER", "Exceptional PER", "CSE", "Exceptional CSE", "HEA", "Exceptional HEA", "AGI", "Exceptional AGI", "PWR", "Exceptional PWR", "COM", "Exceptional COM", "WIL", "Exceptional WIL", "Movement"];
   combatStatValues: Array<number>;
   viewValues: Array<number>;
   submitValues: Array<number>;
@@ -181,18 +181,27 @@ export class CharSheetComponent implements OnInit {
     var pu = this.statValues[14];
     var cmod = this.statValues[1];
     var mmod = this.statValues[11];
-    var gmod = this.statValues[7];
-    var lmod = this.statValues[10];
-    var str = this.statValues[16];
-    var int = this.statValues[9];
-    var per = this.statValues[13];
+    var gmod = this.statValues[16];
+    var lmod = this.statValues[19];
+    var str = this.statValues[25];
+    var int = this.statValues[18];
+    var per = this.statValues[22];
     var cse = this.statValues[3];
-    var hea = this.statValues[8];
+    var hea = this.statValues[17];
     var agi = this.statValues[0];
-    var pwr = this.statValues[15];
+    var pwr = this.statValues[24];
     var com = this.statValues[2];
-    var wil = this.statValues[17];
-    var move = this.statValues[12];
+    var wil = this.statValues[26];
+    var move = this.statValues[21];
+    var excagi = this.statValues[7];
+    var exccom = this.statValues[8];
+    var exccse = this.statValues[9];
+    var exchea = this.statValues[10];
+    var excint = this.statValues[11];
+    var excper = this.statValues[12];
+    var excpwr = this.statValues[13];
+    var excstr = this.statValues[14];
+    var excwil = this.statValues[15];
 
     this.combatStatValues[0] = dp
     this.combatStatValues[1] = eu
@@ -203,15 +212,24 @@ export class CharSheetComponent implements OnInit {
     this.combatStatValues[6] = gmod
     this.combatStatValues[7] = lmod
     this.combatStatValues[8] = str
-    this.combatStatValues[9] = int
-    this.combatStatValues[10] = per
-    this.combatStatValues[11] = cse
-    this.combatStatValues[12] = hea
-    this.combatStatValues[13] = agi
-    this.combatStatValues[14] = pwr
-    this.combatStatValues[15] = com
-    this.combatStatValues[16] = wil
-    this.combatStatValues[17] = move
+    this.combatStatValues[9] = excstr
+    this.combatStatValues[10] = int
+    this.combatStatValues[11] = excint
+    this.combatStatValues[12] = per
+    this.combatStatValues[13] = excper
+    this.combatStatValues[14] = cse
+    this.combatStatValues[15] = exccse
+    this.combatStatValues[16] = hea
+    this.combatStatValues[17] = exchea
+    this.combatStatValues[18] = agi
+    this.combatStatValues[19] = excagi
+    this.combatStatValues[20] = pwr
+    this.combatStatValues[21] = excpwr
+    this.combatStatValues[22] = com
+    this.combatStatValues[23] = exccom
+    this.combatStatValues[24] = wil
+    this.combatStatValues[25] = excwil
+    this.combatStatValues[26] = move
   }
 
   toHitRoller(input, textbox) {

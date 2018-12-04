@@ -20,12 +20,12 @@ export class CharGeneratorComponent implements OnInit {
     this.userId = sidebar.user_id
     this.app = firebase.app;
   }
-  
+
   ngOnInit() {
   }
 
   grabHeroes(snapshot: firebase.database.DataSnapshot) {
-    if(snapshot == null) {
+    if (snapshot == null) {
       console.log("snapshot undefined");
       return;
     }
@@ -56,7 +56,16 @@ export class CharGeneratorComponent implements OnInit {
         mmod: 0,
         gmod: 0,
         lmod: 0,
-        move: 0
+        move: 0,
+        excstr: 0,
+        excint: 0,
+        excper: 0,
+        exccse: 0,
+        exchea: 0,
+        excagi: 0,
+        excpwr: 0,
+        exccom: 0,
+        excwil: 0,
       });
     }
     this.refresh.emit("refresh");
