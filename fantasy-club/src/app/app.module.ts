@@ -27,6 +27,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { OptionPaneComponent } from './option-pane/option-pane.component';
 import { CreatorComponent } from './creator/creator.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
+import { MobileComponent } from './mobile/mobile.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { ChatboxComponent } from './chatbox/chatbox.component';
     OptionPaneComponent,
     CreatorComponent,
     ChatboxComponent,
+    MobileComponent,
   ],
   imports: [
     MatToolbarModule,
