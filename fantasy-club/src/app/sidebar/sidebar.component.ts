@@ -151,6 +151,16 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+  toggleRulebook() {
+    if(this.currentPane == 'rules') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "rules";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }    
+  }
+
   getCurrentPane() {
     return this.currentPane;
   }

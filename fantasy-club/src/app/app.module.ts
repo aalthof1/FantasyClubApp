@@ -28,6 +28,7 @@ import { OptionPaneComponent } from './option-pane/option-pane.component';
 import { CreatorComponent } from './creator/creator.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { MobileComponent } from './mobile/mobile.component';
+import { RulebookComponent } from './rulebook/rulebook.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { MobileComponent } from './mobile/mobile.component';
     CreatorComponent,
     ChatboxComponent,
     MobileComponent,
+    RulebookComponent,
   ],
   imports: [
     MatToolbarModule,
