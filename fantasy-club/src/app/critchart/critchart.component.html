@@ -10,4 +10,4 @@
 </select>
 + <input type="number" value="0" id="critMod">
 <button (click)='rollCrit(0)'>Roll Critical</button><button (click)='rollCrit(1)'>Roll Critical (Assassin)</button>
-<li *ngIf="critRoll != null">Roll: {{critRoll}} Result: {{critResult}} Multiplier: {{critMultiplier}} </li>
+<div *ngIf="critRoll != null">Roll: {{critRoll}} <br> Result: {{critResult}} <br> Multiplier: {{critMultiplier}} </div>
