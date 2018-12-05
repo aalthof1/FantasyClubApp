@@ -11,6 +11,7 @@
   <span class="button-container"><button mat-button (click)="toggleDR()">Dice Roller</button></span>
   <span class="button-container"><button mat-button (click)="toggleCreator()">Creator</button></span>
   <span class="button-container"><button mat-button (click)="toggleRulebook()">Rulebook</button></span>
+  <span class="button-container"><button mat-button (click)="toggleCrit()">Critical Charts</button></span>
   <span class="button-container"><button mat-button (click)="toggleSettings()">Settings</button></span>
 </mat-toolbar>
 
@@ -64,6 +65,10 @@
 
     <div *ngIf="getCurrentPane()=='rules'">
       <app-rulebook></app-rulebook>
+    </div>
+
+    <div *ngIf="getCurrentPane()=='crit'">
+      <app-critchart></app-critchart>
     </div>
 
   </div>

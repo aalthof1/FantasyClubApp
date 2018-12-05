@@ -1,0 +1,13 @@
+<select id="crit-select" #crit (change)="updateCrit(crit.value)">
+  <option>-- Please Select A Damage Type --</option>
+  <option>Blunt</option>
+  <option>Bludgeon</option>
+  <option>Edged</option>
+  <option>Piercing</option>
+  <option>Grapple</option>
+  <option>Linear</option>
+  <option>Artillery</option>
+</select>
++ <input type="number" value="0" id="critMod">
+<button (click)='rollCrit(0)'>Roll Critical</button><button (click)='rollCrit(1)'>Roll Critical (Assassin)</button>
+<li *ngIf="critRoll != null">Roll: {{critRoll}} Result: {{critResult}} Multiplier: {{critMultiplier}} </li>

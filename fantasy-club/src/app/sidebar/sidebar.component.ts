@@ -161,6 +161,16 @@ export class SidebarComponent implements OnInit {
     }    
   }
 
+  toggleCrit() {
+    if(this.currentPane == 'crit') {
+      this.currentPane = "";
+      document.getElementsByClassName("option-pane")[0].classList.add("no-display");
+    } else {
+      this.currentPane = "crit";
+      document.getElementsByClassName("option-pane")[0].classList.remove("no-display");
+    }    
+  }
+
   getCurrentPane() {
     return this.currentPane;
   }
