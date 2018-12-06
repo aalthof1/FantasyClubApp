@@ -53,10 +53,16 @@ export class SidebarComponent implements OnInit {
           document.getElementsByTagName("body")[0].classList.add("darkMode");
           document.getElementById("navigation").classList.add("darkMode");
           document.getElementsByClassName("row")[0].classList.add("darkMode");
+          if(document.getElementById("messageBox")) {
+            document.getElementById("messageBox").classList.add("darkMode");
+          }
         } else {
           document.getElementsByTagName("body")[0].classList.remove("darkMode");
           document.getElementById("navigation").classList.remove("darkMode");
           document.getElementsByClassName("row")[0].classList.remove("darkMode");
+          if(document.getElementById("messageBox")) {
+            document.getElementById("messageBox").classList.remove("darkMode");
+          }
         }
     });
   }
