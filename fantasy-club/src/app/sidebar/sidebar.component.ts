@@ -232,6 +232,13 @@ export class SidebarComponent implements OnInit {
           firebase.database().ref('/characters/' + this.user_id + "/");
           console.log("user created with priv level = 1");
         }
+
+        //update background to user's preference
+        if(snapshot.child(this.user_id).hasChild("background")) {
+          let bg = snapshot.child(this.user_id).child("background").val();
+          document.body.classList.add(bg);
+        }
+
         //grabs heroes belonging to user
         firebase.database().ref('characters/' + this.user_id + "/").once('value')
           .then(snapshot => this.grabHeroes(snapshot));
