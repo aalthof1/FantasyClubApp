@@ -21,6 +21,7 @@ export class SidebarComponent implements OnInit {
   user_priv: number;
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
+  events: Array<firebase.database.DataSnapshot> = [];
   createdItems: Array<firebase.database.DataSnapshot> = [];
   savedRolls: Array<string> = [];
   darkMode: false;
@@ -238,6 +239,9 @@ export class SidebarComponent implements OnInit {
         //Grab games
         firebase.database().ref('games/').once('value')
           .then(snapshot => this.grabGames(snapshot));
+        //Grab events
+        firebase.database().ref('events/').once('value')
+          .then(snapshot => this.grabEvents(snapshot));
       }.bind(this));
       firebase.database().ref("savedRolls/").child(this.user_name).once("value")
         .then(function(snapshot) {
@@ -304,6 +308,13 @@ export class SidebarComponent implements OnInit {
     }.bind(this))
   }
 
+  grabEvents(snapshot: firebase.database.DataSnapshot) {
+    this.events = [];
+    snapshot.forEach(function (childSnapshot) {
+      this.events.push(childSnapshot);
+    }.bind(this))
+  }
+
   grabcreatedItems(snapshot: firebase.database.DataSnapshot) {
     this.createdItems = [];
     snapshot.forEach(function (childSnapshot) {
@@ -322,6 +333,10 @@ export class SidebarComponent implements OnInit {
     this.currGame = i.key;
     console.log(this.currGame)
   }
+  
+  passEvent(i : firebase.database.DataSnapshot) {
+    this.passGameService.send(i);
+  }
 //TODO fix this VVVVVV
   passCreatedItems(i : firebase.database.DataSnapshot) {
     this.passGameService.send(i);
@@ -336,6 +351,11 @@ export class SidebarComponent implements OnInit {
   refreshGames(): void {
     firebase.database().ref('games/').on('value', snapshot => this.grabGames(snapshot));
   }
+
+  refreshEvents(): void {
+    firebase.database().ref('events/').on('value', snapshot => this.grabEvents(snapshot));
+  }
+
   //TODO fix this VVVVVVVV
   refreshCreatedItems(): void {
     firebase.database().ref('items/' + this.user_id + "/").on('value', snapshot => this.grabcreatedItems(snapshot));

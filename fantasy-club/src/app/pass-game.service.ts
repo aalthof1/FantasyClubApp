@@ -11,6 +11,7 @@ export class PassGameService {
 
   private subject = new Subject<any>();
   gameSnap: firebase.database.DataSnapshot;
+  eventSnap: firebase.database.DataSnapshot;
 
   send(snapshot) {
     this.subject.next({data : snapshot})
@@ -26,6 +27,7 @@ export class PassGameService {
 
   insertSnapshot(snapshot: firebase.database.DataSnapshot): void {
     this.gameSnap = snapshot;
+    this.eventSnap = snapshot;
   }
 
 }

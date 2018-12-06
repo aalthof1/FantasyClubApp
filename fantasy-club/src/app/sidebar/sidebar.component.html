@@ -48,17 +48,29 @@
     </div>
 
     <div *ngIf="getCurrentPane()=='sessions'">
-      <ul class="sub-menu" id="games">
-        <li *ngFor="let game of games; let i = index" (click)="passGame(game)">
-          <a href=#>{{game.key}}</a>
-        </li>
-        <ng-container *ngIf="isUserSignedIn(); else elseTemplate">
-          <app-game-generator (refresh)="refreshGames()"></app-game-generator>
-        </ng-container>
-        <ng-template #elseTemplate>
-          <h2>Sign in to see games.</h2>
-        </ng-template>
-      </ul>
+      <div class="row">
+        <div class="col">
+          <ul class="sub-menu" id="games">
+            <li *ngFor="let game of games; let i = index" (click)="passGame(game)">
+              <a href=#>{{game.key}}</a>
+            </li>
+            <ng-container *ngIf="isUserSignedIn(); else elseTemplate">
+              <app-game-generator (refresh)="refreshGames()"></app-game-generator>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <h2>Sign in to see games.</h2>
+            </ng-template>
+          </ul>
+        </div>
+        <div class="col">
+          <li *ngFor="let event of events; let i = index" (click)="passEvent(event)">
+              <a href=#>{{event.key}}</a>
+          </li>
+          <ng-container *ngIf="isUserSignedIn()">
+              <app-events (refresh)="refreshEvents()"></app-events>
+          </ng-container>
+        </div>
+      </div>
     </div>
 
     <div *ngIf="getCurrentPane()=='creator'">

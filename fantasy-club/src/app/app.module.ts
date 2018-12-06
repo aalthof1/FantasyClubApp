@@ -30,6 +30,7 @@ import { ChatboxComponent } from './chatbox/chatbox.component';
 import { MobileComponent } from './mobile/mobile.component';
 import { RulebookComponent } from './rulebook/rulebook.component';
 import { CritchartComponent } from './critchart/critchart.component';
+import { EventsComponent } from './events/events.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { CritchartComponent } from './critchart/critchart.component';
     MobileComponent,
     RulebookComponent,
     CritchartComponent,
+    EventsComponent,
   ],
   imports: [
     MatToolbarModule,

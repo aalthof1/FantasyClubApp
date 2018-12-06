@@ -306,6 +306,7 @@ export class DicerollerComponent implements OnInit {
     printString = "The chance of rolling at least " + toBeat + " with " + amount + ", " + type + "-sided dice with a modifier of " + mod + " is " + toPrint +".";
     alert(printString);
   }
+  
   fillFromSaved(item: string) {
     if(item == "-- Please Select An Option --") {
       this.clearAll();
