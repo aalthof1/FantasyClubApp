@@ -379,3 +379,19 @@ mat-card {
 a {
   font-size: 20px;
 }
+
+.gray {
+  background-color: gray;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
