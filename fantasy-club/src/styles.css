@@ -17,6 +17,53 @@ body {
   background-repeat: no-repeat;
 }
 
+.moss {
+  background-image: url("./app/images/moss.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+.leather {
+  background-image: url("./app/images/leather.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+.wood {
+  background-image: url("./app/images/wood.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.scales {
+  background-image: url("./app/images/scales.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+.space {
+  background-image: url("./app/images/space.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+.stone {
+  background-image: url("./app/images/stone.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.metal {
+  background-image: url("./app/images/metal.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+}
+
 .darkMode {
   background-image: url(https://www.runescape.com/img/rs3/background-content-top.jpg) !important;
   background-size: cover;
