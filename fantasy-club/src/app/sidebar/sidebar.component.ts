@@ -54,10 +54,16 @@ export class SidebarComponent implements OnInit {
           document.getElementsByTagName("body")[0].classList.add("darkMode");
           document.getElementById("navigation").classList.add("darkMode");
           document.getElementsByClassName("row")[0].classList.add("darkMode");
+          if(document.getElementById("messageBox")) {
+            document.getElementById("messageBox").classList.add("darkMode");
+          }
         } else {
           document.getElementsByTagName("body")[0].classList.remove("darkMode");
           document.getElementById("navigation").classList.remove("darkMode");
           document.getElementsByClassName("row")[0].classList.remove("darkMode");
+          if(document.getElementById("messageBox")) {
+            document.getElementById("messageBox").classList.remove("darkMode");
+          }
         }
     });
   }
@@ -233,6 +239,13 @@ export class SidebarComponent implements OnInit {
           firebase.database().ref('/characters/' + this.user_id + "/");
           console.log("user created with priv level = 1");
         }
+
+        //update background to user's preference
+        if(snapshot.child(this.user_id).hasChild("background")) {
+          let bg = snapshot.child(this.user_id).child("background").val();
+          document.body.classList.add(bg);
+        }
+
         //grabs heroes belonging to user
         firebase.database().ref('characters/' + this.user_id + "/").once('value')
           .then(snapshot => this.grabHeroes(snapshot));

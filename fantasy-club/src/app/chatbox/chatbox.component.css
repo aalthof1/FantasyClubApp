@@ -1,5 +1,6 @@
 #messageBox {
     background-color: white;
+    color: black;
 }
 .listOfGame {
     color: blue;
@@ -14,4 +15,9 @@
 
 .listOfGame:hover {
     color: lightblue;
+}
+
+.darkMode {
+    background-color: black !important;
+    color: white !important;
 }

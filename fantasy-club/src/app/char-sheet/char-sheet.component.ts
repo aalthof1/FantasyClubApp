@@ -178,7 +178,7 @@ export class CharSheetComponent implements OnInit {
     var dp = this.statValues[4];
     var eu = this.statValues[6];
     var du = this.statValues[5];
-    var pu = this.statValues[14];
+    var pu = this.statValues[23];
     var cmod = this.statValues[1];
     var mmod = this.statValues[11];
     var gmod = this.statValues[16];
