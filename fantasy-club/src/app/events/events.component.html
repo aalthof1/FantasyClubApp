@@ -1,0 +1,18 @@
+    <ng-container *ngIf="isUserGM()">
+      New Event Name:
+      <br>
+      <input type="text" id="eventName">
+      <br>
+      New Event Description:
+      <br>
+      <input type="text" id="eventDesc">
+      <br>
+      New Event Date:
+      <br>
+      <input type="text" id="eventDate">
+      <br>
+      <input type="button" (click)="createEvent()" value="Create New Event">
+      <input type="button" (click)="editEvent()" value="Edit Event">
+      <input type="button" (click)="deleteEvent()" value="Delete Event">
+      <br>
+    </ng-container>

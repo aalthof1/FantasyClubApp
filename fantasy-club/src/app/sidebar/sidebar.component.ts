@@ -379,4 +379,8 @@ export class SidebarComponent implements OnInit {
     this.actualChar = this.currChar;
   }
 
+  displayEvent(i : firebase.database.DataSnapshot) {
+    alert(i.child("desc").val());
+  }
+
 }

@@ -63,7 +63,7 @@
           </ul>
         </div>
         <div class="col">
-          <li *ngFor="let event of events; let i = index" (click)="passEvent(event)">
+          <li *ngFor="let event of events; let i = index" (click)="displayEvent(event)">
               <a href=#>{{event.key}}</a>
           </li>
           <ng-container *ngIf="isUserSignedIn()">
