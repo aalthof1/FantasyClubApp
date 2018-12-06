@@ -28,4 +28,45 @@ export class SettingsComponent implements OnInit {
     return this.sc.isUserAdmin();
   }
 
+  removeBackground() {
+    let body = document.getElementsByTagName("body")[0].classList;
+    body.remove("moss");
+    body.remove("leather");
+    body.remove("wood");
+    body.remove("scales");
+    body.remove("space");
+    body.remove("stone");
+    body.remove("metal");
+  }
+
+  changeBackground(val) {
+    this.removeBackground();
+    let body = document.getElementsByTagName("body")[0].classList;
+    switch(val) {
+      case "paper":
+        return;
+      case "mossy cobblestone":
+        body.add("moss");
+        break;
+      case "leather":
+        body.add("leather");
+        break;
+      case "wood":
+        body.add("wood");
+        break;
+      case "scales":
+        body.add("scales");
+        break;
+      case "space":
+        body.add("space");
+        break;
+      case "stone":
+        body.add("stone");
+        break;
+      case "metal":
+        body.add("metal");
+        break;
+    }
+  }
+
 }

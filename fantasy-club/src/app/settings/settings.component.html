@@ -1,4 +1,22 @@
-<input type="button" value="Dark Mode" (click)="toggleDarkMode()"/>
+<div class="row">
+    <div class="col">
+        <input type="button" value="Dark Mode" (click)="toggleDarkMode()"/>
+    </div>
+    <div class="col">
+        Change Background:<br>
+        <select id="background-changer" #bg>
+            <option>paper</option>
+            <option>mossy cobblestone</option>
+            <option>leather</option>
+            <option>wood</option>
+            <option>scales</option>
+            <option>space</option>
+            <option>stone</option>
+            <option>metal</option>
+        </select>
+        <input type="button" value="submit" (click)="changeBackground(bg.value)"/>
+    </div>
+</div>
 <div *ngIf="isUserGM()">
     <hr>
     <app-gm></app-gm>
