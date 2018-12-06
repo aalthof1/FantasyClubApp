@@ -69,3 +69,15 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+.cursive * {
+  font-family: cursive !important;
+}
+
+.courier * {
+  font-family: 'Courier New', Courier, monospace !important;
+}
+
+.georgia * {
+  font-family: Georgia, 'Times New Roman', Times, serif !important;
+}

@@ -94,4 +94,68 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  removeFont() {
+    let body = document.body.classList;
+    body.remove("cursive");
+    body.remove("courier");
+    body.remove("georgia");
+  }
+
+  changeFont(val) {
+    this.removeFont();
+    let body = document.body.classList;
+    switch(val) {
+      case "default":
+        return;
+      case "cursive":
+        body.add("cursive");
+        break;
+      case "courier":
+        body.add("courier");
+        break;
+      case "Georgia":
+        body.add("georgia");
+        break;
+    }
+  }
+
+  removeColor() {
+    let nav1 = document.getElementsByTagName("mat-toolbar")[0].classList;
+    let nav2 = document.getElementsByTagName("mat-toolbar")[1].classList;
+    nav1.remove("gray");
+    nav2.remove("gray");
+    nav1.remove("blue");
+    nav2.remove("blue");
+    nav1.remove("green");
+    nav2.remove("green");
+    nav1.remove("red");
+    nav2.remove("red");
+  }
+
+  changeColor(val) {
+    this.removeColor();
+    let nav1 = document.getElementsByTagName("mat-toolbar")[0].classList;
+    let nav2 = document.getElementsByTagName("mat-toolbar")[1].classList;
+    switch(val) {
+      case "default":
+        return;
+      case "gray":
+        nav1.add("gray");
+        nav2.add("gray");
+        break;
+      case "blue":
+        nav1.add("blue");
+        nav2.add("blue");
+        break;
+      case "green":
+        nav1.add("green");
+        nav2.add("green");
+        break;
+      case "red":
+        nav1.add("red");
+        nav2.add("red");
+        break;
+    }
+  }
+
 }

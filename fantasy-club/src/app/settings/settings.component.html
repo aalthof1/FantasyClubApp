@@ -1,7 +1,9 @@
-<div class="row">
+<div class="row" style="background-color: inherit !important;">
+
     <div class="col">
         <input type="button" value="Dark Mode" (click)="toggleDarkMode()"/>
     </div>
+
     <div class="col">
         Change Background:<br>
         <select id="background-changer" #bg>
@@ -15,6 +17,29 @@
             <option>metal</option>
         </select>
         <input type="button" value="submit" (click)="changeBackground(bg.value)"/>
+    </div>
+
+    <div class="col">
+        Change Font:<br>
+        <select id="font-changer" #fc>
+            <option>default</option>
+            <option style="font-family:cursive !important;">cursive</option>
+            <option style="font-family:'Courier New', Courier, monospace !important;">courier</option>
+            <option style="font-family:Georgia, 'Times New Roman', Times, serif !important;">Georgia</option>
+        </select>
+        <input type="button" value="submit" (click)="changeFont(fc.value)"/>
+    </div>
+
+    <div class="col">
+        Change navigation bar color:<br>
+        <select id="color-changer" #cc>
+            <option>default</option>
+            <option>gray</option>
+            <option>blue</option>
+            <option>green</option>
+            <option>red</option>
+        </select>
+        <input type="button" value="submit" (click)="changeColor(cc.value)"/>
     </div>
 </div>
 <div *ngIf="isUserGM()">
