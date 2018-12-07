@@ -78,7 +78,7 @@ export class GameGeneratorComponent implements OnInit {
       return;
     }
 
-    this.app.database().ref("games/" + this.sidebar.currGame).once("value").then(function (snapshot) {
+    this.app.database().ref("games/" + this.sidebar.currGame).once("value").then(function (snapshot : firebase.database.DataSnapshot) {
       if (!snapshot.exists()) {
         this.errorText = "game " + this.sidebar.currGame + " does not exist";
         return;
@@ -92,6 +92,18 @@ export class GameGeneratorComponent implements OnInit {
           this.errorText = "this game is at capacity"
           return;
         }
+      }
+
+      if(snapshot.hasChild("background")) {
+        let body = document.getElementsByTagName("body")[0].classList;
+        body.remove("moss");
+        body.remove("leather");
+        body.remove("wood");
+        body.remove("scales");
+        body.remove("space");
+        body.remove("stone");
+        body.remove("metal");
+        body.add(snapshot.child("background").val());
       }
       this.app.database().ref('games/' + this.sidebar.currGame + "/characters").child(this.sidebar.currChar).set(this.sidebar.user_name);
     }.bind(this))
