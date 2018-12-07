@@ -11,6 +11,20 @@
   Image URL (Optional):<br>
   <input type="text" id="gamePic">
   <br>
+  Select Background (Optional):
+  <br>
+  <select id="bg-select" #bgselect (change)="updateBG(bgselect.value)">
+    <option>None</option>
+    <option>paper</option>
+    <option>mossy cobblestone</option>
+    <option>leather</option>
+    <option>wood</option>
+    <option>scales</option>
+    <option>space</option>
+    <option>stone</option>
+    <option>metal</option>
+  </select>
+  <br>
   <input type="button" (click)="createGame()" value="Submit">
   <input type="button" (click)="deleteGame()" value="Remove">
   <input type="button" (click)="archiveGame()" value="Archive">

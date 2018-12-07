@@ -17,6 +17,7 @@ export class GameGeneratorComponent implements OnInit {
   @Input() currGame;
   @Input() currpriv;
   @Output() refresh = new EventEmitter<string>();
+  selectedBG = "None";
   name: string;
   desc: string;
   capacity: number;
@@ -56,7 +57,8 @@ export class GameGeneratorComponent implements OnInit {
         user_id: this.sidebar.user_id,
         desc: this.desc,
         capacityLimit: this.capacity,
-        image: this.picture
+        image: this.picture,
+        bg: this.selectedBG
       });
     }
     this.refresh.emit("refresh");
@@ -110,6 +112,9 @@ export class GameGeneratorComponent implements OnInit {
     this.refresh.emit("refresh")
   }
 
+  updateBG(val) {
+    this.selectedBG = val;
+  }
 
   archiveGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
