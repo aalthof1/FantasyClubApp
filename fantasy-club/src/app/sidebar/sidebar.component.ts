@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
   characters: Array<firebase.database.DataSnapshot> = [];
   games: Array<firebase.database.DataSnapshot> = [];
   events: Array<firebase.database.DataSnapshot> = [];
+  status: Array<number> = [];
   createdItems: Array<firebase.database.DataSnapshot> = [];
   savedRolls: Array<string> = [];
   darkMode: false;
@@ -276,6 +277,25 @@ export class SidebarComponent implements OnInit {
             this.savedRolls.push(child.key);
           }.bind(this));
         }.bind(this));
+      
+      firebase.database().ref("events/").once("value").then(function(snapshot) {
+          snapshot.forEach(function(child : firebase.database.DataSnapshot){
+            if(child.child('attending').child(this.user_id).val() == 1) {
+              var currentDate: number = Date.now();
+              if(child.child('date').val() < currentDate + 129600000) {
+                var hours : number = ((child.child('date').val() - currentDate) / ((1000)*(60)*(60)) | 0);
+                alert("You have an upcoming event. " + child.child("eventName").val() + " will begin in about " + hours + " hours.");
+              }
+            }
+          }.bind(this));
+      }.bind(this));
+
+      firebase.database().ref("newestEvent/").once("value").then(function(snapshot : firebase.database.DataSnapshot) {
+        if(snapshot.exists()) {
+            alert("There has been a new event created recently. It is called " + snapshot.val() + ".");
+            snapshot.ref.remove();
+        }
+      }.bind(this));
   }
 
   onUnsuccessfulSignIn(error) {
@@ -337,8 +357,16 @@ export class SidebarComponent implements OnInit {
 
   grabEvents(snapshot: firebase.database.DataSnapshot) {
     this.events = [];
+    this.status = [];
     snapshot.forEach(function (childSnapshot) {
       this.events.push(childSnapshot);
+            if (snapshot.child("attending/" + this.user_id).exists()) {
+              let x = snapshot.child("attending/" + this.user_id).val()
+              this.status.push(x);
+            }
+            else {
+              this.status.push(3)
+            }
     }.bind(this))
   }
 
@@ -395,6 +423,32 @@ export class SidebarComponent implements OnInit {
 
   displayEvent(i : firebase.database.DataSnapshot) {
     alert(i.child("desc").val());
+  }
+
+  setAttending(i : firebase.database.DataSnapshot, index : number) {
+    firebase.database().ref('events/' + i.key + '/attending/' + this.user_id + "/").once("value").then((snapshot) => {
+      if (!snapshot.exists()) {
+        snapshot.ref.set(1);
+        return;
+      } 
+      let x = snapshot.val();
+      switch (x) {
+        case 1:
+          firebase.database().ref('events/' + i.key + '/').child('attending').child(this.user_id).set(2);
+          this.status[index] = 2;
+          break;
+        case 2:
+          firebase.database().ref('events/' + i.key + '/').child('attending').child(this.user_id).set(3);
+          this.status[index] = 3;
+          break;
+        case 3:
+          firebase.database().ref('events/' + i.key + '/').child('attending').child(this.user_id).set(1);
+          this.status[index] = 1;
+          break;
+        default:
+          break;
+      }
+    });
   }
 
 }

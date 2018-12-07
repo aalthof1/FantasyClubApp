@@ -72,6 +72,7 @@ export class CharSheetComponent implements OnInit {
   PMnames: Array<string> = [];
   PMmsg: Array<string> = [];
   messageGMtoggle: boolean = false;
+  imgUrl : string = "";
 
 
   submitMessage() {
@@ -129,6 +130,13 @@ export class CharSheetComponent implements OnInit {
           this.currentGameGM = false;
         }
         this.getCapacity();
+        if(this.selectedGame != null) {
+          if(this.selectedGame.hasChild("image")) {
+            this.imgUrl = this.selectedGame.child("image").val();
+          } else {
+            this.imgUrl = "";
+          }
+        }
       });
   }
 

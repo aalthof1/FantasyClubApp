@@ -17,6 +17,7 @@ export class GameGeneratorComponent implements OnInit {
   @Input() currGame;
   @Input() currpriv;
   @Output() refresh = new EventEmitter<string>();
+  selectedBG = "None";
   name: string;
   desc: string;
   capacity: number;
@@ -56,7 +57,8 @@ export class GameGeneratorComponent implements OnInit {
         user_id: this.sidebar.user_id,
         desc: this.desc,
         capacityLimit: this.capacity,
-        image: this.picture
+        image: this.picture,
+        bg: this.selectedBG
       });
     }
     this.refresh.emit("refresh");
@@ -78,7 +80,7 @@ export class GameGeneratorComponent implements OnInit {
       return;
     }
 
-    this.app.database().ref("games/" + this.sidebar.currGame).once("value").then(function (snapshot) {
+    this.app.database().ref("games/" + this.sidebar.currGame).once("value").then(function (snapshot : firebase.database.DataSnapshot) {
       if (!snapshot.exists()) {
         this.errorText = "game " + this.sidebar.currGame + " does not exist";
         return;
@@ -92,6 +94,19 @@ export class GameGeneratorComponent implements OnInit {
           this.errorText = "this game is at capacity"
           return;
         }
+      }
+
+      if(snapshot.hasChild("bg")) {
+        let body = document.getElementsByTagName("body")[0].classList;
+        body.remove("moss");
+        body.remove("leather");
+        body.remove("wood");
+        body.remove("scales");
+        body.remove("space");
+        body.remove("stone");
+        body.remove("metal");
+        //alert(snapshot.child("background").val());
+        body.add(snapshot.child("bg").val());
       }
       this.app.database().ref('games/' + this.sidebar.currGame + "/characters").child(this.sidebar.currChar).set(this.sidebar.user_name);
     }.bind(this))
@@ -110,6 +125,9 @@ export class GameGeneratorComponent implements OnInit {
     this.refresh.emit("refresh")
   }
 
+  updateBG(val) {
+    this.selectedBG = val;
+  }
 
   archiveGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
