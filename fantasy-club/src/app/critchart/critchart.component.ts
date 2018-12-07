@@ -137,7 +137,7 @@ export class CritchartComponent implements OnInit {
             this.critMultiplier = 6;
           }
         }
-        if (this.selectedCrit == "Edged") {
+        if (this.selectedCrit == "Piercing") {
           if (this.critRoll == 1) {
             this.critResult = "Weapon broken, no damage";
             this.critMultiplier = 0;
@@ -599,7 +599,7 @@ export class CritchartComponent implements OnInit {
             this.critMultiplier = 6;
           }
         }
-        if (this.selectedCrit == "Edged") {
+        if (this.selectedCrit == "Piercing") {
           if (this.critRoll >= 1 && this.critRoll <= 3) {
             this.critResult = "Weapon broken, no damage";
             this.critMultiplier = 0;
