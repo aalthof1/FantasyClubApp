@@ -248,6 +248,19 @@ export class SidebarComponent implements OnInit {
           document.body.classList.add(bg);
         }
 
+        //update font to user's preference
+        if(snapshot.child(this.user_id).hasChild("font")) {
+          let fontChoice = snapshot.child(this.user_id).child("font").val();
+          document.body.classList.add(fontChoice);
+        }
+
+        //update color to user's preference
+        if(snapshot.child(this.user_id).hasChild("color")) {
+          let color = snapshot.child(this.user_id).child("color").val();
+          document.getElementsByTagName("mat-toolbar")[0].classList.add(color);
+          document.getElementsByTagName("mat-toolbar")[1].classList.add(color);
+        }
+
         //grabs heroes belonging to user
         firebase.database().ref('characters/' + this.user_id + "/").once('value')
           .then(snapshot => this.grabHeroes(snapshot));

@@ -106,15 +106,27 @@ export class SettingsComponent implements OnInit {
     let body = document.body.classList;
     switch(val) {
       case "default":
+        if(this.sc.user_id != "") {
+          firebase.database().ref("/user_id/"+this.sc.user_id+"/font").remove();
+        }
         return;
       case "cursive":
         body.add("cursive");
+        if(this.sc.user_id != "") {
+          firebase.database().ref("/user_id/"+this.sc.user_id+"/font").set("cursive");
+        }
         break;
       case "courier":
         body.add("courier");
+        if(this.sc.user_id != "") {
+          firebase.database().ref("/user_id/"+this.sc.user_id+"/font").set("courier");
+        }
         break;
       case "Georgia":
         body.add("georgia");
+        if(this.sc.user_id != "") {
+          firebase.database().ref("/user_id/"+this.sc.user_id+"/font").set("georgia");
+        }
         break;
     }
   }
@@ -138,22 +150,37 @@ export class SettingsComponent implements OnInit {
     let nav2 = document.getElementsByTagName("mat-toolbar")[1].classList;
     switch(val) {
       case "default":
+        if(this.sc.user_id != "") {
+          firebase.database().ref("/user_id/"+this.sc.user_id+"/color").remove();
+        }
         return;
       case "gray":
         nav1.add("gray");
         nav2.add("gray");
+        if(this.sc.user_id != "") {
+          firebase.database().ref("/user_id/"+this.sc.user_id+"/color").set("gray");
+        }
         break;
       case "blue":
         nav1.add("blue");
         nav2.add("blue");
+        if(this.sc.user_id != "") {
+          firebase.database().ref("/user_id/"+this.sc.user_id+"/color").set("blue");
+        }
         break;
       case "green":
         nav1.add("green");
         nav2.add("green");
+        if(this.sc.user_id != "") {
+          firebase.database().ref("/user_id/"+this.sc.user_id+"/color").set("green");
+        }
         break;
       case "red":
         nav1.add("red");
         nav2.add("red");
+        if(this.sc.user_id != "") {
+          firebase.database().ref("/user_id/"+this.sc.user_id+"/color").set("red");
+        }
         break;
     }
   }
