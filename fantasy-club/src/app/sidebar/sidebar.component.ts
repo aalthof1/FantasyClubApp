@@ -289,10 +289,12 @@ export class SidebarComponent implements OnInit {
             }
           }.bind(this));
       }.bind(this));
-      
-      firebase.database().ref("newestEvent/").once("value").then(function(snapshot) {
-        alert("There has been a new event created recently. It is called " + snapshot.val() + ".");
-        snapshot.ref.remove();
+
+      firebase.database().ref("newestEvent/").once("value").then(function(snapshot : firebase.database.DataSnapshot) {
+        if(snapshot.exists()) {
+            alert("There has been a new event created recently. It is called " + snapshot.val() + ".");
+            snapshot.ref.remove();
+        }
       }.bind(this));
   }
 
