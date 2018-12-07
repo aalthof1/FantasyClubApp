@@ -268,8 +268,7 @@ export class SidebarComponent implements OnInit {
         firebase.database().ref('games/').once('value')
           .then(snapshot => this.grabGames(snapshot));
         //Grab events
-        firebase.database().ref('events/').once('value')
-          .then(snapshot => this.grabEvents(snapshot));
+        firebase.database().ref('events/').on('value', snapshot => this.grabEvents(snapshot));
       }.bind(this));
       firebase.database().ref("savedRolls/").child(this.user_name).once("value")
         .then(function(snapshot) {
