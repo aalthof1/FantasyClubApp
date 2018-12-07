@@ -51,6 +51,7 @@ export class EventsComponent implements OnInit {
         date: this.date,
       })
       firebase.database().ref('events/' + this.name + "/attending/" + firebase.auth().currentUser.uid).set(1);
+      firebase.database().ref('newestEvent').set(this.name);
   }
 
   editEvent() {

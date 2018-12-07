@@ -278,12 +278,22 @@ export class SidebarComponent implements OnInit {
           }.bind(this));
         }.bind(this));
       
- //     firebase.database().ref("events/").once("value").then(function(snapshot) {
- //         snapshot.forEach(function(child){
- //           
-  //        }.bind(this));
-  //    }.bind(this));
+      firebase.database().ref("events/").once("value").then(function(snapshot) {
+          snapshot.forEach(function(child : firebase.database.DataSnapshot){
+            if(child.child('attending').child(this.user_id).val() == 1) {
+              var currentDate: number = Date.now();
+              if(child.child('date').val() < currentDate + 129600000) {
+                var hours : number = ((child.child('date').val() - currentDate) / ((1000)*(60)*(60)) | 0);
+                alert("You have an upcoming event. " + child.child("eventName").val() + " will begin in about " + hours + " hours.");
+              }
+            }
+          }.bind(this));
+      }.bind(this));
       
+      firebase.database().ref("newestEvent/").once("value").then(function(snapshot) {
+        alert("There has been a new event created recently. It is called " + snapshot.val() + ".");
+        snapshot.ref.remove();
+      }.bind(this));
   }
 
   onUnsuccessfulSignIn(error) {
