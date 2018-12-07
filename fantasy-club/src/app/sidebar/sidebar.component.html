@@ -36,7 +36,7 @@
       <div *ngIf="isUserSignedIn();else sign_in">
         <ul class="sub-menu" id="characters">
           <li *ngFor="let char of characters; let i = index" (click)="passCharacter(char)">
-            <a href=#>{{char.key}}</a>
+            <a >{{char.key}}</a>
           </li>
           <li *ngIf="isUserSignedIn()">
             <input type="button" (click)="setChar()" value="Set Character">
@@ -52,7 +52,7 @@
         <div class="col">
           <ul class="sub-menu" id="games">
             <li *ngFor="let game of games; let i = index" (click)="passGame(game)">
-              <a>{{game.key}}</a>
+              <a >{{game.key}}</a>
             </li>
             <ng-container *ngIf="isUserSignedIn(); else elseTemplate">
               <app-game-generator (refresh)="refreshGames()"></app-game-generator>
@@ -63,11 +63,8 @@
           </ul>
         </div>
         <div class="col">
-          <li *ngFor="let event of events; let i = index">
-              <a (click)="displayEvent(event)">{{event.key}}</a>
-              <button *ngIf="status[i] == 1" (click)="setAttending(event, i)">Attending</button>
-              <button *ngIf="status[i] == 2" (click)="setAttending(event, i)">Unsure</button>
-              <button *ngIf="status[i] == 3" (click)="setAttending(event, i)">Not Attending</button>
+          <li *ngFor="let event of events; let i = index" (click)="displayEvent(event)">
+              <a >{{event.key}}</a>
           </li>
           <ng-container *ngIf="isUserSignedIn()">
               <app-events (refresh)="refreshEvents()"></app-events>
