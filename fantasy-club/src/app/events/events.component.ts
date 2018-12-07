@@ -30,11 +30,8 @@ export class EventsComponent implements OnInit {
     firebase.database().ref('events/').once('value').then(function (snapshot){
       snapshot.forEach(function (child: firebase.database.DataSnapshot) {
         var dateToCheck: number = child.child("date").val();
-        alert(dateToCheck);
         var today: number = Date.now();
-        alert(today);
         if(dateToCheck < today) {
-          alert("delete this bitch");
           child.ref.remove();
         }
       }.bind(this));
@@ -51,9 +48,9 @@ export class EventsComponent implements OnInit {
         creatorID: firebase.auth().currentUser.uid,
         eventName: this.name,
         desc: this.desc,
-        date: this.date
-      }
-    )
+        date: this.date,
+      })
+      firebase.database().ref('events/' + this.name + "/attending/" + firebase.auth().currentUser.uid).set(1);
   }
 
   editEvent() {
