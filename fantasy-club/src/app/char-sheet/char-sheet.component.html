@@ -198,6 +198,9 @@
     </div>
   </div>
   <br>
+  <div id="game-image-container">
+    <img src={{imgUrl}} style="max-height: 400px; max-width: 400px;">
+  </div>
   <div *ngIf="currentGameGM">
     <input style="display: inline;" type="number" id="xp" placeholder="XP" min="0" />
     <button (click)="endGame()">End Game</button>

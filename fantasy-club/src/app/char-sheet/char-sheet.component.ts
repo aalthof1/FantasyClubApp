@@ -72,6 +72,7 @@ export class CharSheetComponent implements OnInit {
   PMnames: Array<string> = [];
   PMmsg: Array<string> = [];
   messageGMtoggle: boolean = false;
+  imgUrl : string = "";
 
 
   submitMessage() {
@@ -129,6 +130,14 @@ export class CharSheetComponent implements OnInit {
           this.currentGameGM = false;
         }
         this.getCapacity();
+        if(this.selectedGame != null) {
+          //alert("here1");
+          if(this.selectedGame.hasChild("image")) {
+            //alert("here2");
+            this.imgUrl = this.selectedGame.child("image").val();
+            //document.getElementById("game-image-container").append("<img src='"+this.selectedGame.child("image").val()+"'>");
+          }
+        }
       });
   }
 
