@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreatorComponent } from './creator.component';
+import { SpellcardCreatorComponent } from '../spellcard-creator/spellcard-creator.component';
 
 describe('CreatorComponent', () => {
   let component: CreatorComponent;
@@ -8,7 +9,7 @@ describe('CreatorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreatorComponent ]
+      declarations: [ CreatorComponent, SpellcardCreatorComponent ]
     })
     .compileComponents();
   }));
@@ -19,7 +20,4 @@ describe('CreatorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });

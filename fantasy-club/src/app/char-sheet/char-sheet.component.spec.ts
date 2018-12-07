@@ -86,7 +86,7 @@ describe('CharSheetComponent', () => {
   });
 
   it('should set flags', () => {
-    expect(component.statNames.length).toEqual(18);
+    expect(component.statNames.length).toEqual(27);
     expect(component.playerCount).toEqual(0);
     expect(component.selectedTrap).toEqual(-1);
     expect(component.selectedAbility).toEqual(-1);

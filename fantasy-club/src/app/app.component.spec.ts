@@ -15,6 +15,15 @@ import { SpellcardCreatorComponent } from './spellcard-creator/spellcard-creator
 import { TrapCreatorComponent } from './trap-creator/trap-creator.component';
 import { NpclistComponent } from './npclist/npclist.component';
 import { NpcCreatorComponent } from './npc-creator/npc-creator.component';
+import { ChatboxComponent } from './chatbox/chatbox.component';
+import { MobileComponent } from './mobile/mobile.component';
+import { MatToolbar } from '@angular/material/toolbar';
+import { SettingsComponent } from './settings/settings.component';
+import { EventsComponent } from './events/events.component';
+import { CreatorComponent } from './creator/creator.component';
+import { RulebookComponent } from './rulebook/rulebook.component';
+import { CritchartComponent } from './critchart/critchart.component';
+import { MatCard } from '@angular/material/card';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -25,7 +34,9 @@ describe('AppComponent', () => {
         GmComponent, CharGeneratorComponent, SpellcardListComponent,
         ItemCreatorComponent, ItemlistComponent, CharViewerComponent,
         SpellcardCreatorComponent, TrapCreatorComponent, NpclistComponent,
-        NpcCreatorComponent
+        NpcCreatorComponent, ChatboxComponent, MobileComponent, MatToolbar,
+        SettingsComponent, EventsComponent, CreatorComponent, RulebookComponent,
+        CritchartComponent, MatCard
       ]
     }).compileComponents();
   }));

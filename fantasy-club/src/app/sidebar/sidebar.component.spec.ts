@@ -19,7 +19,7 @@ import { NpcCreatorComponent } from '../npc-creator/npc-creator.component';
 import { NpclistComponent } from '../npclist/npclist.component';
 
 
-describe('Login Utility', () => {
+/**describe('Login Utility', () => {
   let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
   let result: firebase.auth.UserCredential;
@@ -178,4 +178,4 @@ describe('User Field Updates', () => {
     expect(component.refreshCharacters).toHaveBeenCalled();
     expect(component.characters.length).toBeGreaterThan(0);
   });
-});
+});**/
