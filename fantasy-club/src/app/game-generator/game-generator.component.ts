@@ -96,7 +96,7 @@ export class GameGeneratorComponent implements OnInit {
         }
       }
 
-      if(snapshot.hasChild("background")) {
+      if(snapshot.hasChild("bg")) {
         let body = document.getElementsByTagName("body")[0].classList;
         body.remove("moss");
         body.remove("leather");
@@ -105,7 +105,8 @@ export class GameGeneratorComponent implements OnInit {
         body.remove("space");
         body.remove("stone");
         body.remove("metal");
-        body.add(snapshot.child("background").val());
+        //alert(snapshot.child("background").val());
+        body.add(snapshot.child("bg").val());
       }
       this.app.database().ref('games/' + this.sidebar.currGame + "/characters").child(this.sidebar.currChar).set(this.sidebar.user_name);
     }.bind(this))
