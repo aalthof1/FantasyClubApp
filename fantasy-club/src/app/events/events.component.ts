@@ -27,13 +27,25 @@ export class EventsComponent implements OnInit {
   }
 
   ngOnInit() {
+    firebase.database().ref('events/').once('value').then(function (snapshot){
+      snapshot.forEach(function (child: firebase.database.DataSnapshot) {
+        var dateToCheck: number = child.child("date").val();
+        alert(dateToCheck);
+        var today: number = Date.now();
+        alert(today);
+        if(dateToCheck < today) {
+          alert("delete this bitch");
+          child.ref.remove();
+        }
+      }.bind(this));
+    }.bind(this));
   }
 
   createEvent() {
     this.name = ((document.getElementById("eventName") as HTMLInputElement).value);
     this.desc = ((document.getElementById("eventDesc") as HTMLInputElement).value);
-    this.date = new Date(((document.getElementById("eventDate") as HTMLInputElement).value)).getTime()/1000|0;
-    firebase.database().ref('events/' + "/" + this.name + "/").set(
+    this.date = new Date(((document.getElementById("eventDate") as HTMLInputElement).value)).getTime();
+    firebase.database().ref('events/' + this.name + "/").set(
       {
         creatorName: firebase.auth().currentUser.displayName,
         creatorID: firebase.auth().currentUser.uid,
@@ -47,7 +59,7 @@ export class EventsComponent implements OnInit {
   editEvent() {
     this.name = ((document.getElementById("eventName") as HTMLInputElement).value);
     this.desc = ((document.getElementById("eventDesc") as HTMLInputElement).value);
-    this.date = new Date(((document.getElementById("eventDate") as HTMLInputElement).value)).getTime()/1000|0;
+    this.date = new Date(((document.getElementById("eventDate") as HTMLInputElement).value)).getTime();
     firebase.database().ref('events/' + this.name + "/").set(
       {
         creatorName: firebase.auth().currentUser.displayName,
