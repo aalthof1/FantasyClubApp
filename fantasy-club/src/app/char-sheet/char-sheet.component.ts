@@ -131,11 +131,10 @@ export class CharSheetComponent implements OnInit {
         }
         this.getCapacity();
         if(this.selectedGame != null) {
-          //alert("here1");
           if(this.selectedGame.hasChild("image")) {
-            //alert("here2");
             this.imgUrl = this.selectedGame.child("image").val();
-            //document.getElementById("game-image-container").append("<img src='"+this.selectedGame.child("image").val()+"'>");
+          } else {
+            this.imgUrl = "";
           }
         }
       });
