@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "^6.1.10",
     "@angular/router": "^6.1.10",
     "bootstrap": "^4.1.3",
-    "core-js": "^2.5.4",
+    "core-js": "^2.6.0",
     "firebase": "^5.5.9",
     "jquery": "^3.3.1",
     "rxjs": "~6.2.0",

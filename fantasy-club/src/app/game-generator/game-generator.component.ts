@@ -20,6 +20,7 @@ export class GameGeneratorComponent implements OnInit {
   name: string;
   desc: string;
   capacity: number;
+  picture: string;
   games: Array<string> = [];
   snapshot: firebase.database.DataSnapshot;
   errorText: string = "";
@@ -54,7 +55,8 @@ export class GameGeneratorComponent implements OnInit {
         user_name: this.sidebar.user_name,
         user_id: this.sidebar.user_id,
         desc: this.desc,
-        capacityLimit: this.capacity
+        capacityLimit: this.capacity,
+        image: this.picture
       });
     }
     this.refresh.emit("refresh");
@@ -63,6 +65,7 @@ export class GameGeneratorComponent implements OnInit {
   createGame() {
     this.name = ((document.getElementById("name2") as HTMLInputElement).value);
     this.desc = ((document.getElementById("desc") as HTMLInputElement).value);
+    this.picture = ((document.getElementById("gamePic") as HTMLInputElement).value);
     this.capacity = parseInt((document.getElementById("capacityBox") as HTMLInputElement).value);
     firebase.database().ref('games/' + this.name + "/").once('value')
       .then(snapshot => this.inputGame(snapshot));
